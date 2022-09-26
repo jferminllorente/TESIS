@@ -22,6 +22,97 @@
 
 \graphicspath{{Images}}
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Carátula 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\renewcommand{\maketitle}[0]{%
+%  \thispagestyle{empty}
+%    \vspace{-1cm}
+%    \begin{center}
+%      \begin{minipage}[t]{0.125\linewidth}
+%        \includegraphics[width=0.2cm]{logos/logo_univ.png}
+%      \end{minipage}      
+%      \hfill
+%      \begin{minipage}[t]{0.73\linewidth}
+%        \begin{center}%
+%
+%          \vspace{-1.6cm}
+%          \textsc{\small Universidad Nacional de La Plata}\\
+%          \textsc{\small Facultad de Ingeniería}
+%          
+%        \end{center}
+%      \end{minipage}      
+%      \hfill
+%      \begin{minipage}[t]{0.125\linewidth}
+%        \includegraphics[width=0.2cm]{logos/logo_fiunlp.png}
+%      \end{minipage}\\
+%    \end{center}
+%    \vspace{1cm}
+%    \begin{center}
+%      {\huge Estudio e Implementación del Protocolo RTCM para DGNSS en Tiempo Real}
+%    \end{center}
+%    \vspace{1cm}
+%    \begin{center}
+%      \begin{minipage}[t]{0.9\linewidth}
+%        \begin{center}
+%          \textsc{Tesina de grado presentada a la Facultad de Ingeniería de
+%            la Universidad Nacional de La Plata
+%            por}\\\vspace{0.5cm}{\large
+%            Juan Fermín Llorente}\\\vspace{0.5cm}\textsc{en cumplimiento parcial
+%            de los requerimientos\\ para la obtención del título
+%            de\\Ingeniero en Telecomunicaciones.}
+%        \end{center}
+%      \end{minipage}
+%    \end{center}
+%
+%    \vspace{2}
+%
+%    \begin{center}
+%      \textsc{Directores}
+%      \begin{minipage}[t]{0.9\linewidth}
+%
+%        Ing. Javier A. Smidt %
+%        \dotfill{} %
+%        UIDET SENyT, FI-UNLP %
+%        
+%        Ing. Ernesto M. López %
+%        \dotfill{} %
+%        UIDET SENyT, FI-UNLP %
+%
+%      \end{minipage}
+%
+%      \vspace{1cm}
+%
+%      \textsc{Tribunal}\\
+%      \begin{minipage}[t]{0.9\linewidth}
+%
+%        Quien me vigile %
+%        \dotfill{} %
+%        de donde %      
+%        \end{minipage}
+%
+%    \begin{minipage}[t]{0.9\linewidth}
+%        \vspace{.5cm}
+%        \centering
+%        \includegraphics[width=0.5\textwidth]{logos/senyt.png}\\
+%        UIDET Sistemas Electrónicos de Navegación y Telecomunicaciones (SENyT)
+%    \end{minipage}
+%    
+%    \vspace{3}
+%    \vfill 
+%
+%    \begin{minipage}[t]{0.9\linewidth}
+%    \centering
+%        La Plata\\
+%        10 de Diciembre, 2022
+%    \end{minipage}
+%    \end{center}
+%
+%}
+
 \title{Tesina de grado - Ingeniería en Telecomunicaciones}
 \author{Juan Fermín Llorente\\Directores\\jurados\\foto unlp\\foto senyt}
 \date{Diciembre, 2022}
@@ -53,26 +144,32 @@
 \section{Introducción}
 	Los sistemas GNSS (\textit{Global Navigation Satellite System} en inglés) se basan en el concepto de mediciones de rango mediante el retardo de propagación de las señales transmitidas por constelaciones de satélites. El tiempo de arribo (TOA por sus siglas en inglés) determina el instante en el que se recibió la señal, conociendo el instante en el que la misma fue transmitida se puede determinar el tiempo de viaje de la misma. Haciendo uso de la velocidad de propagación de la señal es posible obtener el rango en el que se encuentra el equipo transmisor. Introduciendo múltiples mediciones de rango con satélites transmitiendo en distintas ubicaciones se puede acotar la ubicación del receptor. La solución puntual queda determinada por el punto de intersección de las esferas formadas por el rango que se midió a cada uno de los satélites involucrados, siempre y cuando se tomen suficientes mediciones para poder resolver la posición de manera unívoca. 
 	
-	Habiendo introducido el concepto de medición de rango mediante TOA, es necesario analizar la sincronización entre las distintas partes que conforman el sistema. Si se busca resolver la posición mediante este concepto, las señales recibidas de los distintos satélites deben haber sido transmitidas en el mismo instante de tiempo Es evidente que los relojes de referencia de los satélites y del usuario (llamado receptor anteriormente) deben tener muy alta precisión y sincronización entre ellos. La precisión no es un inconveniente ya que los satélites GPS utilizan relojes atómicos que logran una estabilidad destacable. En cambio, la sincronización del usuario al tiempo del sistema GPS (al cual deberían estar sincronizados todos los satélites de la constelación), es un tanto más compleja y por ello se analizarán los errores que introducen las fallas en la sincronización.
+	Habiendo introducido el concepto de medición de rango mediante TOA, es necesario analizar la sincronización entre las distintas partes que conforman el sistema. Si se busca resolver la posición mediante este concepto, las señales recibidas de los distintos satélites deben haber sido transmitidas en el mismo instante de tiempo. El instante de tiempo de toma de las observaciones tiene el nombre de época en este contexto. Es evidente que para conseguir esto los relojes de referencia de los satélites y del usuario (llamado receptor anteriormente) deben tener muy alta precisión y sincronización entre ellos. La precisión no es un inconveniente ya que los satélites GPS utilizan relojes atómicos que logran una estabilidad destacable (refe?). En cambio, la sincronización del usuario al tiempo del sistema GPS (al cual deberían estar sincronizados todos los satélites de la constelación), es un tanto más compleja y por ello se analizarán los errores que introducen las fallas en la sincronización.
 	
-	Existen distintos sistemas GNSS, tales como \textit{GPS}, \textit{Galileo}, \textit{Glonass} o \textit{BeiDou}, cada uno con su respectiva constelación de satélites MEO (\textit{Medium Earth Orbit} u Órbita Circular Intermedia). Si bien el foco de este trabajo está puesto en el mencionado primero, el sistema GPS, se desarrollan los conceptos de este capítulo de forma general para todos los sistemas. Todos los satélites de las distintas constelaciones comparten el canal de transmisión, esto es posible debido al uso de técnicas de acceso múltiple. En particular, el sistema GPS cuenta con 32 satélites operativos actualmente y como la frecuencia de operación es compartida por todos los satélites, el mismo utiliza acceso múltiple por división de código (CDMA por sus siglas en inglés). En cambio, el sistema \textit{Glonass} 
+	Existen distintos sistemas GNSS, tales como \textit{GPS}, \textit{Galileo}, \textit{Glonass} o \textit{BeiDou}, cada uno con su respectiva constelación de satélites MEO (\textit{Medium Earth Orbit} u Órbita Circular Intermedia). Si bien el foco de este trabajo está puesto en el mencionado primero, el sistema GPS, se desarrollan los conceptos de este capítulo de forma general para todos los sistemas. Todos los satélites de las distintas constelaciones comparten el canal de transmisión, esto es posible debido al uso de técnicas de acceso múltiple. En particular, el sistema GPS cuenta con 32 satélites operativos actualmente y como la frecuencia de operación es compartida por todos los satélites, el mismo utiliza acceso múltiple por división de código (CDMA por sus siglas en inglés). En cambio, el sistema \textit{Glonass} cuenta con 24 satélites operativos y cada uno transmite dentro de la misma banda de frecuencias multiplexando los canales por frecuencia dentro de esta banda. Esta técnica es conocida como acceso múltiple por división de frecuencia (FDMA por sus siglas en inglés).
 	
 \section{Características de la señal}\label{sec:senial}
-	Las señales transmitidas se encuentran dentro del espectro de las radiofrecuencias. Existen dos tipos de señales en el sistema GPS, diferenciadas por su frecuencia de portadora. Estas dos señales corresponden a la frecuencia primaria $L_1$ y frecuencia secundaria $L_2$. Ambas son múltiplos de una frecuencia fundamental $f_0=10.23$ MHz. La señal $L_1$ tiene una frecuencia de portadora igual a $154\cdot f_0 = 1.5754$ GHz y la señal $L_2$ igual a $120\cdot f_0 = 1.2276$ GHz.
+	Las señales transmitidas se encuentran dentro del espectro de las radiofrecuencias. Existen distintos tipos de señales, según se fueron modernizando los sistemas, y en particular los satélites, se han ido sumando nuevas señales. Las características principales que componen a una señal de GPS son la frecuencia de portadora dentro de la banda \textit{L}, el código que hace posible el acceso múltiple y por último el mensaje de navegación.
 	
-	Las señales $L_1$ y $L_2$ son moduladas en BPSK y expandidas en el espectro mediante una secuencia de ruido pseudoaleatoria (\textit{PRN} por sus siglas en inglés). Las técnicas de espectro expandido de secuencia directa utilizadas, distribuyen la energía de la señal de cada satélite en todo el ancho de banda disponible. El ancho de banda de los mensajes de navegación en GPS es de 50 Hz (tasa de bit de 50 bps), resultando en símbolos de 20 ms de duración con conformación espectral dada por cajones. Debido a la modulación BPSK, la polaridad de cada símbolo rectangular estará dada por el bit de información de navegación a transmitir al usuario. Luego se expande esta señal mediante la modulación con un código (otra forma de llamar a la secuencia PRN). En otros términos, se multiplica la amplitud de cada símbolo con el código y la modulación por desplazamiento de fase de la señal resultante estará dominada por las transiciones del código. Un ejemplo de un código PRN se puede observar en la Fig. \ref{fig:PRN}, donde cada transición del código es denominado \textit{chip}. Es evidente que la tasa resultante de la señal BPSK multiplicada por el código es mucho mayor que la de la señal original, ya que en cada transición de símbolo tiene múltiples transiciones de \textit{chip}. La señal de espectro expandido tiene una tasa igual a la tasa de \textit{chip} $R_c$ tal que $R_c>>R_b$, resultando en una expansión en el espectro.
-\begin{figure}[h]%Se puede agregar un indicador de chip en la imagen.
+	En cuanto a la frecuencia de portadora de la señal, para aplicaciones civiles se puede diferenciar la frecuencia primaria $L_1$ y frecuencia secundaria $L_2$. Ambas son múltiplos de una frecuencia fundamental $f_0=10.23$\,MHz. La señal en $L_1$ tiene una frecuencia de portadora igual a $154\cdot f_0 = 1.5754$\,GHz y la señal en $L_2$ igual a $120\cdot f_0 = 1.2276$\,GHz. Estas dos señales son las consideradas \textit{legacy} ya que fueron heredadas de los primeros bloques de satélites GPS que se hicieron operativos. También existe la señal en $L_5$, una señal mas moderna, pero que no es utilizada a lo largo de este trabajo por lo que solo se la menciona.
+	
+	Las señales son expandidas en el espectro mediante una secuencia de ruido pseudoaleatoria (\textit{PRN} por sus siglas en inglés), esta secuencia es el código que ya fue mencionado. Las técnicas de espectro expandido de secuencia directa (DSSS por sus siglas en inglés) utilizadas, distribuyen la energía de la señal de cada satélite en todo el ancho de banda disponible. De esta manera es posible mitigar efectos adversos naturales del canal como lo son el ruido o interferencias, además de presentar la ventaja de permitir el acceso múltiple entre usuarios estas técnicas presentan robustez frente a interferencias intencionadas. Esta última característica generaba gran interés al momento de creación del sistema GPS con fines militares. Se logra expandir la señal de manera tal que la misma queda oculta por el piso de ruido presente en el canal. El receptor, que conoce el código con el cual se hizo la expansión, logra recuperar la señal pudiendo incluso considerar a las señales del resto de los satélites como interferencias. 
+	
+	Los mensajes de navegación en GPS se transmiten con una tasa de 50\,bps, como la modulación es BPSK esto resulta en un ancho de banda de 50 Hz. Los símbolos transmitidos son de 20 ms de duración con conformación espectral idealmente dada por cajones. La información transportada por el mensaje de navegación es la que hace posible computar la posición de cada satélite y tiempo de transmisión de las señales. En los mismos se transmite, entre otras cosas, el mensaje de telemetría, al cual solo tienen acceso los usuarios autorizados, términos de corrección de reloj para desafectar errores en la medición y como componente principal, se transmiten las efemérides. Las efemérides contienen la información del tiempo del satélite (referenciado al tiempo GPS), parámetros keplerianos de las órbitas osculantes de los satélites.
+	
+	En términos generales, la polaridad de cada símbolo rectangular estará dada por el bit de información de navegación a transmitir. Luego se expande esta señal mediante el producto de la amplitud de cada símbolo con el código, la modulación por desplazamiento de fase de la señal resultante estará dominada por las transiciones del código. Un ejemplo de un código PRN se puede observar en la Fig. \ref{fig:PRN}, donde cada transición del código es denominado \textit{chip}. Es evidente que la tasa resultante de la señal BPSK multiplicada por el código es mucho mayor que la de la señal original, ya que en cada transición de símbolo tiene múltiples transiciones de \textit{chip}. La señal de espectro expandido tiene una tasa igual a la tasa de \textit{chip} $R_c$ tal que $R_c \gg R_b$, resultando en una expansión en el espectro.
+\begin{figure}%Se puede agregar un indicador de chip en la imagen.
     \centering
     \includegraphics[width=0.8\textwidth]{GNSS/codigoPRN.png}
     \caption{Ejemplo de código PRN.}
     \label{fig:PRN}
 \end{figure}
 
-	Este mecanismo implica que el receptor conozca con exactitud el código utilizado en la expansión para poder multiplicar nuevamente a la señal por el mismo, considerando sincronización perfecta, y así recuperar la señal original. Este proceso se puede interpretar como la compresión de la señal expandida al momento de la transmisión, y en recepción es donde se recupera solo la señal de interés aún cuando la misma está por debajo del piso de ruido.
+	Este mecanismo implica que el receptor conozca con exactitud el código utilizado en la expansión para poder multiplicar nuevamente a la señal por el mismo, considerando sincronización perfecta, y así recuperar la señal original. Este proceso se puede interpretar como la compresión de la señal expandida al momento de la transmisión, y en recepción es donde se recupera solo la señal de interés.
 	
-	Como ya fue mencionado, el sistema utiliza CDMA para multiplexar las señales de los distintos satélites. Cada satélite tiene una secuencia PRN, también llamados códigos, que debe cumplir con las características de presentar autocorrelación muy similar a la de un proceso de ruido blanco, para su correcta recuperación en el receptor cuando hay sincronización. Y además debe tener muy baja intercorrelación con los códigos del resto de los satélites. Esta última condición es necesario extenderla para que cada PRN tenga baja intercorrelación con todos los posibles desplazamientos de los restantes códigos del sistema. Esto se debe a las variaciones de TOA de las diferentes señales y por el mecanismo de medición de tiempo de viaje de la señal que se detallará posteriormente. Las PRN que presentan estas características son las secuencias \textit{Gold} [cita a Proakis] y son las utilizadas en este sistema. Si los distintos códigos fueron diseñados (o elegidos) correctamente, las interferencias del resto de las señales no deseadas pueden ser consideradas como ruido aditivo a la señal de interés.
+	Como ya fue mencionado, el sistema utiliza CDMA para multiplexar las señales de los distintos satélites. Cada satélite tiene una secuencia PRN que debe cumplir con las características de presentar autocorrelación muy similar a la de un proceso de ruido blanco, para su correcta recuperación en el receptor cuando hay sincronización. Y además debe tener muy baja intercorrelación con los códigos del resto de los satélites. Esta última condición es necesario extenderla para que cada PRN tenga baja intercorrelación con todos los posibles desplazamientos de los restantes códigos del sistema. Esto se debe a las variaciones de TOA de las diferentes señales y por el mecanismo de medición de tiempo de viaje de la señal que se detallará posteriormente. Las PRN que presentan estas características son las secuencias \textit{Gold} [cita a Proakis] y son las utilizadas en este sistema. Si los distintos códigos fueron diseñados (o elegidos) correctamente, las interferencias del resto de las señales no deseadas pueden ser consideradas como ruido aditivo a la señal de interés.
 	
-	Ya se introdujo el mecanismo de multiplexado de las señales de cada satélite y se detallaron algunos aspectos de las señales GPS. Otro aspecto es que cada satélite cuenta con dos códigos para la obtención del rango y expansión en el espectro, diferenciados por sus periodos. Un código de adquisición gruesa, el código \textit{C/A} por sus siglas en ingles, y un código largo denominado código de precisión \textit{P}.
+	Ya se introdujo el mecanismo de multiplexado de las señales de cada satélite y se detallaron algunos aspectos de las señales GPS. Las señales civiles mencionadas pueden estar expandidas por distintos códigos, que en conjunto con la frecuencia de portadora son los dos parametros que le dan nombre a las señales. Los códigos 
 \begin{itemize}
 	\item Código C/A: Es el código transmitido en la señal $L_1$, de la familia de códigos de largo 1023. Tiene una tasa de 1.023 Mchips/s por lo tanto tiene un periodo de \textit{chip} igual a 1 ms.
 	\item Código P: Este código se repite una sola vez por semana, al comienzo de la semana GPS (dentro del sistema de tiempo GPS), por eso se lo menciona como código largo. Tiene un largo de $6,187104\cdot 10^{12}$ chips y se transmite a una tasa diez veces mayor que la del código C/A. El mismo es transmitido en la señal $L_1$ tanto como en la $L_2$.
