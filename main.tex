@@ -164,7 +164,7 @@
 	En términos generales, la polaridad de cada símbolo rectangular estará dada por el bit de información de navegación a transmitir. Luego se expande esta señal mediante el producto de la amplitud de cada símbolo con el código, la modulación por desplazamiento de fase de la señal resultante estará dominada por las transiciones del código (Fig. \ref{fig:PRN}). Cabe destacar que cada transición del código es denominado \textit{chip}. Es evidente que la tasa resultante de la señal BPSK multiplicada por el código es mucho mayor que la de la señal original, ya que en cada transición de símbolo tiene múltiples transiciones de \textit{chip}. La señal de espectro expandido tiene una tasa igual a la tasa de \textit{chip} $R_c$ tal que $R_c \gg R_b$, resultando en una expansión en el espectro.
 \begin{figure}%Se puede agregar un indicador de chip en la imagen.
     \centering
-    \includegraphics[width=0.8\textwidth]{GNSS/codigoPRN.png}
+    \includegraphics[width=0.8\textwidth]{/GNSS/codigoPRN.png}
     \caption{Ejemplo de código PRN + bits de datos + portadora...}
     \label{fig:PRN}
 \end{figure}
@@ -198,7 +198,7 @@
 	\item $\xi_{r,j}^s\,[m]$: Término de corrección debido a sesgos en los centros de fase de las antenas transmisora y receptora.
 	\item $d_{r,j}$, $d_j^s\,[s]$: Retardos instrumentales o de hardware en el receptor y en el satélite, respectivamente.
 	\item $dt_r(t)$, $dt^s(t)\,[s]$: Sesgos en el reloj del receptor y del satélite, respectivamente.
-	\item $\delta t^{rel}(t)\,[s]$: Sesgo debido al efecto relativista. Se considera en el mismo una contribución por la corrección relativista al reloj y otra por el retardo en la señal debido al efecto de la curvatura espacio-tiempo. 
+	\item $\delta t^{rel}(t)\,[s]$: Sesgo debido al efecto relativista. Se considera en el mismo una contribución por la corrección relativista al reloj y otra por el retardo en la señal debido al efecto de la curvatura espacio-tiempo.
 	\item $I_{r,j}^s(t)$, $T_r^s(t)\,[m]$: Retardo ionosférico y troposférico, respectivamente.
 	\item $e_{r,j}^s(t)\,[m]$: Errores adicionales, tales como multicamino y por ruido térmico en el receptor.
 \end{itemize}
@@ -306,10 +306,36 @@ Cabe destacar que los términos que representan los mismos fenómenos que en la 
 	\rho_r^{s,j} = \left \lVert \mathbf{s}^j - \mathbf{u} \right \rVert + ct_u = \sqrt{(x^j-x_u)^2+(y^j-y_u)^2+(z^j-z_u)^2} + ct_u \ .
 \end{equation} 
 	Si se toman mediciones de múltiples satélites se obtiene un sistema de ecuaciones no lineales para resolver $\mathbf{u}$ y $t_u$. Es común en la literatura realizar una linealización en torno a una posición estimada del usuario [refe a Kaplan], para esto se definen los pseudorangos estimados como
-\begin{equation}
-	\hat{\rho}_r^{s,j} = \sqrt{(x^j-\hat{x}_u)^2+(y^j-\hat{y}_u)^2+(z^j-\hat{z}_u)^2} + c\hat{t}_u \ .
+\begin{equation}\label{ec:psrn_est}
+	\hat{\rho}_r^{s,j} = \sqrt{(x^j-\hat{x}_u)^2+(y^j-\hat{y}_u)^2+(z^j-\hat{z}_u)^2} + c\hat{t}_u = \hat{r}_r^{s,j} + c\hat{t}_u \ .
 \end{equation}
-	Al linealizar $\rho_r^{s,j}$ en torno a $\hat{u}$
+	Se puede observar la definicion de $\hat{r}_r^{s,j}$ por simplicidad de la notacion. Al linealizar $\rho_r^{s,j}$ en torno a la posicion estimada $\hat{u}$, es posible obtener una expresion para el pseudorango que se quiere calcular en funcion de \eqref{ec:psrn_est}. Esta expresion resulta
+\begin{equation}
+	\rho_r^{s,j} = \hat{\rho}_r^{s,j} - \dfrac{(s^j - \hat{u})\Delta u}{\hat{r}_r^{s,j}} + c\Delta t_u \ .
+\end{equation}
+	El incremental de posicion del usuario respecto a su posicion estimada esta escalado por el rango entre la posicion estimada del usuario y el satelite, es decir la diferencia de los vectores posicion de cada uno. Este termino es dividido por la norma de este vector diferencia $\hat{r}_r^{s,j}$, por lo que resulta en un vector unitario que apunta desde la posicion estimada del usuario al satelite j-esimo. Siendo las componentes de este vector los cosenos directores del vector $(s^j - \hat{u})$, no es otra cosa que el vector unitario linea de vista (\textit{LOS} por sus siglas en ingles). De esta manera se define
+\begin{equation}\label{ec:uLOS}
+	a^j = \dfrac{s^j-\hat{u}}{\hat{r}_r^{s,j}} \ .
+\end{equation}	
+	El sistema de ecuaciones a resolver se puede escribir como
+\begin{equation}
+	\Delta \rho_r^s = \begin{bmatrix}
+\Delta \rho_r^{s,1} \\
+\Delta \rho_r^{s,2} \\
+\vdots \\
+\Delta \rho_r^{s,N} 
+\end{bmatrix} = \begin{bmatrix}
+a^1 & 1 \\
+a^2 & 1 \\
+\vdots & 1 \\
+a^N & 1 
+\end{bmatrix} \begin{bmatrix}
+\Delta x_u \\
+\Delta y_u \\
+\Delta z_u \\
+c\Delta t_u 
+\end{bmatrix} = \mathbf{H^N}\cdot \mathbf{\Delta x_u}
+\end{equation}
 	A través de estas mediciones es posible resolver el sistema de ecuaciones linealizadas para obtener la solución de posición.
 	
 	
