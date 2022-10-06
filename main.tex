@@ -9,6 +9,7 @@
 \usepackage{tabularx}
 \usepackage{upgreek}
 \usepackage{tipa}
+\usepackage{scalerel}
 
 
 \usepackage{graphicx,float}
@@ -143,10 +144,10 @@
 
 % \mainmatter
 \chapter{Sistemas globales de navegación por satélite}
-	Este capítulo introduce los primeros conceptos para el posicionamiento basado en sistemas de navegación por satélite. Incluye una breve descripción del sistema de posicionamiento global (GPS por sus siglas en inglés) junto con sus señales y las mediciones que pueden obtenerse mediante las mismas. Se hace hincapié en las características de estas señales, además de analizar las fuentes de error que hay presentes en las mismas. Si bien el foco de este trabajo está puesto en el sistema GPS, ya que los resultados obtenidos son para el mismo, se desarrollan los conceptos de este capítulo de forma general para todos los sistemas. 
+	Este capítulo introduce los primeros conceptos para el posicionamiento basado en sistemas de navegación por satélite. Incluye una breve descripción del sistema de posicionamiento global (GPS por sus siglas en inglés) junto con sus señales y las mediciones que pueden obtenerse mediante las mismas. Se hace hincapié en las características de estas señales, analizando las fuentes de error que hay presentes en las mediciones que pueden obtenerse de las mismas. Si bien el foco de este trabajo está puesto en el sistema GPS, ya que los resultados obtenidos son para el mismo, se desarrollan los conceptos de este capítulo de forma general para todos los sistemas. 
 	
 \section{Introducción}
-	Los sistemas GNSS (\textit{Global Navigation Satellite System} en inglés) se basan en el concepto de mediciones de rango mediante el retardo de propagación de las señales transmitidas por constelaciones de satélites. El tiempo de arribo (TOA por sus siglas en inglés) determina el instante en el que se recibió la señal, conociendo el instante en el que la misma fue transmitida se puede determinar el tiempo de viaje de la misma. Haciendo uso de la velocidad de propagación de la señal es posible obtener el rango en el que se encuentra el equipo transmisor. Introduciendo múltiples mediciones de rango con satélites transmitiendo en distintas ubicaciones se puede acotar la ubicación del receptor. La solución puntual queda determinada por el punto de intersección de las esferas formadas por el rango que se midió a cada uno de los satélites involucrados, siempre y cuando se tomen suficientes mediciones para poder resolver la posición de manera unívoca. 
+	Los sistemas GNSS (\textit{Global Navigation Satellite System} en inglés) se basan en el concepto de mediciones de rango mediante el retardo de propagación de las señales transmitidas por constelaciones de satélites. Los mismos no han dejado de ser utilizados desde su puesta en funcionamiento debido a que permiten cobertura global, permitiendo proveer servicio de posicionamiento a usuarios en cualquier lugar del planeta. Además del uso civil que puede darle cualquier persona para conocer su ubicación en tiempo real, los mismos son utilizados en áreas como la geodesia, seguimiento de fauna, navegación, tanto de vehículos en la superficie de la tierra como vehículos espaciales. \textbf{REFORMULAR ACA}El tiempo de arribo (TOA por sus siglas en inglés) determina el instante en el que se recibió la señal, conociendo el instante en el que la misma fue transmitida se puede determinar el tiempo de viaje de la misma. Haciendo uso de la velocidad de propagación de la señal es posible obtener el rango en el que se encuentra el equipo transmisor. Introduciendo múltiples mediciones de rango con satélites transmitiendo en distintas ubicaciones se puede acotar la ubicación del receptor. La solución puntual queda determinada por el punto de intersección de las esferas formadas por el rango que se midió a cada uno de los satélites involucrados, siempre y cuando se tomen suficientes mediciones para poder resolver la posición de manera unívoca. 
 	
 	Habiendo introducido el concepto de medición de rango mediante TOA, es necesario analizar la sincronización entre las distintas partes que conforman el sistema. Si se busca resolver la posición mediante este concepto, las señales recibidas de los distintos satélites deben haber sido transmitidas en el mismo instante de tiempo. El instante de tiempo de toma de las observaciones tiene el nombre de época en este contexto. Es evidente que para conseguir esto los relojes de referencia de los satélites y del usuario (llamado receptor anteriormente) deben tener muy alta precisión y sincronización entre ellos. La precisión no es un inconveniente ya que los satélites GPS utilizan relojes atómicos que logran una estabilidad destacable (refe?). En cambio, la sincronización del usuario al tiempo del sistema GPS (al cual deberían estar sincronizados todos los satélites de la constelación), es un tanto más compleja y por ello se analizarán los errores que introducen las fallas en la sincronización.
 	
@@ -273,6 +274,8 @@ Cabe destacar que los términos que representan los mismos fenómenos que en la 
 \end{equation}
 	se puede ver como para la medición de fase de portadora el retardo ionosférico resulta con signo opuesto que para el pseudorango. 
 	
+	Debido a esta dependencia con la frecuencia del retardo producido por la ionosfera, que incluso puede ser predecida, es que los sistemas GNSS transmiten señales en distintas frecuencias. De esta manera un receptor recibiendo señales en multiples frecuencias puede compensar estos efectos en las mediciones.
+	
 	
 \subsection*{Retardo troposférico}
 	El retardo debido a la tropósfera está asociado a las irregularidades que existe en el indice de refracción de la misma, es un efecto que afecta a la señal en la última etapa del camino que recorre desde el satélite hasta el usuario, si el mismo se encuentra en tierra. No se observan variaciones a gran escala del índice de refracción, por lo que la troposfera es un medio no dispersivo en la banda de GPS (banda L). Se puede separar en dos componentes, la componente seca es predominante (se lleva un 90\% de la contribución total de este efecto) y tiene alto grado de predictibilidad. El otro 10\% es denominado la componente húmeda y no es tan sencillo de predecir. La separación se hace según la altura de la capa, siendo la componente seca la correspondiente a la parte inferior de la atmósfera (troposfera) y la componente húmeda la capa superior a la troposfera (estratosfera aunque en estas aplicaciones se consideran como un conjunto).
@@ -309,15 +312,15 @@ Cabe destacar que los términos que representan los mismos fenómenos que en la 
 \begin{equation}\label{ec:psrn_est}
 	\hat{\rho}_r^{s,j} = \sqrt{(x^j-\hat{x}_u)^2+(y^j-\hat{y}_u)^2+(z^j-\hat{z}_u)^2} + c\hat{t}_u = \hat{r}_r^{s,j} + c\hat{t}_u \ .
 \end{equation}
-	Se puede observar la definicion de $\hat{r}_r^{s,j}$ por simplicidad de la notacion. Al linealizar $\rho_r^{s,j}$ en torno a la posicion estimada $\hat{u}$, es posible obtener una expresion para el pseudorango que se quiere calcular en funcion de \eqref{ec:psrn_est}. Esta expresion resulta
+	Se puede observar la definición de $\hat{r}_r^{s,j}$ por simplicidad de la notación. Al linealizar $\rho_r^{s,j}$ en torno a la posición estimada $\hat{u}$, es posible obtener una expresión para el pseudorango que se quiere calcular en función de \eqref{ec:psrn_est}. Esta expresión resulta
 \begin{equation}
 	\rho_r^{s,j} = \hat{\rho}_r^{s,j} - \dfrac{(s^j - \hat{u})\Delta u}{\hat{r}_r^{s,j}} + c\Delta t_u \ .
 \end{equation}
-	El incremental de posicion del usuario respecto a su posicion estimada esta escalado por el rango entre la posicion estimada del usuario y el satelite, es decir la diferencia de los vectores posicion de cada uno. Este termino es dividido por la norma de este vector diferencia $\hat{r}_r^{s,j}$, por lo que resulta en un vector unitario que apunta desde la posicion estimada del usuario al satelite j-esimo. Siendo las componentes de este vector los cosenos directores del vector $(s^j - \hat{u})$, no es otra cosa que el vector unitario linea de vista (\textit{LOS} por sus siglas en ingles). De esta manera se define
+	El incremental de posición del usuario respecto a su posición estimada esta escalado por el rango entre la posición estimada del usuario y el satélite, es decir la diferencia de los vectores posición de cada uno. Este termino es dividido por la norma de este vector diferencia $\hat{r}_r^{s,j}$, por lo que resulta en un vector unitario que apunta desde la posición estimada del usuario al satélite j-esimo. Siendo las componentes de este vector los cosenos directores del vector $(s^j - \hat{u})$, no es otra cosa que el vector unitario linea de vista (\textit{LOS} por sus siglas en ingles). De esta manera se define
 \begin{equation}\label{ec:uLOS}
 	a^j = \dfrac{s^j-\hat{u}}{\hat{r}_r^{s,j}} \ .
 \end{equation}	
-	El sistema de ecuaciones a resolver se puede escribir como
+	El sistema de ecuaciones a resolver en función de los sesgos de los pseudorangos $\Delta\rho_r^{s,j} = \hat{\rho_r^{s,j}}-\rho_r^{s,j}$ se puede escribir como
 \begin{equation}
 	\Delta \rho_r^s = \begin{bmatrix}
 \Delta \rho_r^{s,1} \\
@@ -334,14 +337,25 @@ a^N & 1
 \Delta y_u \\
 \Delta z_u \\
 c\Delta t_u 
-\end{bmatrix} = \mathbf{H^N}\cdot \mathbf{\Delta x_u}
+\end{bmatrix} = \mathbf{H}^{\scaleto{N}{4pt}}\cdot \mathbf{\Delta x_u} \ .
 \end{equation}
-	A través de estas mediciones es posible resolver el sistema de ecuaciones linealizadas para obtener la solución de posición.
-	
+La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre los satelites en vista (o utilizados para resolver posicion) y el usuario. La cantidad mínima de mediciones de pseudorango que se precisa para resolver posición y sesgo en tiempo es $N=4$, en este caso es posible hallar el vector $\mathbf{\Delta x_u}$ multiplicando por izquierda al vector de sesgos de pseudorango por la matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ inversa. Si todas las mediciones de pseudorango son coherentes el sistema esta univocamente determinado. Puede interpretarse que la ubicación del usuario se resuelve con mediciones de tres satelites (en caso de que no hubiese error de tiempo alcanza con esto) y se agrega un cuarta medicion para poder resolver el sesgo de reloj entre el usuario y el satélite.
+
+	Como ya fue mencionado, se pueden usar más mediciones de las necesarias para resolver univocamente el sistema. Con esto lo que se logra es validar la solución obtenida con mediciones de otros satelites, o incluso obtener información redundante para poder realizar una estimación de la posición. En particular, para casos donde $N>4$ la matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ deja de tener inversa, por lo que no podemos resolver como se enunció para el caso $N=4$. En esta situación se trabaja multiplicando por izquierda por la matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ transpuesta obteniendo
+\begin{equation}
+	\mathbf{H}^{\scaleto{N}{4pt}T} \cdot \Delta \rho_r^s = \underbrace{\mathbf{H}^{\scaleto{N}{4pt}T} \mathbf{H}^{\scaleto{N}{4pt}}}_{4\times 4} \mathbf{\Delta x_u} \ .
+\end{equation}
+	De manera que se forma una matriz de $4\times 4$ a la cual se le puede obtener la inversa y así hallar la solución mediante mínimos cuadrados como 
+\begin{equation}
+	\mathbf{\Delta x_u} = \left(\mathbf{H}^{\scaleto{N}{4pt}T} \mathbf{H}^{\scaleto{N}{4pt}}\right)^{-1} \cdot \mathbf{H}^{\scaleto{N}{4pt}T} \cdot \Delta \rho_r^s \ .
+\end{equation}
+	Cabe aclarar que si el punto de linealización esta lo suficientemente cerca de la posición verdadera del usuario, no hace falta realizar una iteración del procedimiento para obtener una solución. En cambio, si se parte de una posición estimada que no se acerca a la real, se deberá iterar utilizando como nueva posición aproximada la solución que devuelve el método. Este procedimiento es repetido hasta lograr una solución aceptable, es por esto que para obtener la solución en frío, un receptor puede demorar bastante tiempo según cual sea la calidad de la información a priori que conozca de su posición.\\
 	
 	
 \chapter{GNSS diferencial}
- A fin de poder discutir la cancelación de estos términos al utilizar múltiples observaciones para construir mediciones en diferencias. Esto último nos dará el pie para desarrollar sobre los sistemas de posicionamiento diferencial, en los cuales se centra este trabajo.
+	Habiendo introducido los conceptos de posicionamiento absoluto, utilizando un único receptor, este capitulo desarrolla los conceptos de posicionamiento relativo o diferencial.
+	
+	A fin de poder discutir la cancelación de estos términos al utilizar múltiples observaciones para construir mediciones en diferencias. Esto último nos dará el pie para desarrollar sobre los sistemas de posicionamiento diferencial, en los cuales se centra este trabajo.
 \section{Múltiples mediciones combinadas}
 	La acción de tomar múltiples mediciones y combinarlas para poder cancelar algunos de los términos, es de gran utilidad, y uno de los principales fundamentos para el posicionamiento diferencial en el que esta centrado este trabajo. Resulta de particular interés para poder proveer soluciones de posición más precisas, conocer los términos de error presentes en las ecuaciones de observación (Sección \ref{sec:errores}). Para esto se aprovecha la correlación espacial y temporal que existe entre algunos de estos fenómenos para las distintas mediciones, ya sea modificando la geometría del problema, u observando época a época. Las múltiples mediciones pueden hacer uso de señales de múltiples satélites con un receptor único o de una única señal recibida por múltiples receptores.
 \subsection{Únicas diferencias}\label{sec:SD}
