@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,oneside,onecolumn,final,openright]{book}%Configuración de la clase... Cambiar draft-->final cuando esté terminado.
+\documentclass[a4paper,11pt,oneside,onecolumn,final,openright]{book}%Configuración de la clase... Cambiar draft-->final cuando esté terminado.
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=0.2\textwidth]{geometry}%Márgenes
 \usepackage[spanish]{babel}
@@ -6,6 +6,10 @@
 \usepackage{amsmath,amsfonts,amssymb,mathtools}
 \usepackage{bm}
 \usepackage{tabto}
+\usepackage{tabularx}
+\usepackage{upgreek}
+\usepackage{tipa}
+
 
 \usepackage{graphicx,float}
 \usepackage[justification=centering]{caption}
@@ -139,14 +143,14 @@
 
 % \mainmatter
 \chapter{Sistemas globales de navegación por satélite}
-	Este capítulo introduce los primeros conceptos para el posicionamiento basado en sistemas de navegación por satélite. Incluye una breve descripción del sistema de posicionamiento global (GPS por sus siglas en inglés) junto con sus señales y las mediciones que pueden obtenerse mediante las mismas. Se hace hincapié en las características de estas señales, además de analizar las fuentes de error que hay presentes en las mismas.
+	Este capítulo introduce los primeros conceptos para el posicionamiento basado en sistemas de navegación por satélite. Incluye una breve descripción del sistema de posicionamiento global (GPS por sus siglas en inglés) junto con sus señales y las mediciones que pueden obtenerse mediante las mismas. Se hace hincapié en las características de estas señales, además de analizar las fuentes de error que hay presentes en las mismas. Si bien el foco de este trabajo está puesto en el sistema GPS, ya que los resultados obtenidos son para el mismo, se desarrollan los conceptos de este capítulo de forma general para todos los sistemas. 
 	
 \section{Introducción}
 	Los sistemas GNSS (\textit{Global Navigation Satellite System} en inglés) se basan en el concepto de mediciones de rango mediante el retardo de propagación de las señales transmitidas por constelaciones de satélites. El tiempo de arribo (TOA por sus siglas en inglés) determina el instante en el que se recibió la señal, conociendo el instante en el que la misma fue transmitida se puede determinar el tiempo de viaje de la misma. Haciendo uso de la velocidad de propagación de la señal es posible obtener el rango en el que se encuentra el equipo transmisor. Introduciendo múltiples mediciones de rango con satélites transmitiendo en distintas ubicaciones se puede acotar la ubicación del receptor. La solución puntual queda determinada por el punto de intersección de las esferas formadas por el rango que se midió a cada uno de los satélites involucrados, siempre y cuando se tomen suficientes mediciones para poder resolver la posición de manera unívoca. 
 	
 	Habiendo introducido el concepto de medición de rango mediante TOA, es necesario analizar la sincronización entre las distintas partes que conforman el sistema. Si se busca resolver la posición mediante este concepto, las señales recibidas de los distintos satélites deben haber sido transmitidas en el mismo instante de tiempo. El instante de tiempo de toma de las observaciones tiene el nombre de época en este contexto. Es evidente que para conseguir esto los relojes de referencia de los satélites y del usuario (llamado receptor anteriormente) deben tener muy alta precisión y sincronización entre ellos. La precisión no es un inconveniente ya que los satélites GPS utilizan relojes atómicos que logran una estabilidad destacable (refe?). En cambio, la sincronización del usuario al tiempo del sistema GPS (al cual deberían estar sincronizados todos los satélites de la constelación), es un tanto más compleja y por ello se analizarán los errores que introducen las fallas en la sincronización.
 	
-	Existen distintos sistemas GNSS, tales como \textit{GPS}, \textit{Galileo}, \textit{Glonass} o \textit{BeiDou}, cada uno con su respectiva constelación de satélites MEO (\textit{Medium Earth Orbit} u Órbita Circular Intermedia). Si bien el foco de este trabajo está puesto en el mencionado primero, el sistema GPS, se desarrollan los conceptos de este capítulo de forma general para todos los sistemas. Todos los satélites de las distintas constelaciones comparten el canal de transmisión, esto es posible debido al uso de técnicas de acceso múltiple. En particular, el sistema GPS cuenta con 32 satélites operativos actualmente y como la frecuencia de operación es compartida por todos los satélites, el mismo utiliza acceso múltiple por división de código (CDMA por sus siglas en inglés). En cambio, el sistema \textit{Glonass} cuenta con 24 satélites operativos y cada uno transmite dentro de la misma banda de frecuencias multiplexando los canales por frecuencia dentro de esta banda. Esta técnica es conocida como acceso múltiple por división de frecuencia (FDMA por sus siglas en inglés).
+	Existen distintos sistemas GNSS, tales como \textit{GPS}, \textit{Galileo}, \textit{Glonass} o \textit{BeiDou}, cada uno con su respectiva constelación de satélites MEO (\textit{Medium Earth Orbit} u Órbita Circular Intermedia). Todos los satélites de las distintas constelaciones comparten el canal de transmisión, esto es posible debido al uso de técnicas de acceso múltiple. En particular, el sistema GPS cuenta con 32 satélites operativos actualmente y como la frecuencia de operación es compartida por todos los satélites, el mismo utiliza acceso múltiple por división de código (CDMA por sus siglas en inglés). En cambio, el sistema \textit{Glonass} cuenta con 24 satélites operativos y cada uno transmite dentro de la misma banda de frecuencias multiplexando los canales por frecuencia dentro de esta banda. Esta técnica es conocida como acceso múltiple por división de frecuencia (FDMA por sus siglas en inglés).
 	
 \section{Características de la señal}\label{sec:senial}
 	Las señales transmitidas se encuentran dentro del espectro de las radiofrecuencias. Existen distintos tipos de señales, según se fueron modernizando los sistemas, y en particular los satélites, se han ido sumando nuevas señales. Las características principales que componen a una señal de GPS son la frecuencia de portadora dentro de la banda \textit{L}, el código que hace posible el acceso múltiple y por último el mensaje de navegación.
@@ -155,98 +159,161 @@
 	
 	Las señales son expandidas en el espectro mediante una secuencia de ruido pseudoaleatoria (\textit{PRN} por sus siglas en inglés), esta secuencia es el código que ya fue mencionado. Las técnicas de espectro expandido de secuencia directa (DSSS por sus siglas en inglés) utilizadas, distribuyen la energía de la señal de cada satélite en todo el ancho de banda disponible. De esta manera es posible mitigar efectos adversos naturales del canal como lo son el ruido o interferencias, además de presentar la ventaja de permitir el acceso múltiple entre usuarios estas técnicas presentan robustez frente a interferencias intencionadas. Esta última característica generaba gran interés al momento de creación del sistema GPS con fines militares. Se logra expandir la señal de manera tal que la misma queda oculta por el piso de ruido presente en el canal. El receptor, que conoce el código con el cual se hizo la expansión, logra recuperar la señal pudiendo incluso considerar a las señales del resto de los satélites como interferencias. 
 	
-	Los mensajes de navegación en GPS se transmiten con una tasa de 50\,bps, como la modulación es BPSK esto resulta en un ancho de banda de 50 Hz. Los símbolos transmitidos son de 20 ms de duración con conformación espectral idealmente dada por cajones. La información transportada por el mensaje de navegación es la que hace posible computar la posición de cada satélite y tiempo de transmisión de las señales. En los mismos se transmite, entre otras cosas, el mensaje de telemetría, al cual solo tienen acceso los usuarios autorizados, términos de corrección de reloj para desafectar errores en la medición y como componente principal, se transmiten las efemérides. Las efemérides contienen la información del tiempo del satélite (referenciado al tiempo GPS), parámetros keplerianos de las órbitas osculantes de los satélites.
+	Los mensajes de navegación en GPS se transmiten con una tasa de 50\,bps, como la modulación es BPSK esto resulta en un ancho de banda de 50 Hz. Los símbolos transmitidos son de 20 ms de duración con conformación espectral idealmente dada por cajones. La información transportada por el mensaje de navegación es la que hace posible computar la posición de cada satélite y tiempo de transmisión de las señales. En los mismos se transmite, entre otras cosas, el mensaje de telemetría, al cual solo tienen acceso usuarios autorizados, términos de corrección de reloj para desafectar errores en la medición y como componente principal, se transmiten las efemérides. Estos últimos dos son indispensables para que el usuario pueda calcular su posición. Las efemérides contienen la información del tiempo del satélite (referenciado al tiempo GPS), parámetros keplerianos de las órbitas osculantes de los satélites.
 	
-	En términos generales, la polaridad de cada símbolo rectangular estará dada por el bit de información de navegación a transmitir. Luego se expande esta señal mediante el producto de la amplitud de cada símbolo con el código, la modulación por desplazamiento de fase de la señal resultante estará dominada por las transiciones del código. Un ejemplo de un código PRN se puede observar en la Fig. \ref{fig:PRN}, donde cada transición del código es denominado \textit{chip}. Es evidente que la tasa resultante de la señal BPSK multiplicada por el código es mucho mayor que la de la señal original, ya que en cada transición de símbolo tiene múltiples transiciones de \textit{chip}. La señal de espectro expandido tiene una tasa igual a la tasa de \textit{chip} $R_c$ tal que $R_c \gg R_b$, resultando en una expansión en el espectro.
+	En términos generales, la polaridad de cada símbolo rectangular estará dada por el bit de información de navegación a transmitir. Luego se expande esta señal mediante el producto de la amplitud de cada símbolo con el código, la modulación por desplazamiento de fase de la señal resultante estará dominada por las transiciones del código (Fig. \ref{fig:PRN}). Cabe destacar que cada transición del código es denominado \textit{chip}. Es evidente que la tasa resultante de la señal BPSK multiplicada por el código es mucho mayor que la de la señal original, ya que en cada transición de símbolo tiene múltiples transiciones de \textit{chip}. La señal de espectro expandido tiene una tasa igual a la tasa de \textit{chip} $R_c$ tal que $R_c \gg R_b$, resultando en una expansión en el espectro.
 \begin{figure}%Se puede agregar un indicador de chip en la imagen.
     \centering
     \includegraphics[width=0.8\textwidth]{GNSS/codigoPRN.png}
-    \caption{Ejemplo de código PRN.}
+    \caption{Ejemplo de código PRN + bits de datos + portadora...}
     \label{fig:PRN}
 \end{figure}
 
-	Este mecanismo implica que el receptor conozca con exactitud el código utilizado en la expansión para poder multiplicar nuevamente a la señal por el mismo, considerando sincronización perfecta, y así recuperar la señal original. Este proceso se puede interpretar como la compresión de la señal expandida al momento de la transmisión, y en recepción es donde se recupera solo la señal de interés.
+	Este mecanismo implica que el receptor conozca con exactitud el código utilizado en la expansión para poder multiplicar a la señal por el mismo, considerando sincronización perfecta, y así recuperar la señal original. Este proceso se puede interpretar como la compresión de la señal expandida al momento de la transmisión, y en recepción es donde se recupera solo la señal de interés.
 	
-	Como ya fue mencionado, el sistema utiliza CDMA para multiplexar las señales de los distintos satélites. Cada satélite tiene una secuencia PRN que debe cumplir con las características de presentar autocorrelación muy similar a la de un proceso de ruido blanco, para su correcta recuperación en el receptor cuando hay sincronización. Y además debe tener muy baja intercorrelación con los códigos del resto de los satélites. Esta última condición es necesario extenderla para que cada PRN tenga baja intercorrelación con todos los posibles desplazamientos de los restantes códigos del sistema. Esto se debe a las variaciones de TOA de las diferentes señales y por el mecanismo de medición de tiempo de viaje de la señal que se detallará posteriormente. Las PRN que presentan estas características son las secuencias \textit{Gold} [cita a Proakis] y son las utilizadas en este sistema. Si los distintos códigos fueron diseñados (o elegidos) correctamente, las interferencias del resto de las señales no deseadas pueden ser consideradas como ruido aditivo a la señal de interés.
+	Como ya fue mencionado, el sistema utiliza CDMA para multiplexar las señales de los distintos satélites. Cada satélite tiene una secuencia PRN que debe cumplir con las características de presentar autocorrelación muy similar a la de un proceso de ruido blanco, para su correcta recuperación en el receptor cuando hay sincronización. Y además debe tener muy baja intercorrelación con los códigos del resto de los satélites. Esta última condición es necesario extenderla para que cada PRN tenga baja intercorrelación con todos los posibles desplazamientos de los restantes códigos del sistema. Esto se debe a las variaciones de TOA de las diferentes señales y por el mecanismo de medición de tiempo de viaje de la señal que se detallará posteriormente. Las PRN que presentan estas características son las secuencias \textit{Gold} [cita a Proakis] y son las utilizadas por el sistema GPS. Si los distintos códigos fueron diseñados (o elegidos) correctamente, las interferencias del resto de las señales no deseadas pueden ser consideradas como ruido aditivo a la señal de interés.
 	
-	Ya se introdujo el mecanismo de multiplexado de las señales de cada satélite y se detallaron algunos aspectos de las señales GPS. Las señales civiles mencionadas pueden estar expandidas por distintos códigos, que en conjunto con la frecuencia de portadora son los dos parametros que le dan nombre a las señales. Los códigos 
+	Ya se introdujo el mecanismo de multiplexado de las señales de cada satélite y se detallaron algunos aspectos de las señales GPS. Las señales civiles mencionadas pueden estar expandidas por distintos códigos, que en conjunto con la frecuencia de portadora son los dos parámetros que le dan nombre a los observables obtenidos. Estos nombres están estandarizados según el estandar RINEX (\textit{The Receiver Independent Exchange Format}). Dentro de estos códigos se pueden mencionar el código $C/A$ (por \textit{Coarse Adquisition}) y el código $P$.
 \begin{itemize}
-	\item Código C/A: Es el código transmitido en la señal $L_1$, de la familia de códigos de largo 1023. Tiene una tasa de 1.023 Mchips/s por lo tanto tiene un periodo de \textit{chip} igual a 1 ms.
-	\item Código P: Este código se repite una sola vez por semana, al comienzo de la semana GPS (dentro del sistema de tiempo GPS), por eso se lo menciona como código largo. Tiene un largo de $6,187104\cdot 10^{12}$ chips y se transmite a una tasa diez veces mayor que la del código C/A. El mismo es transmitido en la señal $L_1$ tanto como en la $L_2$.
+	\item Código C/A: Es referido como el código grueso, y es de la familia de códigos de largo 1023. Tiene una tasa de 1.023 Mchips/s por lo tanto tiene un periodo de \textit{chip} igual a 1 ms.
+	\item Código P: Este código se repite una sola vez por semana, al comienzo de la semana GPS (dentro del sistema de tiempo GPS), por eso se lo menciona como código largo o de precisión. Tiene un largo de $6,187104\cdot 10^{12}$ chips y se transmite a una tasa diez veces mayor que la del código C/A.
 \end{itemize}
-	
+%	Según el estándar RINEX [cita RINEX] (\textit{The Receiver Independent Exchange Format}) se especifican códigos de observación para las señales. En particular la señal en $L_1$ con código $C/A$ es denominada $X1C$ y la misma señal pero en $L_2$ es denominada $X2C$, donde la $X$ indica qué tipo de observación se hizo. Pudiendo ser estas pseudorango (C), fase de portadora (L), doppler (D) y potencia de señal (S).
 \section{Formación de los observables}
-	Para determinar la posición, el usuario debe medir los rangos a cada satélite y resolver su posición mediante la combinación de estas. Para lograr la solución de posición se utilizan distintas observaciones, 4 mediciones son necesarias para poder obtener la solución puntual. Pero también se puede utilizar información redundante para obtener una solución más confiable, pudiendo aplicar algún tipo de filtrado y obtener una mejor estimación. En la etapa del lazo de enganche de retardo (\textit{DLL} por sus siglas en inglés) se obtienen mediciones de pseudorango mediante la fase del código. Además, se pueden obtener mediciones de fase de portadora mucho más precisas pero a expensas de un nivel de ambigüedad en el rango que debe resolverse por otro camino.
-	
-	A través de estas mediciones es posible resolver el sistema de ecuaciones linealizadas para obtener la solución de posición. No nos centraremos en este proceso ya que el objetivo de este trabajo consiste en el análisis de las mediciones en diferencias para posicionamiento diferencial. 
+	  Para poder obtener una solución de posición es necesario calcular los observables a partir de las mediciones que puede realizar el receptor. En otras palabras, el receptor no tiene manera de medir distancia recorrida por una señal, pero si puede medir el retardo que se produjo en la señal entre la transmisión y la recepción para formar un observable de pseudorango. Las mediciones naturales del receptor son la fase del código réplica generado en el receptor, fase de la portadora réplica (con el receptor enganchado en fase a la portadora transmitida por el satélite) y frecuencia de la portadora réplica (con el receptor ahora enganchado en frecuencia). A partir de estas es posible obtener las mediciones de los observables de pseudorango, fase de portadora y desviación de frecuencia de portadora o \textit{Doppler}. Este último no es utilizado a lo largo de este trabajo por lo que no se hará hincapié en el mismo.
 	
 \subsection{Medición de pseudorango}
-	Esta medición de rango se basa en la medición del tiempo de viaje de la señal y es aquí donde se aprovechan las características de los códigos mencionados en la Sección \ref{sec:senial}. El receptor debe conocer el código (ya sea \textit{C/A} o \textit{P}) asociado al satélite que quiere recibir, esto se utiliza para generar una replica del mismo en el \textit{DLL} del receptor y de esta manera el mismo puede comparar el desfasaje que existe entre el código de la señal recibida con el generado internamente, obteniendo el tiempo de viaje de la señal. Ambos códigos se generan internamente en el receptor al inicio de la semana GPS y al medir el desfasaje entre la replica y el recibido se posiciona el TOA dentro de la semana GPS. En el caso del código \textit{C/A} hay una ambigüedad de 1 ms debido a su periodo, pero se obtiene el TOA en estas condiciones y haciendo uso del mensaje de navegación se logra una medida absoluta. En el caso del código \textit{P} se obtiene una ubicación dentro de la semana GPS y no existe tal ambigüedad. Para medir el desfasaje, el receptor desplaza en tiempo la replica hasta lograr correlación entre ambas señales, por esto es importante que la intercorrelación entre los códigos sea baja para todos los desplazamientos de los mismos. De esta manera se evitan falsas detecciones, solo consiguiendo correlación cuando hay sincronización con el código del satélite que se espera recibir.
+	La formación del pseudorango se basa en la medición del tiempo de viaje de la señal y es aquí donde se aprovechan las características de los códigos mencionados en la Sección \ref{sec:senial}. El receptor debe conocer el código (ya sea \textit{C/A} o \textit{P}) asociado al satélite y señal que quiere recibir. Este se utiliza para generar una replica del mismo en el lazo de enganche de retardo (\textit{DLL} por sus siglas en inglés) del receptor de manera que el mismo pueda comparar el desfasaje que existe entre el código de la señal recibida con el generado internamente, obteniendo el tiempo de viaje de la señal. Por esto es que la medición natural que fue mencionada es la de la fase del código replica. Ambos códigos se generan internamente en el receptor al inicio de la semana GPS y al medir el desfasaje entre la replica y el recibido se posiciona el TOA dentro de la semana GPS. En el caso del código \textit{C/A} hay una ambigüedad de 1 ms debido a su periodo, pero se obtiene el TOA bajo estas condiciones y haciendo uso del mensaje de navegación se logra una medida absoluta. En el caso del código \textit{P} se obtiene una ubicación absoluta dentro de la semana GPS, no existe tal ambigüedad. Para medir el desfasaje, el receptor desplaza en tiempo la replica hasta lograr correlación entre ambas señales, por esto es importante que la intercorrelación entre los códigos sea baja para todos los desplazamientos de los mismos. De esta manera se evitan falsas detecciones, solo consiguiendo un pico de correlación cuando hay sincronización con el código del satélite que se espera recibir.
 	
-	La ecuación de observación con medición de pseudorango es 
+	Sumado al rango geométrico que se obtiene del tiempo de viaje, existen términos de error adicionales debido a efectos atmosféricos, por sincronización entre relojes del receptor y satélites, y distintos retardos que se pueden presentar en la medición. La ecuación de observación con medición de pseudorango es 
 \begin{align}\label{ec:obs_pseudorango}
 	p_{r,j}^s(t) = \rho_r^s(t) + \xi_{r,j}^s + c\left(d_{r,j}-d_j^s\right) + c\left(dt_r(t)-dt^s(t)+\delta t^{rel}(t)\right)& \\ 
 	+ I_{r,j}^s(t) + T_r^s(t) +e_{r,j}^s(t)& \ . \nonumber
 \end{align}
 
-	Es necesario introducir los términos de la misma. La medición de pseudorango no es considerada rango por el hecho de que contiene los efectos de no sincronización entre los relojes del usuario y el satélite. 
+	Es necesario introducir los términos de la misma. Además, cabe aclarar que la medición no es considerada rango por el hecho de que contiene los efectos de falta de sincronización entre los relojes del usuario y el satélite, de aquí surge el nombre de pseudorango. 
 \begin{itemize}
-	\item $p_{r,j}^s(t)$: Pseudorango del usuario con el satélite obtenido con la ecuación de observación, siendo $j$ el identificador de las señales del mismo satélite.
-	\item $\rho_r^s(t)$: Rango geométrico.
-	\item $\xi_{r,j}^s$: Término de corrección debido a sesgos en los centros de fase de las antenas transmisora y receptora.
-	\item $d_{r,j}$, $d_j^s$: Retardos instrumentales o de hardware en el receptor y en el satélite, respectivamente. Ambos medidos en segundos.
-	\item $dt_r(t)$, $dt^s(t)$: Sesgos en el reloj del receptor y del satélite, respectivamente. Ambos medidos en segundos. 
-	\item $\delta t^{rel}(t)$: Sesgo debido al efecto relativista. Medido en segundos. 
-	\item $I_{r,j}^s(t)$, $T_r^s(t)$: Retardo ionosférico y troposférico, respectivamente. En unidades de metros.
-	\item $e_{r,j}^s(t)$: Errores adicionales, tales como multicamino y por ruido térmico en el receptor.
+	\item $p_{r,j}^s(t)\,[m]$: Pseudorango del usuario con el satélite obtenido con la ecuación de observación, siendo $j$ el identificador para las distintas señales del mismo satélite.
+	\item $\rho_r^s(t)\,[m]$: Rango geométrico entre el usuario y el satélite.
+	\item $\xi_{r,j}^s\,[m]$: Término de corrección debido a sesgos en los centros de fase de las antenas transmisora y receptora.
+	\item $d_{r,j}$, $d_j^s\,[s]$: Retardos instrumentales o de hardware en el receptor y en el satélite, respectivamente.
+	\item $dt_r(t)$, $dt^s(t)\,[s]$: Sesgos en el reloj del receptor y del satélite, respectivamente.
+	\item $\delta t^{rel}(t)\,[s]$: Sesgo debido al efecto relativista. Se considera en el mismo una contribución por la corrección relativista al reloj y otra por el retardo en la señal debido al efecto de la curvatura espacio-tiempo. 
+	\item $I_{r,j}^s(t)$, $T_r^s(t)\,[m]$: Retardo ionosférico y troposférico, respectivamente.
+	\item $e_{r,j}^s(t)\,[m]$: Errores adicionales, tales como multicamino y por ruido térmico en el receptor.
 \end{itemize}
+	Los términos que tienen una dependencia con la frecuencia mantienen el indice $j$ que es el indicador de señal, y por consecuente de frecuencia.
 
 \subsection{Medición de fase de portadora}%19.1.2 en el handbook.
-	La misma se realiza en el lazo de enganche de fase (\textit{PLL} por sus siglas en inglés), midiendo los desfasajes de la portadora replica con la portadora recibida, la ambigüedad esta determinada por la longitud de onda de la portadora, que es muy baja. La misma estará en el rango de 19 cm a 25 cm, la longitud de onda más chica es la correspondiente a la señal $L_1$ y la mayor a $L_2$. En este enfoque no es posible salvar la ambigüedad haciendo uso del mensaje de navegación ya que se pierde la señal modulada en la portadora. Pero esta longitud de onda pequeña trae ventajas a la medición en términos de precisión, se logra una precisión mucho más alta que con la medición de pseudorango. La ecuación de observación con medición de fase de portadora es
+	La misma se realiza en el lazo de enganche de fase (\textit{PLL} por sus siglas en inglés), midiendo el desfasaje que existe entre la portadora recibida y la portadora replica generada internamente en el receptor. La medición natural es la cantidad de ciclos de portadora que transcurrieron entre la transmisión y la recepeción de la señal, el rango se obtiene multiplicando por la longitud de onda. La misma estará en el rango de 19 cm a 25 cm, el valor más chico corresponde a la señal $L_1$ y la mayor a $L_2$. Esta longitud de onda pequeña trae ventajas a la medición en términos de precisión, se logra una precisión mucho más alta que con la medición de pseudorango. Sin embargo, en este enfoque no es posible salvar la ambigüedad haciendo uso del mensaje de navegación ya que se pierde la señal modulada en la portadora. Es por esta razón que existe un numero entero de longitudes de onda presente en esta medición que se mantiene sin resolver. La ecuación de observación con medición de fase de portadora es
 \begin{align}\label{ec:obs_fasedep}
 	\varphi _{r,j}^s(t) = \rho_r^s(t) + \zeta_{r,j}^s(t) + c\left( \delta_{r,j}^s - \delta_j^s \right) + c\left( dt_r(t) - dt^s(t) + \delta t^{rel}(t)\right) &\\ 
 	- I_{r,j}^s(t) + T_r^s(t) + \lambda_j \left( \omega_r^s(t) + N_{r,j}^s \right) + \epsilon_{r,j}^s(t)& \ . \nonumber
 \end{align}
 \begin{itemize}
-	\item $\varphi _{r,j}^s(t)$: Medición de fase de portadora entre el usuario y el satélite obtenido con la ecuación de observación, siendo $j$ el identificador de las señales del mismo satélite. En unidades de metros.
-	\item $\rho_r^s(t)$, $dt_r(t)$, $dt^s(t)$, $\delta t^{rel}(t)$, $I_{r,j}^s(t)$, $T_r^s(t)$: Equivalentes a los términos en la Ecuación \ref{ec:obs_pseudorango}.
-	\item $\zeta_{r,j}^s$: Término de corrección debido a sesgos en los centros de fase de las antenas transmisora y receptora.
-	\item $\delta_{r,j}$, $\delta_j^s$: Retardos instrumentales o de hardware en el receptor y en el satélite, respectivamente. Ambos medidos en segundos.
-	\item $\lambda_j$: Longitud de onda de la frecuencia j-ésima.
-	\item $\omega_r^s(t)$: Corrección de wind-up de fase. Corresponde a cambios en la fase medida en caso de rotación de las antenas. En unidades de cantidades de longitudes de onda.
-	\item $N_{r,j}^s$: El número entero de ciclos de la portadora presentes en la medición. Es un parámetro desconocido y está en unidades de cantidades de longitudes de onda.
+	\item $\varphi _{r,j}^s(t)\,[m]$: Medición de fase de portadora entre el usuario y el satélite obtenido con la ecuación de observación, siendo $j$ el identificador de las señales del mismo satélite.
+	\item $\rho_r^s(t)$, $dt_r(t)$, $dt^s(t)$, $\delta t^{rel}(t)$, $I_{r,j}^s(t)$, $T_r^s(t)$: Equivalentes a los términos en la Ecuación \eqref{ec:obs_pseudorango}.
+	\item $\zeta_{r,j}^s\,[m]$: Término de corrección debido a sesgos en los centros de fase de las antenas transmisora y receptora.
+	\item $\delta_{r,j}$, $\delta_j^s\,[s]$: Retardos instrumentales o de hardware en el receptor y en el satélite, respectivamente.
+	\item $\lambda_j\,[m]$: Longitud de onda a la frecuencia de la señal j-ésima.
+	\item $\omega_r^s(t)\,[ciclos]$: Corrección de \textit{wind-up} de fase. Corresponde a cambios en la fase medida en caso de rotación de las antenas.
+	\item $N_{r,j}^s\,[ciclos]$: El número entero de ciclos de la portadora presentes en la medición, es la ambiguedad que queda sin resolver.
 	\item $\epsilon_{r,j}^s(t)$: Errores adicionales, tales como multicamino y por ruido térmico en el receptor.
 \end{itemize}
-Cabe destacar que los términos que representan los mismos fenómenos que en la Ecuación \ref{ec:obs_pseudorango} pero tienen distintos símbolos, es debido a que tienen distinta naturaleza. 
+Cabe destacar que los términos que representan los mismos fenómenos que en la Ecuación \eqref{ec:obs_pseudorango} pero tienen distintos símbolos, es debido a que tienen distinta naturaleza. 
 
-	Los términos desconocidos son obtenidos al resolver el sistema de ecuaciones linealizadas ya mencionado, sin embargo, se pueden observar múltiples épocas y de esta manera realizar una estimación de estos parámetros. No solo se estiman los términos correspondientes a los errores de rango, si no también se incluye la ambigüedad de fase de portadora. En principio, todos los términos desconocidos de la Ecuación \ref{ec:obs_fasedep} son estimados. 
+	Los términos desconocidos son obtenidos al resolver el sistema de ecuaciones linealizadas ya mencionado, sin embargo, se pueden observar múltiples épocas y de esta manera realizar una estimación de estos parámetros. No solo se estiman los términos correspondientes a los errores de rango, si no también se incluye la ambigüedad de fase de portadora. En principio, todos los términos desconocidos de la Ecuación \eqref{ec:obs_fasedep} son estimados. 
 \section{Errores}\label{sec:errores}
-	Es de particular interés para este trabajo analizar la naturaleza de los términos de error que están involucrados en las Ecuaciones \ref{ec:obs_pseudorango} y \ref{ec:obs_fasedep}. Será de gran utilidad a la hora de trabajar con observaciones en diferencias. 
-\subsection{Error en el reloj del satélite y usuario}
-	El término que hace referencia a este fenómeno del lado del satélite es $dt^s(t)$. Es necesario aclarar que los satélites \textit{GPS} cuentan con relojes atómicos de elevada estabilidad, por lo que los errores son principalmente debido a sesgos entre el sistema de tiempo \textit{GPS} y el tiempo propio del satélite. El segmento de tierra se encarga de enviar las correcciones necesarias para corregir este error, haciendo que la diferencia entre el tiempo del satélite y la del sistema \textit{GPS} sea menor a 1 ms. 
+	Es de particular interés para este trabajo analizar la naturaleza de los términos de error que están involucrados en las Ecuaciones \eqref{ec:obs_pseudorango} y \eqref{ec:obs_fasedep}. Será de gran utilidad a la hora de trabajar con observaciones en diferencias. 
+\subsection*{Error en el reloj del satélite y usuario}
+	El término que hace referencia a este fenómeno del lado del satélite es $dt^s(t)$. Es necesario aclarar que los satélites \textit{GPS} cuentan con relojes atómicos de elevada estabilidad, por lo que los errores son principalmente debido a sesgos entre el sistema de tiempo \textit{GPS} y el tiempo propio del satélite. El tiempo del sistema está referenciado al tiempo UTC (USNO) [cita time]. El segmento de tierra se encarga de enviar varias veces por hora las correcciones necesarias para disminuir este error en los satélites GPS, haciendo que la diferencia entre el tiempo del satélite y la del sistema \textit{GPS} sea menor a 1\,$\mu s$. Además, cada satélite transmite parámetros para que el usuario pueda corregir la diferencia de tiempo que queda remanente entre el tiempo del satelite y el tiempo del sistema. La actualización de estos parámetros se realiza diariamente. Se transmiten un coeficiente para corregir el sesgo de reloj, la deriva de reloj y la deriva de frecuencia o envejecimiento, $a_{f0}$, $a_{f1}$, $a_{f2}$ respectivamente. Y con ellos se obtiene 
+\begin{equation}\label{ec:corr_satclk}
+	dt^s(t) = a_{f0} + a_{f1}(t-t_{oc}) + a_{f2}(t-t_{oc})^2 \ .
+\end{equation}
+	Se define una curva usada para corregir el tiempo del satélite, de manera que $t_{oc}$ es el tiempo de referencia para el cual la curva es válida.
 	
-	En cuanto al error del usuario, denotado $dt_r(t)$, es una medida de desincronización del reloj del usuario con el sistema \textit{GPS} (al cual deberían estar sincronizados los satélites. 
-\subsection{Retardos instrumentales en satélite y usuario}
-	Corresponden a sesgos en la etapa de procesamiento, ya sea analógico o digital. El término dependiente del satélite ($d_j^s$), es causado por diferencias de retardo en el camino analógico y digital de la unidad de generación de la señal y de la antena, que no son iguales para las distintas señales. Este término es asumido igual para todos los receptores recibiendo la misma señal. El correspondiente al receptor del usuario ($d_{r,j}$), es causado por diferencias de camino de la señal desde la antena al correlador. Son asumidos iguales para todas las señales del mismo tipo que son recibidas por el mismo usuario.
+	En cuanto al error del usuario, denotado $dt_r(t)$, es una medida de desincronización del reloj del usuario con el tiempo del sistema \textit{GPS}.
+\subsection*{Retardos instrumentales en satélite y usuario}
+	Corresponden a sesgos en la etapa de procesamiento, ya sea analógico o digital. El término dependiente del satélite ($d_j^s$), es causado por diferencias de retardo en el camino analógico y digital de la unidad de generación de la señal y de la antena, que no son iguales para las distintas señales. Este término es asumido igual para todos los receptores que se encuentren siguiendo a la misma señal. La contribución asignada al usuario ($d_{r,j}$), es causado por diferencias de camino de la señal desde la antena al correlador. Son asumidos iguales para todas las señales del mismo tipo siempre y cuando sean recibidas por el mismo usuario. 
 	
-	 Cabe destacar que la parte principal de esta componente de sesgo no corresponde a la sección analógica del receptor, sino a la cadena de procesamiento digital de la señal (\textit{DSP} por sus siglas en inglés) [cita a Handbook 19.6.2]. De manera que son sesgos que se pueden eliminar mediante calibración del receptor.
+	 Cabe destacar que la parte principal de esta componente de sesgo no corresponde a la sección analógica del receptor, sino a la cadena de procesamiento digital de la señal (\textit{DSP} por sus siglas en inglés) [cita a Handbook 19.6.2]. De manera que son sesgos que se pueden eliminar mediante una correcta calibración del receptor.
+\subsection*{Sesgo en el centro de fase de la antena}
+	Al tratar con la posición del satélite o del usuario se termina considerando la ubicación de la antena transmisora y receptora, respectivamente. Para ser más precisos, el centro de fase de ambas antenas, y el mismo puede no mantenerse fijo. Tiene influencia en especial para aplicaciones de alta precisión, ya que considerar que todas las señales llegan a un mismo punto deja de ser valido dependiendo de la dirección con la que inciden las señales a la antena y la frecuencia. Este es otro efecto que puede ser desafectado mediante calibración.
 	 
-\subsection{Sesgo debido al efecto relativista}
-	Este término aparece como $\delta t^{rel}(t)$ en la ecuación de observación. El reloj del satélite sufre desviaciones en frecuencia respecto a uno que se encuentra en tierra, debido al movimiento del satélite y los cambios en el potencial gravitatorio. Para compensar este efecto (atribuido a la relatividad especial y general) los relojes no trabajan exactamente a la frecuencia necesaria para generar las señales $L_1$ y $L_2$, sino que generan una frecuencia levemente menor. De esta manera, cualquier usuario en tierra recibe la señal compuesta con los efectos relativistas, y observa la frecuencia sin desviación. Sin embargo, esta corrección efectuada en el satélite, no corrige todo tipo de error ya que las órbitas de los satélites \textit{GPS} no son perfectamente circulares. Se agrega entonces una contribución al corrimiento en frecuencia debido a la excentricidad no nula de la órbita. Por otro lado, existe una contribución debido al efecto \textit{Shapiro}, un retardo en la señal debido al campo gravitacional de la tierra. 
+\subsection*{Sesgo debido al efecto relativista}
+	Este término aparece como $\delta t^{rel}(t)$ en la ecuación de observación. El reloj del satélite sufre desviaciones en frecuencia respecto a uno que se encuentra en tierra, debido al movimiento del satélite y los cambios en el potencial gravitatorio. Para compensar este efecto (atribuido a la relatividad especial y general) los relojes no trabajan exactamente a la frecuencia necesaria para generar las señales $L_1$ y $L_2$, sino que generan una frecuencia levemente menor. En lugar de considerar la frecuencia $f_0 = 10.23$\,MHz para generar las frecuencias $L_1$ y $L_2$, se configura $f_0 = 10.22999999543$\,MHz. De esta manera, cualquier usuario en tierra recibe la señal compuesta con los efectos relativistas, y observa la señal sin desviación de la frecuencia esperada. Sin embargo, esta corrección efectuada en el satélite, no corrige todo tipo de error ya que las órbitas de los satélites \textit{GPS} no son perfectamente circulares. Se agrega entonces una contribución al corrimiento en frecuencia debido a la excentricidad no nula de la órbita y el mismo puede ser calculado como
+\begin{equation}
+	\delta t^{rel}_{clk}(t) = -\dfrac{2}{c_0^2}\sqrt{a\mu}e\sin(E) \ .
+\end{equation}
+	Donde $a$ es la longitud del semieje mayor de la orbita, $e$ la excentricidad de la orbita, $\mu$ la constante gravitacional geocentrica y $E$ la anomalia excentrica del satelite. Se puede acotar este termino ya que la excentricidad máxima permitida para las orbitas GPS es de 0.02, resultando en 45\,ns, lo que equivale a 13.5\,m.
 	
-	 Estas contribuciones son las que conforman el término ya mencionado en la ecuación de observación. 
+	 Por otro lado, existe una contribución debido al efecto \textit{Shapiro}, un retardo en la señal debido al campo gravitacional de la tierra. El mismo tiene un valor máximo de 60\,ps para un usuario en la tierra, equivalente a 2\,cm considerando satélites MEO como lo son las constelaciones GNSS. Todas estas contribuciones son las que conforman el término ya mencionado en la ecuación de observación.
 	 
-\subsection{Retardo ionosférico}
-	Uno de los dos efectos atmosféricos presentes en la medición de las señales \textit{GPS} es el debido a la ionosfera. El hecho de que la ionosfera sea un medio dispersivo genera diferentes retardos a las distintas componentes de la señal, en particular la señal se atrasa frente a la fase de portadora, este efecto es conocido como divergencia ionosférica. Las variaciones en el índice de refracción que sufre la ionosfera se deben a cambios que existen en el contenido total de electrones (TEC por sus siglas en inglés), estos cambios se comportan con una dinámica lenta por lo que realizando mediciones en una suficiente cantidad de épocas puede proveer una buena estimación de la corrección a realizar. Por otro lado, se pueden realizar mediciones a doble frecuencia para aprovechar la dependencia del retardo con la misma, y así estimar la corrección. 
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=0.6\textwidth]{GNSS/atmosferic_effects.png}
+%    \caption{Efectos de la atmosfera en la propagación de la señal.}
+%    \label{fig:atm_effects}
+%\end{figure}
+	 
+\subsection*{Retardo ionosférico}
+	Uno de los dos efectos atmosféricos presentes en la medición de las señales \textit{GPS} es el debido a la ionosfera. El hecho de que la ionosfera sea un medio dispersivo genera diferentes retardos a las distintas componentes en frecuencia de la señal, en particular la señal se atrasa frente a la fase de portadora, este efecto es conocido como divergencia ionosférica. Las variaciones en el índice de refracción que sufre la ionosfera se deben a cambios que existen en el contenido total de electrones (TEC por sus siglas en inglés), estos cambios se comportan con una dinámica lenta por lo que realizando mediciones en una suficiente cantidad de épocas puede proveer una buena estimación de la corrección a realizar. Por otro lado, se pueden realizar mediciones a doble frecuencia para aprovechar la dependencia del retardo con la misma, y así estimar la corrección. 
 	
-	Para los fines del posicionamiento diferencial en el que se centra este trabajo, es importante remarcar que el TEC de la ionosfera es dependiente de la zona, debido a cuestiones climáticas y de incidencia solar. Este aspecto será de gran utilidad a la hora de analizar combinación de múltiples mediciones entre receptores con distinta ubicación.
-\subsection{Retardo troposférico}
+	En las expresiones de observación de las Ecuaciones \eqref{ec:obs_pseudorango} y \eqref{ec:obs_fasedep} el retardo ionosférico tiene distinto signo. Esto se debe al hecho de que es un medio dispersivo, dado que la fase y el código no viajan a la misma velocidad ambos son afectados por un indice de refraccion distinto. Se puede aproximar a primer orden el indice de refracción de grupo como 
+\begin{equation}
+	n_g \approx 1 + \dfrac{40.3n_e}{f^2} \ ,
+\end{equation}
+	con $n_e$ la densidad de electrones. En el caso de el indice de refraccion aproximado para la fase de portadora se obtiene
+\begin{equation}
+	n_p \approx 1 - \dfrac{40.3n_e}{f^2} \ .
+\end{equation}
+	Calculando los retardos de grupo y fase como 
+\begin{equation}
+	\Delta\uptau_{g,p} = \dfrac{1}{c}\int\left( n_{g,p}(l) - 1 \right)dl = \pm \dfrac{40.3\cdot TEC}{cf^2} \ ,
+\end{equation}
+	se puede ver como para la medición de fase de portadora el retardo ionosférico resulta con signo opuesto que para el pseudorango. 
+	
+	
+\subsection*{Retardo troposférico}
 	El retardo debido a la tropósfera está asociado a las irregularidades que existe en el indice de refracción de la misma, es un efecto que afecta a la señal en la última etapa del camino que recorre desde el satélite hasta el usuario, si el mismo se encuentra en tierra. No se observan variaciones a gran escala del índice de refracción, por lo que la troposfera es un medio no dispersivo en la banda de GPS (banda L). Se puede separar en dos componentes, la componente seca es predominante (se lleva un 90\% de la contribución total de este efecto) y tiene alto grado de predictibilidad. El otro 10\% es denominado la componente húmeda y no es tan sencillo de predecir. La separación se hace según la altura de la capa, siendo la componente seca la correspondiente a la parte inferior de la atmósfera (troposfera) y la componente húmeda la capa superior a la troposfera (estratosfera aunque en estas aplicaciones se consideran como un conjunto).
 
-	Los dos términos de retardo atmosférico son altamente dependientes del ángulo de elevación que existe entre el usuario y el satélite interceptado. Esto es evidente debido a que la cantidad de atmósfera que atraviesa la señal es menor cerca del cenit y mayor para ángulos de elevación pequeños.
-\subsection{Errores adicionales}
-	Los errores adicionales pueden provenir de distintas fuentes o tener naturalezas completamente diferentes, pero de igual manera se juntan todas estas contribuciones en un término adicional. En principio este término contiene el ruido térmico del receptor y los errores debido al multicamino.
-\section{Determinación de la posición} 
+	Los dos términos de retardo atmosférico son altamente dependientes del ángulo de elevación que existe entre el usuario y el satélite interceptado. Esto es evidente debido a que la cantidad de atmósfera que atraviesa la señal es menor cerca del cenit y mayor para ángulos de elevación pequeños. (\textbf{IMAGEN REPRESENTATIVA y de paso poder referenciar en ionosfera.}) Para los fines del posicionamiento diferencial en el que se centra este trabajo, es importante remarcar que las características de la ionosfera y troposfera son dependiente de la zona, debido a los efectos climáticas. Este aspecto será de gran utilidad a la hora de analizar combinación de múltiples mediciones entre receptores con distinta ubicación.
+\subsection*{Errores adicionales}
+	Los errores adicionales pueden provenir de distintas fuentes o tener naturalezas completamente diferentes, pero de igual manera se juntan todas estas contribuciones en un término adicional. En principio este término contiene el ruido térmico propio del receptor y el de las etapas previas al mismo. Además de ruidos de fuentes externas que pueden sumarse a la señal. No es posible desafectar este término debido a su naturaleza aleatoria, y será parte de la estimación en las mediciones de pseudorango y fase de portadora. Otro efecto incluido en este termino es el de los errores debido al multicamino, que no se pueden considerar de naturaleza aleatoria ya que dependen de la geometría de la constelación GNSS en esa epoca, receptor y el medio en el cual esta inserto. La razón por la que no se pueden eliminar mediante filtrado pasa bajos es porque no tienen media nula. 
+	
+\section{Determinación de la posición}
+\textbf{BASADO EN LO QUE COMIENZA EN PAG 54 del KAPLAN}
+	Para determinar la posición, el usuario debe medir los rangos a cada satélite y resolver su posición mediante la combinación de estas. Para lograr la solución de posición se utilizan distintas observaciones, 4 mediciones son necesarias para poder obtener la solución puntual. Pero también se puede utilizar información redundante para obtener una solución más confiable, pudiendo aplicar algún tipo de estimación de mínimos cuadrados o simplemente para validar la solución obtenida. El sistema de ecuaciones a resolver parte de plantear el verdadero rango entre el usuario y cada satélite como 
+\begin{equation}
+	\left \lVert \mathbf{s}^j - \mathbf{u} \right \rVert = \rho_r^{s,j} - c(t_u-\delta t^j)
+\end{equation}
+	con 
+\begin{equation}
+	t_u = t_r - t \ .
+\end{equation}
+	Siguiendo la notación como sigue
+\begin{itemize}
+  \item[] $\mathbf{s}^j = (x^j,y^j,z^j)$: vector de posición tridimensional del satélite j-esimo.
+  \item[] $\mathbf{u}^j = (x_u,y_u,z_u)$: vector de posición tridimensional del usuario.
+  \item[] $\rho_r^{s,j}$: pseudorango entre el usuario y el satélite i-esimo.
+  \item[] $t_r$: tiempo del receptor.
+  \item[] $t$: tiempo del sistema.
+  \item[] $t_u$: sesgo entre el tiempo del receptor y el tiempo del sistema.
+  \item[] $\delta t^j$: sesgo entre el tiempo del satélite y el tiempo del sistema.
+\end{itemize}
+	Las posiciones están en coordenadas ECEF y se puede considerar que $\delta t^j$ es nulo ya que al momento de computar el tiempo de transmisión de la señal el mismo fue corregido para estar sincronizado con el tiempo del sistema. Con esta asunción cada pseudorango resulta
+\begin{equation}
+	\rho_r^{s,j} = \left \lVert \mathbf{s}^j - \mathbf{u} \right \rVert + ct_u = \sqrt{(x^j-x_u)^2+(y^j-y_u)^2+(z^j-z_u)^2} + ct_u \ .
+\end{equation} 
+	Si se toman mediciones de múltiples satélites se obtiene un sistema de ecuaciones no lineales para resolver $\mathbf{u}$ y $t_u$. Es común en la literatura realizar una linealización en torno a una posición estimada del usuario [refe a Kaplan], para esto se definen los pseudorangos estimados como
+\begin{equation}
+	\hat{\rho}_r^{s,j} = \sqrt{(x^j-\hat{x}_u)^2+(y^j-\hat{y}_u)^2+(z^j-\hat{z}_u)^2} + c\hat{t}_u \ .
+\end{equation}
+	Al linealizar $\rho_r^{s,j}$ en torno a $\hat{u}$
+	A través de estas mediciones es posible resolver el sistema de ecuaciones linealizadas para obtener la solución de posición.
+	
+	
+	
 \chapter{GNSS diferencial}
  A fin de poder discutir la cancelación de estos términos al utilizar múltiples observaciones para construir mediciones en diferencias. Esto último nos dará el pie para desarrollar sobre los sistemas de posicionamiento diferencial, en los cuales se centra este trabajo.
 \section{Múltiples mediciones combinadas}
@@ -290,7 +357,7 @@ Cabe destacar que los términos que representan los mismos fenómenos que en la 
 \begin{align}\label{ec:DD_fdp}
 	\varphi_{12}^{k1} = \rho_{12}^{k1} + \zeta_{12}^{k1} + T_{12}^{k1} - I_{12}^{k1}	+\lambda \left( \omega_{12}^{k1} + N_{12}^{k1}\right) + \epsilon_{12}^{k1} \ .
 \end{align}
-	En estas mediciones se logra cancelar los sesgos de reloj del receptor que no se habían cancelado en las Ecuaciones \ref{ec:BRSD_pr} y \ref{ec:BRSD_fdp}. Además el término diferencial de corrección relativista es eliminado ya que son iguales para todas las mediciones de BRSD sin importar qué satélite se tome. Los retardos instrumentales diferenciales entre los receptores se cancelan por utilizar el mismo par de receptores, en caso de estos receptores estén diseñados de manera correcta y se puede considerar que los retardos no difieren entre canales. Los términos de retardo atmosférico se mantendrán siempre y cuando no haya correlación entre las mediciones, es por esto que es explicita la dependencia de los mismo con la longitud de la linea de base, para lineas de base no muy grandes estos términos son tan pequeños que pueden ser despreciados.
+	En estas mediciones se logra cancelar los sesgos de reloj del receptor que no se habían cancelado en las Ecuaciones \eqref{ec:BRSD_pr} y \eqref{ec:BRSD_fdp}. Además el término diferencial de corrección relativista es eliminado ya que son iguales para todas las mediciones de BRSD sin importar qué satélite se tome. Los retardos instrumentales diferenciales entre los receptores se cancelan por utilizar el mismo par de receptores, en caso de estos receptores estén diseñados de manera correcta y se puede considerar que los retardos no difieren entre canales. Los términos de retardo atmosférico se mantendrán siempre y cuando no haya correlación entre las mediciones, es por esto que es explicita la dependencia de los mismo con la longitud de la linea de base, para lineas de base no muy grandes estos términos son tan pequeños que pueden ser despreciados.
 
 \subsection{Triples diferencias}
 	Además de la correlación espacial que tienen los fenómenos que todavía no se han cancelado completamente, los mismos cuentan con una correlación temporal que no se ha podido tener en cuenta todavía. Esto se debe a que las mediciones en SD y DD, todas son haciendo diferencias de observaciones en la misma época. Las mediciones en triples diferencias se realizan mediante dos DD pero en distintas épocas, esto permite sacar provecho de la dinámica lenta que tienen las efectos atmosféricos. La notación tomada para identificar estas mediciones es $\partial p_{12}^{k1}$.
@@ -351,6 +418,7 @@ Empaquetado del mensaje.
 \addcontentsline{toc}{section}{Trabajo a futuro}
 \chapter*{Referencias}
 \addcontentsline{toc}{chapter}{Referencias}
+
 \end{document}
 
 %Desfazaje X - Desfasaje OK
