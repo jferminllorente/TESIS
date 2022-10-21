@@ -381,7 +381,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	
 	 Al formar una red de receptores que pueden trabajar en conjunto es posible desafectar errores en las mediciones tales como efectos atmosféricos que son altamente dependientes de la ubicación del receptor o los receptores.	Los mismos deben comunicarse entre ellos enviando mensajes estandarizados por la Comisión Técnica de Radio para Servicios Marítimos (\textit{RTCM} por sus siglas en inglés), de manera que logran obtener soluciones puntuales para cada receptor en la red y además se pueden obtener las posiciones relativas entre los mismos.
 
-\section{Múltiples mediciones combinadas}
+\section{Múltiples mediciones combinadas}\label{sec:multiples_mediciones}
 	La acción de tomar múltiples mediciones y combinarlas para poder cancelar algunos de los términos, es de gran utilidad, y uno de los principales fundamentos para el posicionamiento diferencial en el que esta centrado este trabajo. Resulta de particular interés para poder proveer soluciones de posición más precisas, conocer los términos de error presentes en las ecuaciones de observación (Sección \ref{sec:errores}). Para esto se aprovecha la correlación espacial y temporal que existe entre algunos de estos fenómenos para las distintas mediciones, ya sea modificando la geometría del problema, u observando en múltiples épocas.
 	
 	Las múltiples mediciones pueden hacer uso de señales de múltiples satélites con un receptor único o de una única señal recibida por múltiples receptores. En caso de contar con mediciones que no hayan sido tomadas en el mismo instante, el receptor podría propagar las mismas de manera que queden alineadas a una época común. Pero para aplicaciones de precisión como las que se plantean con este enfoque no es conveniente ya que un el desplazamiento de un satélite GNSS es muy grande incluso en pequeños intervalos de tiempo. Para poner magnitudes, por ejemplo, en un periodo de 1 segundo los satélites se desplazan casi 4\,km.
@@ -491,12 +491,31 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 \begin{equation}
 	\varphi_{12,ZB}^{k1} = \lambda N_{12}^{k1} + \epsilon_{12}^{k1} \ .
 \end{equation}
-	No se especifica como resulta la DD para pseudorango ya que al considerar que el retardo instrumental se cancela solo tendremos ruido en este caso. En los errores adicionales de carácter aleatorio solo queda remanente el ruido ya que multicamino es cancelado en BRSD pues el angulo de incidencia de la señal es el mismo para ambos receptores, es decir, tienen el mismo multicamino.
-\section{Resolución de ambigüedades en mediciones de fase de portadora}
-Metiendo mediciones en diferencias es posible aislar los errores que ya se menciono que terminan siendo estimados en conjunto con las ambigüedades, de esta manera se aíslan las ambigüedades para que sean estimadas de manera casi individual, solo con la presencia del ruido de la medición. CREEEEO que al aislar de esta manera las ambigüedades sabemos que quedan enteras, solo queda N.lambda y ruido, antes teníamos otros términos que hacian que lo que se estimaba no fuese entero.
-\section{Ecuaciones de observación}
+	No se especifica como resulta la DD para pseudorango ya que al considerar que el retardo instrumental se cancela solo tendremos errores aleatorios. En estos errores solo queda remanente el ruido ya que la contribución multicamino es cancelada en BRSD pues el angulo de incidencia de la señal es el mismo para ambos receptores, es decir, tienen los mismo rebotes, por lo tanto multicamino.
+\section{Resolución de ambigüedades en mediciones de fase de portadora}\label{sec:amb_res}
+	Poder resolver las ambigüedades de fase como números enteros es una cuestión clave para enfoques de posicionamiento de alta precisión. Una vez resueltas estas ambigüedades es posible utilizar las mediciones de fase como rangos con gran precisión. Este mecanismo se basa en la inferencia conjunta de parámetros enteros y reales, ya que además de estimar las ambigüedades enteras existen contribuciones reales debido al rango y distintos retardos en la señal aparte del ruido. Como se desarrollo en la Sección \ref{sec:multiples_mediciones}, se pueden cancelar términos de las ecuaciones de observación realizando mediciones combinadas en diferencias. De esta manera se mostró que es posible aislar el término correspondiente al número entero de longitudes de onda de ambigüedad en la medición, hasta dejarlo solo en presencia de ruido en el caso de las dobles diferencias. De esta manera es posible sacar provecho de la restricción y acotar el conjunto de soluciones posibles a la estimación a un conjunto de enteros. Es parte del diseño del algoritmo elegir de manera adecuada el conjunto de potenciales soluciones, de manera que el valor correcto se encuentre dentro del mismo pero que no sea lo suficientemente extenso como para que la búsqueda dentro del conjunto lleve mucho procesamiento.
+	
+	Los esquemas más comunes pueden dividir el procedimiento en tres etapas, que no necesariamente podrían ser todas alcanzadas durante la ejecución del algoritmo. Las mismas se dividen en el tipo de solución buscada y encontrada, cuando la ambigüedad estimada es flotante, cuando la misma es entera y por último cuando las ambigüedades fueron fijadas.
+\begin{itemize}
+	\item Solución flotante
+	
+	Para comenzar con la estimación se debe quitar la restricción de que los valores estimados son enteros. Aquí se realiza una estimación de mínimos cuadrados convencional obteniéndose el conjunto de soluciones con su matriz de covarianza.
+	\item Solución entera
+	
+	Aquí se vuelve a restringir las soluciones a valores enteros, existen distintos métodos de restricción tales como redondeo al entero más cercano o mínimos cuadrados enteros (\textit{ILS} por sus siglas en inglés).
+	\item Solución fija
+	
+	Cuando la solución entera obtenida en la etapa previa es aceptable se procede a fijar estos valores de ambigüedades, de manera que se pueda reajustar el estimador flotante con la diferencia entre el valor fijado y el valor flotante. Es decir, buscar el valor entero en un entorno cercano a la solución flotante. La calidad de solución que se obtiene al alcanzar el estado fijado está en el orden de la precisión de las mediciones de fase, siempre que se considere alta la probabilidad de que el valor fijado sea el correcto.
+\end{itemize}
+	
+	Lo desarrollado en esta sección introduce conceptualmente la resolución de ambiguedades en mediciones GNSS y simplemente a modo informativo se mencionan algoritmos que implementan lo aquí desarrollado. El algoritmo que mayor popularidad tiene actualmente es un enfoque de descorrelación de ambigüedades mediante mínimos cuadrados (\textit{LAMBDA} por sus siglas en inglés), el mismo es utilizado en distintas aplicaciones tales como el posicionamiento de red global, vuelos satelitales en formación o teledetección por radar interferométrico de apertura sintética (\textit{InSAR}). En el lugar de trabajo donde se llevó a cabo este trabajo fue desarrollado otro algoritmo con un enfoque  bayesiano de resolución de ambigüedades (\textit{BART} por sus siglas en inglés) [cita a BART by garcia].
+
 \section{Real Time Kinematics}
+La verdadera ganancia del posicionamiento relativo surge de poder obtener soluciones haciendo uso de mediciones de fase. GNSS diferencial no solo consiste en posicionamiento diferencial si no también en la resolución de las ambigüedades explicada en la sección anterior (\ref{sec:amb_res}). La calidad de la resolución de las ambigüedades y por ende de la solución de posición está directamente relacionada con la geometría que presentan los receptores y los satélites al momento de la medición. Es por esto que al considerar situaciones estáticas, las cuales no tienen cambios de geometría, es más difícil para el receptor lograr fijar las ambigüedades y trabajar a precisión de las mediciones de fase. Esto no quiere decir que no lo consigue, pero le lleva más tiempo. 
+
 Necesario introducir conceptos como base y rover. Esta sección se dedica a GNSS diferencial basado en fase de portadora. 
+\subsection{Posicionamiento estático}
+
 \section{Estándar RTCM}
 Lo que recolecté del estándar.
 \subsection{Formato del mensaje}
