@@ -10,6 +10,7 @@
 \usepackage{upgreek}
 \usepackage{tipa}
 \usepackage{scalerel}
+\usepackage{enumitem}
 
 
 \usepackage{graphicx,float}
@@ -436,7 +437,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	
 	Se mantiene el retardo instrumental diferencial de los satélites. Los efectos atmosféricos pueden estar correlacionados o no, según si los satélites adquiridos se encuentran en posiciones cercanas o no. Como esta situación no resulta común y en principio se puede adquirir cualquier par de satélites, se considera para el caso general que los retardos debido a los efectos atmosféricos se mantienen.
 \subsection{Dobles diferencias}\label{sec:DD}
-	Las mediciones en dobles diferencias (DD de aquí en más) se construyen mediante la diferenciación de dos simples diferencias, se pueden diferenciar dos mediciones BRSD con dos satélites distintos o dos mediciones BSSD con dos receptores distintos. Es evidente que será necesario contar con disponibilidad de un par de receptores y un par de satélites en vista para ambos receptores. Este tipo de mediciones son de particular interés ya que logran cancelar otros términos que las mediciones de simples diferencias detalladas en la Sección \ref{sec:SD} no lograban. La notación adoptada para las mediciones de dobles diferencias es $\Delta \nabla p_{12}^{k1}$ en el caso de pseudorango y para fase de portadora resulta equivalente. Si bien se diferencian dos BRSD, cada una con un satélite distinto, esto equivale a 
+	Las mediciones en dobles diferencias (DD de aquí en más) se construyen mediante la diferenciación de dos simples diferencias, se pueden diferenciar dos mediciones BRSD con dos satélites distintos o dos mediciones BSSD con dos receptores distintos. Es evidente que será necesario contar con disponibilidad de un par de receptores y un par de satélites en vista para ambos receptores (ver Fig. \ref{fig:DD}). Este tipo de mediciones son de particular interés ya que logran cancelar otros términos que las mediciones de simples diferencias detalladas en la Sección \ref{sec:SD} no lograban. La notación adoptada para las mediciones de dobles diferencias es $\Delta \nabla p_{12}^{k1}$ en el caso de pseudorango y para fase de portadora resulta equivalente. Si bien se diferencian dos BRSD, cada una con un satélite distinto, esto equivale a 
 \begin{align}
 	\Delta \nabla (\cdot)_{12}^{k1} = \Delta (\cdot)_{12}^1 - \Delta (\cdot)_{12}^k = &\Bigl[ (\cdot)_2^1 - (\cdot)_1^1 \Bigr] - \Bigl[ (\cdot)_2^k - (\cdot)_1^k \Bigr] \\ 
 	= & \Bigl[ (\cdot)_2^1 - (\cdot)_2^k \Bigr] - \Bigl[ (\cdot)_1^1 - (\cdot)_1^k \Bigr] = \nabla(\cdot)_2^{k1} - \nabla(\cdot)_1^{k1} \ .  \nonumber
@@ -470,13 +471,15 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 \end{align}
 	Además de los términos que ya no estaban presentes en las DD y lo que se han reducido las contribuciones atmosféricas, según qué tan grande es la diferencia de épocas tomada $\Delta t = t_{i-1}-t_i$ en comparación con la dinámica del fenómeno, podremos despreciar aún más estos términos. Es evidente que si la correlación espacial presente en los términos no fue suficiente como para despreciarlos, con un correcto diseño en este enfoque se consigue despreciarlos definitivamente.
 \subsection{Linea de base nula}
-	Este enfoque para armar las observaciones puede ser utilizado ya sea con simples diferencias tanto como con dobles diferencias. Es un caso particular de las ya mencionadas donde se utiliza la misma antena para ambos receptores, se divide la señal y cada receptor hace sus mediciones. Esto consigue que la correlación espacial sea completa debido a que la linea de base nula implica que ambos receptores usan la misma antena, por lo que la señal recorre el mismo camino para ambos, es decir, es afectada por los mismos fenómenos. Resulta de gran utilidad para la calibración de los receptores por los resultados que se obtienen. Pero en principio como geometría para posicionamiento diferencial no tiene utilidad ya que ambos receptores tienen la misma ubicación.
+	Este enfoque para armar las observaciones puede ser utilizado ya sea con simples diferencias tanto como con dobles diferencias. Es un caso particular de las ya mencionadas donde se utiliza la misma antena para ambos receptores, se divide la señal y cada receptor hace sus mediciones como se observa en la Fig. \ref{fig:ZB}. Esto consigue que la correlación espacial sea completa debido a que la linea de base nula implica que ambos receptores usan la misma antena, por lo que la señal recorre el mismo camino para ambos, es decir, es afectada por los mismos fenómenos. Resulta de gran utilidad para la calibración de los receptores por los resultados que se obtienen. Pero en principio como geometría para posicionamiento diferencial no tiene utilidad ya que ambos receptores tienen la misma ubicación.
+	
 \begin{figure}[]
     \centering
     \includegraphics[width=0.5\textwidth]{/DGNSS/ZB.png}
     \caption{Configuración con linea de base nula.}
     \label{fig:ZB}
 \end{figure}
+
 	En el caso de las simples diferencias no tiene sentido considerar entre satélites ya que no aprovecharíamos la linea de base nula, por lo que se trabajara entre receptores. Podemos analizar los términos remanentes en la Ecuación \eqref{ec:BRSD_pr} y \eqref{ec:BRSD_fdp}. En principio se mantiene el término debido al sesgo de reloj y retardo de hardware del receptor. Si bien la antena es la misma, los receptores son independientes por lo que el retardo de reloj no tiene por qué ser igual. Incluso en un caso desfavorable los receptores podrían no estar cerca y que la división de la señal implique un camino mas largo para un receptor que para otro. Se considerará que el retardo instrumental diferencial será nulo con el mismo criterio que se detalló en las secciones anteriores. Siendo cauteloso en que el diseño de los receptores es el correcto y que los cables entre el divisor de potencia y los receptores tienen el mismo largo, podemos obviarlo. Hasta acá no hay cambios con respecto al caso de receptores con antenas separadas, excepto que el rango entre ambos receptores es nulo. El cambio sustancial aparece cuando los términos de retardos atmosféricos ya son cancelados completamente en las SD ya que el camino de la señal es el mismo para ambas mediciones. El sesgo debido al centro de fase de la antena y la corrección del \textit{wind-up} de fase es el mismo para ambos receptores ya que utilizan la misma antena, por esto su contribución diferencial desaparece. Las ecuaciones resultantes son
 \begin{align}
 	p_{12,ZB}^k =& cdt_{12} + e_{12}^{k} \ , \\
@@ -493,6 +496,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 \end{equation}
 	No se especifica como resulta la DD para pseudorango ya que al considerar que el retardo instrumental se cancela solo tendremos errores aleatorios. En estos errores solo queda remanente el ruido ya que la contribución multicamino es cancelada en BRSD pues el angulo de incidencia de la señal es el mismo para ambos receptores, es decir, tienen los mismo rebotes, por lo tanto multicamino.
 \section{Resolución de ambigüedades en mediciones de fase de portadora}\label{sec:amb_res}
+%Checkear que hay mucho "de esta manera"...
 	Poder resolver las ambigüedades de fase como números enteros es una cuestión clave para enfoques de posicionamiento de alta precisión. Una vez resueltas estas ambigüedades es posible utilizar las mediciones de fase como rangos con gran precisión. Este mecanismo se basa en la inferencia conjunta de parámetros enteros y reales, ya que además de estimar las ambigüedades enteras existen contribuciones reales debido al rango y distintos retardos en la señal aparte del ruido. Como se desarrollo en la Sección \ref{sec:multiples_mediciones}, se pueden cancelar términos de las ecuaciones de observación realizando mediciones combinadas en diferencias. De esta manera se mostró que es posible aislar el término correspondiente al número entero de longitudes de onda de ambigüedad en la medición, hasta dejarlo solo en presencia de ruido en el caso de las dobles diferencias. De esta manera es posible sacar provecho de la restricción y acotar el conjunto de soluciones posibles a la estimación a un conjunto de enteros. Es parte del diseño del algoritmo elegir de manera adecuada el conjunto de potenciales soluciones, de manera que el valor correcto se encuentre dentro del mismo pero que no sea lo suficientemente extenso como para que la búsqueda dentro del conjunto lleve mucho procesamiento.
 	
 	Los esquemas más comunes pueden dividir el procedimiento en tres etapas, que no necesariamente podrían ser todas alcanzadas durante la ejecución del algoritmo. Las mismas se dividen en el tipo de solución buscada y encontrada, cuando la ambigüedad estimada es flotante, cuando la misma es entera y por último cuando las ambigüedades fueron fijadas.
@@ -508,20 +512,80 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	Cuando la solución entera obtenida en la etapa previa es aceptable se procede a fijar estos valores de ambigüedades, de manera que se pueda reajustar el estimador flotante con la diferencia entre el valor fijado y el valor flotante. Es decir, buscar el valor entero en un entorno cercano a la solución flotante. La calidad de solución que se obtiene al alcanzar el estado fijado está en el orden de la precisión de las mediciones de fase, siempre que se considere alta la probabilidad de que el valor fijado sea el correcto.
 \end{itemize}
 	
-	Lo desarrollado en esta sección introduce conceptualmente la resolución de ambiguedades en mediciones GNSS y simplemente a modo informativo se mencionan algoritmos que implementan lo aquí desarrollado. El algoritmo que mayor popularidad tiene actualmente es un enfoque de descorrelación de ambigüedades mediante mínimos cuadrados (\textit{LAMBDA} por sus siglas en inglés), el mismo es utilizado en distintas aplicaciones tales como el posicionamiento de red global, vuelos satelitales en formación o teledetección por radar interferométrico de apertura sintética (\textit{InSAR}). En el lugar de trabajo donde se llevó a cabo este trabajo fue desarrollado otro algoritmo con un enfoque  bayesiano de resolución de ambigüedades (\textit{BART} por sus siglas en inglés) [cita a BART by garcia].
+	Es evidente que para poder llegar a fijar las ambigüedades es necesario tomar muestras en múltiples épocas, donde el tiempo para llegar a este punto es dependiente de la calidad de las mediciones y de lo restrictivo que sea el algoritmo a la hora de la estimación. Lo desarrollado en esta sección introduce conceptualmente la resolución de ambigüedades en mediciones GNSS y simplemente a modo informativo se mencionan algoritmos que implementan lo aquí desarrollado. El algoritmo que mayor popularidad tiene actualmente es un enfoque de descorrelación de ambigüedades mediante mínimos cuadrados (\textit{LAMBDA} por sus siglas en inglés), el mismo es utilizado en distintas aplicaciones tales como el posicionamiento de red global, vuelos satelitales en formación o teledetección por radar interferométrico de apertura sintética (\textit{InSAR}). En el lugar de trabajo donde se llevó a cabo este trabajo fue desarrollado otro algoritmo con un enfoque  bayesiano de resolución de ambigüedades (\textit{BART} por sus siglas en inglés) [cita a BART by garcia].
 
 \section{Real Time Kinematics}
-La verdadera ganancia del posicionamiento relativo surge de poder obtener soluciones haciendo uso de mediciones de fase. GNSS diferencial no solo consiste en posicionamiento diferencial si no también en la resolución de las ambigüedades explicada en la sección anterior (\ref{sec:amb_res}). La calidad de la resolución de las ambigüedades y por ende de la solución de posición está directamente relacionada con la geometría que presentan los receptores y los satélites al momento de la medición. Es por esto que al considerar situaciones estáticas, las cuales no tienen cambios de geometría, es más difícil para el receptor lograr fijar las ambigüedades y trabajar a precisión de las mediciones de fase. Esto no quiere decir que no lo consigue, pero le lleva más tiempo. 
+	La verdadera ganancia del posicionamiento relativo surge de poder obtener soluciones haciendo uso de mediciones de fase. GNSS diferencial no solo consiste en posicionamiento diferencial si no también en la resolución de las ambigüedades explicada en la sección anterior (\ref{sec:amb_res}). Se denomina cinemática de tiempo real (\textit{RTK} por sus siglas en inglés), por considerar que los receptores que trabajan en conjunto han podido resolver y fijar las ambigüedades en tiempo real para utilizar las mediciones de fase con alta precisión. Si bien el caso general está especificado para receptores en movimiento se podría pensar en situaciones con algunos receptores o incluso todos, en posiciones estáticas.
 
-Necesario introducir conceptos como base y rover. Esta sección se dedica a GNSS diferencial basado en fase de portadora. 
-\subsection{Posicionamiento estático}
+	En el caso de contar con dos receptores, es natural denominar a uno como base y a otro como rover (del inglés de receptor móvil). En general la base está estática y es la que envía las correcciones al rover, aprovechando que está estática la misma podrá filtrar su solución de posición haciendo uso de un modelo adecuado a la dinámica que presenta. Con esta consideración tiene sentido pensar que la base tiene una solución mucho más precisa que la del rover, por eso es quien envía las correcciones para que el rover (en movimiento o no) pueda obtener una solución de posición basada en mediciones de fase. Incluso podrían agregarse varias bases y rovers, obteniendo una red \textit{RTK}. De lo desarrollado aquí se puede ver que las bases serán los receptores que envían las correcciones y los rovers quienes las reciben y utilizan para resolver su posición con mayor precisión.
 
-\section{Estándar RTCM}
-Lo que recolecté del estándar.
+	La calidad de la resolución de las ambigüedades y por ende de la solución de posición está directamente relacionada con la geometría que presentan los receptores y los satélites al momento de la medición. Es por esto que al considerar situaciones estáticas, las cuales no tienen fija la geometría entre receptores, es más difícil para el rover lograr fijar las ambigüedades y trabajar a precisión de las mediciones de fase. Si bien la constelación de satélites GNSS está en constante movimiento, su dinámica no es lo suficientemente rápida como para considerar una geometría cambiante. Esto no quiere decir que no se puede fijar ambigüedades, simplemente le llevará más tiempo. 
+
+	La razón por la que hablamos de cambios de geometría es porque los métodos de resolución de ambigüedades (Sección \ref{sec:amb_res}) precisan mediciones de múltiples épocas para resolverlas. Y la diferencia entre épocas es la geometría entre los receptores y los satélites GNSS, de aquí es que tiene más sentido hablar de cambios de geometría. Volviendo al caso estático, se ve que el tiempo de resolución es mayor ya que se debe esperar periodos más largos para obtener el cambio de geometría necesario para resolver las ambigüedades. Al contar con pequeños cambios de geometría la precisión de la solución estará dominada por la precisión lograda con mediciones de pseudorango. Y en el caso límite donde se cuenta con con una única época es equivalente a resolver posición con pseudorango.
+
+\section{Estándar RTCM v3.0}
+	Entre las bases y rovers trabajando en un esquema de posicionamiento relativo se envían mensajes de corrección para poder lograr el objetivo planteado para cinemática de tiempo real en la sección anterior. El enlace de comunicación para estos mensajes esta estandarizado por la Comisión Radio Técnica para Servicios Marítimos (\textit{RTCM} por sus siglas en inglés). Existen múltiples versiones de este estándar, donde las actualizaciones agregan servicios y mensajes que se pueden transmitir. En sus comienzos solo estaban estandarizadas las correcciones de pseudorango, pero a partir de la versión 2.1 del estándar se agregan las correcciones a mediciones de fase. Hasta ese momento no era posible el enfoque \textit{RTK} planteado anteriormente ya que sin las correcciones a fase de portadora no se lograba resolver las ambigüedades en esta medición. Si bien este trabajo está enfocado únicamente en un par de receptores (base y rover), a partir de la tercera versión del estándar se agrega la posibilidad de trabajar en redes \textit{RTK} como las que ya se mencionaron. En particular se utiliza la versión del estándar RTCM 10403.3 (Versión 3.3) para servicios de GNSS diferencial [cita].
+	
+	Desde el comienzo del trabajo se planteo que las ideas generales del mismo son aplicables a múltiples sistemas GNSS, pero que la implementación especifica y validación se han realizado sobre el sistema GPS. Por esta razón es que solo se analizarán los mensajes particulares para correcciones de pseudorango y fase de portadora en el sistema GPS. Aunque por la organización y modularización del estándar lo que se desarrolla es extrapolable a otras constelaciones GNSS, solo debiendo analizar en detalle los campos específicos de los mensajes que aquí no se tratan.
+	
+	En términos generales este documento cuenta con la estandarización de mensajes para los sistemas GPS, GLONASS, Galileo, SBAS, QSZZ, BDS. El rango de mensajes desde 1 hasta 100 es reservado a mensajes experimentales, luego comienzan a partir del 1000. Aquí es donde se pueden encontrar mensajes de descripción de las antenas, descripción de las estaciones base, mensajes de observables y correcciones varias al operar en una red \textit{RTK}. Cada mensaje tiene un identificador de tipo dado por le número y contiene distintos campos dentro, estos campos se pueden estar algunos repetidos entre los distintos mensajes. Se identifican mediante DFXXX (por \textit{Data Field}) y un número de tres dígitos. 
+	
+	Para la aplicación en la que está pensada este trabajo, única estación estacionaria solo será necesario describir la estación y luego enviar esa información junto con los observables al rover (o rovers si hubieran más). Con este enfoque el rover cuenta con todos los datos para realizar el procesamiento diferencial internamente y en tiempo real.
 \subsection{Formato del mensaje}
+	El formato que tomará el mensaje definirá por completo la capa de transporte de este enlace de comunicación entre receptores. Dando un formato común a todos los mensajes a transmitir se puede generalizar el proceso de codificación y decodificación de los mismos. Los mensajes tendrán un encabezado de 3 bytes, el contenido del mensaje será variable entre 0 y 1023 bytes, y por último, un pie de 3 bytes también.
+	
+	En principio es necesario definir un preámbulo que será utilizado por el rover para definir el comienzo de un mensaje. El rover podría estar recibiendo múltiples mensajes consecutivos, de una o varias bases, a través de la detección del preámbulo en la secuencia de bits recibidos el mismo puede identificar un nuevo mensaje. El preámbulo es una secuencia de un byte correspondiente a 0xD3 en hexadecimal. Luego del preámbulo existen seis bits reservados que en la versión utilizada del estándar se especifican en cero, pero como está sujeto a modificaciones el software del receptor no debe utilizar estos seis bits en cero para la decodificación. Los diez bits restantes se llenan con el largo del mensaje (expresado en bytes), con un rango de 0 a 1023. Un esquema de lo explicado puede verse en la Fig. \ref{fig:RTCMformat}.
+	
+\begin{figure}[]
+    \centering
+    \includegraphics[width=0.8\textwidth]{/DGNSS/RTCM_format.png}
+    \caption{Estructura del mensaje RTCM (versión 3.3).}
+    \label{fig:RTCMformat}
+\end{figure}
+
+	Luego del campo del mensaje, con largo variable, hay 3 bytes de pie que corresponden a los bits de paridad del mensaje. Corresponden a 24 bits de paridad con verificación de redundancia cíclica (\textit{CRC} por sus siglas en inglés), se utiliza un código CRC de 24 bits propietario de QualComm(el mismo es llamado CRC-24Q). El mismo trabaja sobre el encabezado y el campo del mensaje, con un polinomio generador dado por 
+\begin{equation}
+	g(x) = \sum_{i=0}^{24}{g_ix^i} \ \ ,
+\end{equation}
+con 
+\begin{equation*}
+g_i = 1 \ \text{para} \  i = 0,1,3,4,5,6,7,10,11,14,17,18,23,24. \ \text{Y} \ g_i = 0 \ \text{en caso contrario}.
+\end{equation*}
+
 \subsection{Mensaje de la estación de referencia estacionaria}
+	Existen tres mensajes para describir las estaciones de referencia que actuarán como bases.
+%Esto mensajes son 
+%\begin{itemize}
+%	\item Tipo 1005: Provee las coordenadas ECEF del punto de referencia de la antena (\textit{ARP} del inglés) para la base estacionaria.
+%	\item Tipo 1006: Equivalente al tipo 1005 pero se agrega información sobre la altura que tiene el \textit{ARP} por encima del marcador utilizado en el proceso de obtención de la posición.
+%	\item Tipo 1033: 
+%\end{itemize}
+	Los mismos difieren en sutilezas, por eso se desarrollarán los campos del mensaje 1005 en particular y luego se comentarán las diferencias que presentan los otros dos.
+\begin{figure}[]
+    \centering
+    \includegraphics[width=0.6\textwidth]{/DGNSS/Msg1005.png}
+    \caption{Campos del mensaje de estación de referencia estacionaria (1005).}
+    \label{fig:Msg1005}
+\end{figure}
+\begin{itemize}[wide]
+	\item Número de mensaje: Se especifica el número del mensaje (en este caso 1005).
+	\item Identificador de la estación de referencia: En caso de contar con múltiples bases, el rover utiliza este campo para saber de qué base proviene el mensaje.
+	\item Indicador de sistema: Está en alto si la base está enviando mensajes correspondientes al sistema en cuestión.
+%	\item Indicador GLONASS: Está en alto si la base está enviando mensajes correspondientes al sistema GLONASS.
+	\item Indicador de la estación de referencia: Indica si es una estación de referencia real (física) o si es una estación computada o no física, podría ser una estación de referencia virtual computada en base a multiples estaciones de la red.
+	\item ARP (x,y,z) en ECEF: La posición del punto de referencia de la antena de la base en coordenadas ECEF.
+	\item Indicador de oscilador de único receptor: Indica que tocas las observaciones crudas enviadas en otros mensajes corresponden a mediciones en el mismo instante. Se puede considerar que corresponden al mismo instante
+	\item Indicador de cuarto de ciclo: Indica si el fabricante del receptor que actua como base tiene implementado un mecanismo de corregir los desfasajes de cuarto de ciclo de la fase de la portadora. Es decir que pueden asegurar que las mediciones de fase de distintas señales a una misma frecuencia están en fase y por lo tanto no presentan el desfasaje ya mencionado. Existen tres estados para este campo, el primero indica que no se conoce el estado de la corrección (corresponde a `00'), el segundo indica que se estan haciendo las correcciones (corresponde a `01') y por último cuando no se hacen correcciones (corresponde a `10').
+\end{itemize}
+
+	El mensaje 1006 presenta los mismos campos que el 1005 pero como es utilizado en aplicaciones especificas de geodesia, define la altura del ARP de manera distitna.
+	
+	Ahora mostrar rangos y resoluciones de cada DF.
+	
 \subsection{Mensajes de múltiples señales}
 \subsubsection{Empaquetado del pseudorango y fase de portadora}
+
+
 \chapter{Ensayos con base y rover estacionarios utilizando receptores comerciales}
 Arquitectura de ambos receptores. Modos de funcionamiento por arriba. Ensayo con Rx u-blox.
 % \section{Arquitectura del receptor}
