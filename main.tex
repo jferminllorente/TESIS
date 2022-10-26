@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt,oneside,onecolumn,final,openright]{book}%Configuración de la clase... Cambiar draft-->final cuando esté terminado.
+\documentclass[a4paper,12pt,oneside,onecolumn,final,openright]{book}%Configuración de la clase... Cambiar draft-->final cuando esté terminado.
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=0.2\textwidth]{geometry}%Márgenes
 \usepackage[spanish]{babel}
@@ -553,14 +553,14 @@ g_i = 1 \ \text{para} \  i = 0,1,3,4,5,6,7,10,11,14,17,18,23,24. \ \text{Y} \ g_
 \end{equation*}
 
 \subsection{Mensaje de la estación de referencia estacionaria}
-	Existen tres mensajes para describir las estaciones de referencia que actuarán como bases.
+	Existen tres mensajes para describir por completo las estaciones de referencia que actuarán como bases y sus antenas.
 %Esto mensajes son 
 %\begin{itemize}
 %	\item Tipo 1005: Provee las coordenadas ECEF del punto de referencia de la antena (\textit{ARP} del inglés) para la base estacionaria.
 %	\item Tipo 1006: Equivalente al tipo 1005 pero se agrega información sobre la altura que tiene el \textit{ARP} por encima del marcador utilizado en el proceso de obtención de la posición.
 %	\item Tipo 1033: 
 %\end{itemize}
-	Los mismos difieren en sutilezas, por eso se desarrollarán los campos del mensaje 1005 en particular y luego se comentarán las diferencias que presentan los otros dos.
+	Los mismos difieren en sutilezas, por eso se desarrollarán los campos del mensaje 1005 en particular y luego se comentarán las diferencias que presentan los otros dos. Los mismos son genéricos para cualquier sistema GNSS. 
 \begin{figure}[]
     \centering
     \includegraphics[width=0.6\textwidth]{/DGNSS/Msg1005.png}
@@ -575,12 +575,26 @@ g_i = 1 \ \text{para} \  i = 0,1,3,4,5,6,7,10,11,14,17,18,23,24. \ \text{Y} \ g_
 	\item Indicador de la estación de referencia: Indica si es una estación de referencia real (física) o si es una estación computada o no física, podría ser una estación de referencia virtual computada en base a multiples estaciones de la red.
 	\item ARP (x,y,z) en ECEF: La posición del punto de referencia de la antena de la base en coordenadas ECEF.
 	\item Indicador de oscilador de único receptor: Indica que tocas las observaciones crudas enviadas en otros mensajes corresponden a mediciones en el mismo instante. Se puede considerar que corresponden al mismo instante
-	\item Indicador de cuarto de ciclo: Indica si el fabricante del receptor que actua como base tiene implementado un mecanismo de corregir los desfasajes de cuarto de ciclo de la fase de la portadora. Es decir que pueden asegurar que las mediciones de fase de distintas señales a una misma frecuencia están en fase y por lo tanto no presentan el desfasaje ya mencionado. Existen tres estados para este campo, el primero indica que no se conoce el estado de la corrección (corresponde a `00'), el segundo indica que se estan haciendo las correcciones (corresponde a `01') y por último cuando no se hacen correcciones (corresponde a `10').
+	\item Indicador de cuarto de ciclo: Indica si el fabricante del receptor que actua como base tiene implementado un mecanismo de corregir los desfasajes de cuarto de ciclo de la fase de la portadora. Es decir que pueden asegurar que las mediciones de fase de distintas señales a una misma frecuencia están en fase y por lo tanto no presentan el desfasaje ya mencionado. Existen tres estados para este campo, el primero indica que no se conoce el estado de la corrección (corresponde a `00'), el segundo indica que se están haciendo las correcciones (corresponde a `01') y por último cuando no se hacen correcciones (corresponde a `10').
 \end{itemize}
 
-	El mensaje 1006 presenta los mismos campos que el 1005 pero como es utilizado en aplicaciones especificas de geodesia, define la altura del ARP de manera distitna.
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|c|c|}
+\hline
+\multicolumn{1}{|c|}{ID}                                      & \multicolumn{1}{c|}{Nombre} & \multicolumn{1}{l|}{Resolución} & Rango                  \\ \hline
+DF002                                                         &                             & 1                               & 0 - 4095               \\ \hline
+DF003                                                         &                             & 1                               & 0 - 4095               \\ \hline
+\begin{tabular}[c]{@{}l@{}}DF025\\ DF026\\ DF027\end{tabular} &                             & 0.0001\,m                       & $\pm$13.743.895,3471 m \\ \hline
+\end{tabular}
+\caption{Características de los campos del mensaje Tipo 1005.}
+\label{tab:Msg1005DFs}
+\end{table}	
 	
-	Ahora mostrar rangos y resoluciones de cada DF.
+	Es interesante analizar los rangos y resoluciones definidos para cada campo del mensaje. Además, la información contenida en la Tabla \ref{tab:Msg1005DFs} y Fig. \ref{fig:Msg1005} será de gran utilidad teniendo en cuenta que se busca implementar este protocolo de comunicación en un sistema embebido.
+	
+	El mensaje 1006 presenta los mismos campos que el 1005 pero como es utilizado en aplicaciones especificas de geodesia, define la altura del ARP de manera distinta. Es decir, agrega información sobre la altura del ARP respecto de un marcador del que se conoce la posición con mucha precisión. Por otro lado, el mensaje 1033 describe la antena de la estación de referencia, además de dar información del tipo de receptor utilizado en la estación. Esto permite al rover que recibe los mensajes generar archivos RINEX (ver si tengo que aclarar qué es) a partir de la información recibida.
+	
 	
 \subsection{Mensajes de múltiples señales}
 \subsubsection{Empaquetado del pseudorango y fase de portadora}
