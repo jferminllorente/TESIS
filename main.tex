@@ -23,6 +23,7 @@
 \renewcommand*\contentsname{Índice de contenidos}
 \renewcommand*{\listfigurename}{Índice de figuras}
 \renewcommand*{\listtablename}{Índice de símbolos}
+\renewcommand*{\spanishtablename}{Tabla}
 }
 
 
@@ -116,7 +117,6 @@
 %        10 de Diciembre, 2022
 %    \end{minipage}
 %    \end{center}
-%
 %}
 
 \title{Tesina de grado - Ingeniería en Telecomunicaciones}
@@ -391,7 +391,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 
 	La nomenclatura correspondiente a cada medición es $\nabla$ para simples diferencias entre satélites y $\Delta$ cuando es entre receptores. Además se agregan índices para poder identificar a los receptores y satélites. En el superíndice se indica al satélite (o par de satélites diferenciados) y en el subíndice se indica al receptor (o par de receptores diferenciados).
 
-\begin{figure}[]
+\begin{figure}
     \begin{subfigure}{.49\textwidth}
     \centering
     \includegraphics[width=0.9\textwidth]{/DGNSS/BRSD.png}
@@ -443,7 +443,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	= & \Bigl[ (\cdot)_2^1 - (\cdot)_2^k \Bigr] - \Bigl[ (\cdot)_1^1 - (\cdot)_1^k \Bigr] = \nabla(\cdot)_2^{k1} - \nabla(\cdot)_1^{k1} \ .  \nonumber
 \end{align}
 	Por lo que podemos pensar a las dobles diferencias como una BRSD y una BSSD, por eso es que obtienen la ganancia respecto a cancelación de términos comparadas con unas SD. De manera que este nuevo operador es una combinación de los operadores vistos en la Sección \ref{sec:SD}.
-\begin{figure}[]
+\begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{/DGNSS/DD.png}
     \caption{Configuración de receptores y satélites necesaria para dobles diferencias (DD).}
@@ -473,7 +473,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 \subsection{Linea de base nula}
 	Este enfoque para armar las observaciones puede ser utilizado ya sea con simples diferencias tanto como con dobles diferencias. Es un caso particular de las ya mencionadas donde se utiliza la misma antena para ambos receptores, se divide la señal y cada receptor hace sus mediciones como se observa en la Fig. \ref{fig:ZB}. Esto consigue que la correlación espacial sea completa debido a que la linea de base nula implica que ambos receptores usan la misma antena, por lo que la señal recorre el mismo camino para ambos, es decir, es afectada por los mismos fenómenos. Resulta de gran utilidad para la calibración de los receptores por los resultados que se obtienen. Pero en principio como geometría para posicionamiento diferencial no tiene utilidad ya que ambos receptores tienen la misma ubicación.
 	
-\begin{figure}[]
+\begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{/DGNSS/ZB.png}
     \caption{Configuración con linea de base nula.}
@@ -536,14 +536,14 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	
 	En principio es necesario definir un preámbulo que será utilizado por el rover para definir el comienzo de un mensaje. El rover podría estar recibiendo múltiples mensajes consecutivos, de una o varias bases, a través de la detección del preámbulo en la secuencia de bits recibidos el mismo puede identificar un nuevo mensaje. El preámbulo es una secuencia de un byte correspondiente a 0xD3 en hexadecimal. Luego del preámbulo existen seis bits reservados que en la versión utilizada del estándar se especifican en cero, pero como está sujeto a modificaciones el software del receptor no debe utilizar estos seis bits en cero para la decodificación. Los diez bits restantes se llenan con el largo del mensaje (expresado en bytes), con un rango de 0 a 1023. Un esquema de lo explicado puede verse en la Fig. \ref{fig:RTCMformat}.
 	
-\begin{figure}[]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{/DGNSS/RTCM_format.png}
     \caption{Estructura del mensaje RTCM (versión 3.3).}
     \label{fig:RTCMformat}
 \end{figure}
 
-	Luego del campo del mensaje, con largo variable, hay 3 bytes de pie que corresponden a los bits de paridad del mensaje. Corresponden a 24 bits de paridad con verificación de redundancia cíclica (\textit{CRC} por sus siglas en inglés), se utiliza un código CRC de 24 bits propietario de QualComm(el mismo es llamado CRC-24Q). El mismo trabaja sobre el encabezado y el campo del mensaje, con un polinomio generador dado por 
+	Luego del campo del mensaje, con largo variable, hay 3 bytes de pie que corresponden a los bits de paridad del mensaje. Corresponden a 24 bits de paridad con verificación de redundancia cíclica (\textit{CRC} por sus siglas en inglés), se utiliza un código CRC de 24 bits propietario de QualComm (el mismo es llamado CRC-24Q). El mismo trabaja sobre el encabezado y el campo del mensaje, con un polinomio generador dado por 
 \begin{equation}
 	g(x) = \sum_{i=0}^{24}{g_ix^i} \ \ ,
 \end{equation}
@@ -561,22 +561,23 @@ g_i = 1 \ \text{para} \  i = 0,1,3,4,5,6,7,10,11,14,17,18,23,24. \ \text{Y} \ g_
 %	\item Tipo 1033: 
 %\end{itemize}
 	Los mismos difieren en sutilezas, por eso se desarrollarán los campos del mensaje 1005 en particular y luego se comentarán las diferencias que presentan los otros dos. Los mismos son genéricos para cualquier sistema GNSS. 
-\begin{figure}[]
+\begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{/DGNSS/Msg1005.png}
     \caption{Campos del mensaje de estación de referencia estacionaria (1005).}
     \label{fig:Msg1005}
 \end{figure}
-\begin{itemize}[wide]
-	\item Número de mensaje: Se especifica el número del mensaje (en este caso 1005).
-	\item Identificador de la estación de referencia: En caso de contar con múltiples bases, el rover utiliza este campo para saber de qué base proviene el mensaje.
-	\item Indicador de sistema: Está en alto si la base está enviando mensajes correspondientes al sistema en cuestión.
+
+\begin{description}
+	\item[Número de mensaje] Se especifica el número del mensaje (en este caso 1005).
+	\item[Identificador de la estación de referencia] En caso de contar con múltiples bases, el rover utiliza este campo para saber de qué base proviene el mensaje.
+	\item[Indicador de sistema] Está en alto si la base está enviando mensajes correspondientes al sistema en cuestión.
 %	\item Indicador GLONASS: Está en alto si la base está enviando mensajes correspondientes al sistema GLONASS.
-	\item Indicador de la estación de referencia: Indica si es una estación de referencia real (física) o si es una estación computada o no física, podría ser una estación de referencia virtual computada en base a multiples estaciones de la red.
-	\item ARP (x,y,z) en ECEF: La posición del punto de referencia de la antena de la base en coordenadas ECEF.
-	\item Indicador de oscilador de único receptor: Indica que tocas las observaciones crudas enviadas en otros mensajes corresponden a mediciones en el mismo instante. Se puede considerar que corresponden al mismo instante
-	\item Indicador de cuarto de ciclo: Indica si el fabricante del receptor que actua como base tiene implementado un mecanismo de corregir los desfasajes de cuarto de ciclo de la fase de la portadora. Es decir que pueden asegurar que las mediciones de fase de distintas señales a una misma frecuencia están en fase y por lo tanto no presentan el desfasaje ya mencionado. Existen tres estados para este campo, el primero indica que no se conoce el estado de la corrección (corresponde a `00'), el segundo indica que se están haciendo las correcciones (corresponde a `01') y por último cuando no se hacen correcciones (corresponde a `10').
-\end{itemize}
+	\item[Indicador de la estación de referencia] Indica si es una estación de referencia real (física) o si es una estación computada o no física, podría ser una estación de referencia virtual computada en base a multiples estaciones de la red.
+	\item[ARP (x,y,z) en ECEF] La posición del punto de referencia de la antena de la base en coordenadas ECEF.
+	\item [Indicador de oscilador de único receptor] Indica que tocas las observaciones crudas enviadas en otros mensajes corresponden a mediciones en el mismo instante. Se puede considerar que corresponden al mismo instante
+	\item[Indicador de cuarto de ciclo] Indica si el fabricante del receptor que actua como base tiene implementado un mecanismo de corregir los desfasajes de cuarto de ciclo de la fase de la portadora. Es decir que pueden asegurar que las mediciones de fase de distintas señales a una misma frecuencia están en fase y por lo tanto no presentan el desfasaje ya mencionado. Existen tres estados para este campo, el primero indica que no se conoce el estado de la corrección (corresponde a `00'), el segundo indica que se están haciendo las correcciones (corresponde a `01') y por último cuando no se hacen correcciones (corresponde a `10').
+\end{description}
 
 \begin{table}[]
 \centering
@@ -595,11 +596,62 @@ DF003                                                         &                 
 	
 	El mensaje 1006 presenta los mismos campos que el 1005 pero como es utilizado en aplicaciones especificas de geodesia, define la altura del ARP de manera distinta. Es decir, agrega información sobre la altura del ARP respecto de un marcador del que se conoce la posición con mucha precisión. Por otro lado, el mensaje 1033 describe la antena de la estación de referencia, además de dar información del tipo de receptor utilizado en la estación. Esto permite al rover que recibe los mensajes generar archivos RINEX (ver si tengo que aclarar qué es) a partir de la información recibida.
 	
-	
 \subsection{Mensajes de múltiples señales}
+	El estándar RTCM define los mensajes de observables dentro del rango de tipos de mensaje 1001-1004 para GPS, 1009-1012 para GLONASS. Hay mensajes particulares para cada sistema, lo cual trae complicaciones al pensar en agregar nuevos sistemas e incluso nuevas señales. Para poder generalizar los mensajes necesarios en un enfoque RTK de cualquier sistema GNSS se definen los mensajes de múltiples señales (MSM por sus siglas en inglés). Los mismos son universales para el envío de observables de cualquier sistema, lo que trae la ventaja de ya tener estandarizado los mensajes en caso de agregar disponibilidad de servicios RTK de nuevos sistemas en versiones futuras del estándar. Además de permitir generalizar según el sistema, los mismos también permiten agregar nuevas señales en las observaciones. Esto se logra compatibilizando los identificadores de señales con la tercera versión del estándar RINEX. El enfoque universal para los mensajes se logra debido a la similaridad que existe entre los observables de los sistemas operativos y los planeados.
+	
+	Los mensajes MSM reemplazan a los mensajes antiguos que se mencionan para GPS y GLONASS, completando el conjunto de mensajes que no pueden faltar en el enlace de comunicación para lograr un enfoque DGNSS. Existen siete mensajes MSM que difieren en la información enviada y por lo tanto en la aplicación en la que tienen utilidad. En la Fig. \ref{fig:MSMall} se puede observar los distintos campos que acepta cada uno de los mensajes, por lo que una descripción resumida de cada tipo de mensaje resulta de la siguiente manera.
+\begin{itemize}
+	\item MSM 1: Información compacta de pseudorango.
+	\item MSM 2: Información compacta de fase de portadora.
+	\item MSM 3: Información compacta conjunta de pseudorango y fase de portadora.
+	\item MSM 4: Información completa de pseudorango y fase de portadora, con relación portadora a densidad espectral de ruido ($C/N_0$).
+	\item MSM 5: Idéntico a MSM 4 pero agrega la desviación de la portadora (medición de \textit{doppler}).
+	\item MSM 6: Idéntico a MSM 4 pero con resolución extendida.
+	\item MSM 7: Idéntico a MSM 5 pero con resolución extendida.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{/DGNSS/MSMcomparation.png}
+    \caption{Campos de los distintos tipos de mensajes MSM.}
+    \label{fig:MSMall}
+\end{figure}
+	El mensaje MSM 1 puede ser utilizado en GNSS diferencial convencional y avanzado. El MSM 2 tiene gran utilidad cuando la tasa del enlace de comunicación RTCM es baja ya que se precisa actualización más frecuente de los observables de fase de portadora para lograr precisiones altas, pero en cambio las observaciones de $C/N_0$ y pseudorango pueden actualizarse a menor tasa. El mensaje MSM 2, junto con el MSM 3 y MSM 4, forman el conjunto de mensajes utilizados en modos RTK convencionales. El mensaje MSM 5 permite almacenar información completa en el formato RINEX. Y los mensajes MSM 6 y MSM 7 extienden la resolución de los mensajes ya mencionados por lo que las aplicaciones son las mismas solo que a mayor precisión.
+
 \subsubsection{Empaquetado del pseudorango y fase de portadora}
+	En la Fig. \ref{fig:MSMall} se puede observar que existe una diferenciación entre los datos correspondientes a la parte satelital y otra correspondiente a la señal. En particular, la sección satélital contiene lo que corresponde a la parte gruesa del rango y es común a todas las señales de cada satélite. La sección de señal contiene la parte fina del rango y del rango basado en fase de portadora, está es única por cada señal de cada satélite. 
+	
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{/DGNSS/Grueso y Fino.jpeg}
+    \caption{Rango al satélite durante todo el tiempo que permanece en vista.}
+    \label{fig:rrng_frng}
+\end{figure}
+	
+	El chip tiene un periodo de $1/(1.023\,MHz) = 977.5\,ns \approx 1\,\mu s$, y el rango grueso expresado en segundos tiene una resolución de $2^{-10}\,ms = 976.5\,ns \approx 1\, \mu s$. De esta manera vemos que la parte gruesa del rango (medición de pseudorango) se redondea a la distancia que viaja la señal en un tiempo de \textit{chip}, es decir, tiene una resolución de aproximadamente 300\,m en distancia. Esto se puede observar en color \textbf{color} en la Fig. \ref{fig:rrng_frng}. Ahora la parte que corresponde a cada señal, es decir, hay un valor por cada señal de la que se cuente con mediciones, es denominado rango fino. El mismo puede valer como máximo aproximadamente 1100\,m en valor absoluto debido al rango del campo que contiene esta información. Pero como es una medida de lo que le falta al rango grueso para llegar al rango verdadero, si este campo supera el umbral de los 300\,m ya mencionado, se le atribuye al rango grueso de manera que la parte fina vuelve a ser menor que 300\,m.
+	
+	La parte fina de fase de portadora se genera como un rango haciendo uso de mediciones de fase, al cual se le resta la parte gruesa del rango ya mencionada. Y a partir de aquí, se descarta el numero entero de longitudes de onda que contiene la parte fina, resultando en una parte fina que esta solo formada por una fracción de longitud de onda. La cantidad de longitudes de onda enteras descartadas se guarda para poder descartar la misma cantidad en la próxima época con mediciones, de manera que la parte fina de la fase de portadora comience a acumular a partir de aquí. Esto es equivalente a alinear la integración del corrimiento doppler de la portadora (medición de fase) con el pseudorango al inicio de la acumulación. Esto se mantiene así hasta que no haya un salto de ciclo en los lazos de seguimiento de la portadora o que el rango fino de fase exceda su rango máximo. En caso de suceder esto, se vuelve a alinear, es decir, se reinicia la cantidad de longitudes de onda enteras que se descarta en el rango fino formado como rango menos rango grueso. 
+	
+	Cabe destacar que como el rango grueso está simplemente redondeado y no truncado a longitudes de un chip, puede estar por encima o debajo del rango verdadero. Por lo que el campo de rango fino, de pseudorango y fase podría tranquilamente ser tanto positivo como negativo.
+	
+	En el rover, qué recibe esta información, la manera de recuperar el rango completo de pseudorango es como la suma del rango grueso y del fino. Para fase de portadora, si queremos tener una alineación entre el pseudorango y el inicio de la generación, se puede sumar la parte fina con la parte gruesa, obteniendo un valor de ambigüedades dado. Pero si quisiéramos formar el rango completo con medición de fase directamente considerando que es igual a la parte fina, también es equivalente. Simplemente cambiaría el valor de las ambigüedades, que de hecho serían mucho mayores que en el caso de realizar la alineación. Esto no es un inconveniente ya que una vez resueltas estas ambigüedades solo queda fijar cuál es su valor y el rango obtenido con la medición tiene la precisión de las mediciones de fase.
 
-
+\subsection{Campos de los mensajes MSM}
+	Todos los mensajes del tipo MSM tienen el mismo encabezado, que se puede observar en la Fig. \ref{fig:MSMheader}. El mismo esta formado por los campos siguientes.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{/DGNSS/MSMheader.png}
+    \caption{Encabezado de los mensajes MSM.}
+    \label{fig:MSMheader}
+\end{figure}
+\begin{description}
+	\item[Número de mensaje] Especificador de que mensaje se está enviando.
+	\item[Identificador de la estación de referencia] Número identificador que se le asignó a la estación de referencia. Para que el rover puedo identificar de qué base proviene el mensaje en caso de recibir mensajes de múltiples bases en simultaneo.
+	\item[Tiempo de la época GNSS] Tiempo correspondiente a la época de toma de mediciones. Cada sistema GNSS lo empaqueta de distinta manera. En particular GPS especifica el tiempo como la cantidad de milisegundos transcurridos desde el inicio de la semana GPS (medianoche del sábado por la noche o domingo por la mañana).
+	\item[Indicador de múltiples mensajes MSM] En alto si a continuación vendran mensajes con mediciones para una misma época. En caso de que las mediciones fueron divididas en multiples mensajes MSM, el rover deberá esperar a recibir el último mensaje para poder usar los datos que cada uno contiene.
+	\item[Indicador de correcciones de reloj] Este campo indica si se están realizando correcciones de reloj al tiempo de receptor de la base que está generando los mensajes.
+\end{description}
+	
 \chapter{Ensayos con base y rover estacionarios utilizando receptores comerciales}
 Arquitectura de ambos receptores. Modos de funcionamiento por arriba. Ensayo con Rx u-blox.
 % \section{Arquitectura del receptor}
@@ -637,6 +689,10 @@ Empaquetado del mensaje.
 
 \end{document}
 
-%Desfazaje X - Desfasaje OK
+%Revisar todo esto!!!
+%=============================================================================
+%Desfazaje X - Desfasaje
 %¿Abreviaciones que esten en ingles (GPS, TOA, PRN, etc) van en italicas?
+% Las figuras de RTCM deberían ser tablas, cambiar referencias e incluso nombres...
+
 
