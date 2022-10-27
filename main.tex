@@ -618,12 +618,12 @@ DF003                                                         &                 
 \end{figure}
 	El mensaje MSM 1 puede ser utilizado en GNSS diferencial convencional y avanzado. El MSM 2 tiene gran utilidad cuando la tasa del enlace de comunicación RTCM es baja ya que se precisa actualización más frecuente de los observables de fase de portadora para lograr precisiones altas, pero en cambio las observaciones de $C/N_0$ y pseudorango pueden actualizarse a menor tasa. El mensaje MSM 2, junto con el MSM 3 y MSM 4, forman el conjunto de mensajes utilizados en modos RTK convencionales. El mensaje MSM 5 permite almacenar información completa en el formato RINEX. Y los mensajes MSM 6 y MSM 7 extienden la resolución de los mensajes ya mencionados por lo que las aplicaciones son las mismas solo que a mayor precisión.
 
-\subsubsection{Empaquetado del pseudorango y fase de portadora}
+\subsubsection{Empaquetado del pseudorango y fase de portadora}\label{sec:rrng_frng}
 	En la Fig. \ref{fig:MSMall} se puede observar que existe una diferenciación entre los datos correspondientes a la parte satelital y otra correspondiente a la señal. En particular, la sección satélital contiene lo que corresponde a la parte gruesa del rango y es común a todas las señales de cada satélite. La sección de señal contiene la parte fina del rango y del rango basado en fase de portadora, está es única por cada señal de cada satélite. 
 	
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{/DGNSS/Grueso y Fino.jpeg}
+    \includegraphics[width=0.8\textwidth]{/DGNSS/Parte gruesa y fina.png}
     \caption{Rango al satélite durante todo el tiempo que permanece en vista.}
     \label{fig:rrng_frng}
 \end{figure}
@@ -644,14 +644,34 @@ DF003                                                         &                 
     \caption{Encabezado de los mensajes MSM.}
     \label{fig:MSMheader}
 \end{figure}
-\begin{description}
+\begin{description}[wide]
 	\item[Número de mensaje] Especificador de que mensaje se está enviando.
 	\item[Identificador de la estación de referencia] Número identificador que se le asignó a la estación de referencia. Para que el rover puedo identificar de qué base proviene el mensaje en caso de recibir mensajes de múltiples bases en simultaneo.
 	\item[Tiempo de la época GNSS] Tiempo correspondiente a la época de toma de mediciones. Cada sistema GNSS lo empaqueta de distinta manera. En particular GPS especifica el tiempo como la cantidad de milisegundos transcurridos desde el inicio de la semana GPS (medianoche del sábado por la noche o domingo por la mañana).
-	\item[Indicador de múltiples mensajes MSM] En alto si a continuación vendran mensajes con mediciones para una misma época. En caso de que las mediciones fueron divididas en multiples mensajes MSM, el rover deberá esperar a recibir el último mensaje para poder usar los datos que cada uno contiene.
-	\item[Indicador de correcciones de reloj] Este campo indica si se están realizando correcciones de reloj al tiempo de receptor de la base que está generando los mensajes.
+	\item[Indicador de múltiples mensajes MSM] En alto si a continuación vendrán mensajes con mediciones para una misma época. En caso de que las mediciones fueron divididas en múltiples mensajes MSM, el rover deberá esperar a recibir el último mensaje para poder usar los datos que cada uno contiene.
+	\item[Indicador de correcciones de reloj] Este campo indica si se están realizando correcciones de reloj al tiempo de receptor de la base que está generando los mensajes. Si se indica que se están haciendo las correcciones, las mismas deben asegurar que el reloj del receptor esté dentro de un rango de $\pm 1\,\mu s$ de error. En caso de indicar que no hay correcciones esta condición es menos restrictiva y el rango aumenta a $\pm 1\,ms$. También hay un estado que indica que no se conoce el estado de las correcciones, por lo que podrían estar haciéndose como no.
+	\item[Indicador de reloj externo] Este campo indica qué tipo de reloj está usando el receptor, un reloj interno o uno externo. Y si fuera externo además se puede indicar si esta enganchado o no, en caso de no estarlo podría haber fallas en este reloj y que la información no sea confiable.
+	\item[Indicador de suavizado sin divergencia] Este campo indica si se realiza un suavizado a las mediciones con un método sin divergencia (\textit{DFS} por sus siglas en inglés), se realiza otro tipo de suavizado o ninguno.
+	\item[Intervalo de suavizado] Es el periodo de integración en el cual se están promediando las mediciones de pseudorango con información de la fase de portadora. En caso de no hacer ningún tipo de suavizado esté campo se llena con ceros.
+	\item[Máscara de satélites GNSS] Este campo va a ser de utilidad para el software decodificador para saber de qué satélites se están enviando mediciones. Es un campo de 64 bits donde cada bit corresponde a un satélite, en GPS corresponden a cada PRN comenzando por el primer bit que equivale a $\text{PRN}_1$. GPS tiene solo 32 satélites operativos por lo que se llenarán la primer mitad del campo con los satélites disponibles y la segunda mitad estará en cero siempre. En GLONASS ocurre lo mismo pero el primer bit corresponde al primer slot de frecuencia.
+	\item[Máscara de señales GNSS] Este campo será utilizado por el software decodificador para saber qué señales tienen mediciones disponibles en los mensajes enviados. Tiene 32 bits y se corresponden con los identificadores de señal del estándar RINEX 3.01 [cita a rinex?]. Entonces, si en las mediciones hay disponibilidad de una señal para al menos un satélite, el bit correspondiente a esta señal es seteado.
+	\item[Máscara de celdas GNSS] Este campo es de largo variable y condensa los últimos dos campos que se desarrollaron más arriba. Es una tabla de dos dimensiones que indica qué señal está disponible para cada satélite. Y es de largo variable ya que depende de la cantidad de señales y satélites disponibles, es decir, la cantidad de bits en alto en la mascara de señales y de satélites. El tamaño es $X = N_{sat}N_{sig}$, pero tiene una restricción a $X\leq 64$ por mensaje. En caso de superarse este número, hay que dividir los observables en distintos mensajes de manera que se cumpla con esta restricción. La primera fila de esta tabla corresponde a la señal con el identificador más chico (numéricamente), y así consecutivamente el resto de las filas. En las columnas sucede lo mismo pero con el identificador de satélites más chico.
 \end{description}
+	\textbf{PUEDO TIRAR IMAGEN DE MASCARAS Y CELL. QUIZÁS EN IMPLEMENTACIóN ESTO}
 	
+	Habiendo descrito el encabezado del mensaje se puede proceder a describir cada campo del contenido del mismo, que en parte ya se introduce en la Fig. \ref{fig:MSMall}. 
+\begin{description}
+	\item[Número entero de milisegundos en la parte gruesa del rango] A partir del rango grueso definido en la Sección \ref{sec:rrng_frng}, se lo divide en una parte entera y fraccional (a milisegundos). La cantidad entera de milisegundos en el rango grueso está contenida en este campo.
+	\item[Parte gruesa del rango módulo 1\,ms] En este campo va la parte fraccional en milisegundos que queda del rango grueso. En otras palabras sería el rango grueso menos el campo anterior.
+	\item[Rangos finos de pseudorangos] La parte fina del rango en base a mediciones de pseudorango que se definió en la Sección \ref{sec:rrng_frng}.
+	\item[Rangos finos de fase de portadora] La parte fina que obtenemos de las mediciones de fase de portadora, tal como se describió en la Sección \ref{sec:rrng_frng}.
+	\item[Tiempo de enganche de fase de portadora] Es un indicador del tiempo en el cual el receptor lleva enganchado de manera continua a una señal particular. En caso de que ocurra un salto de ciclo en el instante de toma de mediciones anterior, se debe resetear este campo a cero.
+	\item[Indicador de ambigüedades de medio ciclo] En caso de transmitir mediciones de fase de portadora con polaridad no resuelta es necesario setear este campo para que el software decodificador tenga esa información. En caso de que el software decodificador no sea capaz de trabajar con estas ambigüedades, va a descartar estas mediciones.
+	\item[Relación portadora a densidad espectral de ruido] Esta medición es un estimado de la relación $C/N_0$ (portadora a densidad espectral de ruido) para cada señal del satélite. Si se completa con ceros significa que la medición no es válida.
+\end{description}
+
+	Hay campos tales como la desviación en frecuencia de la portadora que no son tratados con detalle ya que no se utilizan en este trabajo, pero tiene interés introducirlos para dar a entender la generalización que presentan los mensajes de múltiples señales. Lo mismo ocurre con el campo de información extendida de los satélites, que es un campo que todavía no está implementado y se reserva para uso futuro.
+\textbf{Cuando ponga los rangos de cada DF acordarme de agregar DF004 (gnss epoch time) del encabezad0}.
 \chapter{Ensayos con base y rover estacionarios utilizando receptores comerciales}
 Arquitectura de ambos receptores. Modos de funcionamiento por arriba. Ensayo con Rx u-blox.
 % \section{Arquitectura del receptor}
