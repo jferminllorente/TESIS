@@ -145,6 +145,20 @@
 \newpage
 \addcontentsline{toc}{chapter}{Índice de símbolos}
 \chapter*{Índice de símbolos}
+USB
+GNSS
+DGNSS
+RTK
+GPS
+TOA
+MEO
+CDMA
+DSSS
+PRN
+UART
+RTCM
+RINEX
+
 \newpage
 \addcontentsline{toc}{chapter}{Índice de contenidos}
 \tableofcontents
@@ -375,7 +389,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	
 	Con esto se plantean las bases y conceptos principales del funcionamiento de los sistemas GNSS, siempre haciendo foco en el posicionamiento absoluto. Se detallaron los errores que están involucrados en las mediciones, dando lugar a reflexionar sobre formas de corregirlos o mitigarlos. Las mediciones de pseudorango son de utilidad para resolver la posición pero tienen grandes errores debido a que se generan en el \textit{DLL}. La precisión que aportan las mediciones de fase de portadora es mucho mayor pero presentan el inconveniente de contar con ambigüedades. Sin tenerlas resueltas, lo cual no es trivial, se pierde esta ganancia en precisión. De aquí es natural continuar con el desarrollo de las mediciones en diferencias o posicionamiento relativo, que da lugar a formas de resolver estas ambigüedades y obtener soluciones ordenes de magnitud mas precisas. Para esto se aprovechan las características de los errores presentes en la medición. Por otro lado, se esboza el proceso de generación de las mediciones en el caso más general, además del procedimiento que permite obtener obtener una solución de posición del receptor. Esto es un buen punto de partida para plantear la implementación de este proceso en un sistema embebido donde las prestaciones son limitadas, por lo tanto, también la capacidad de procesamiento.
 
-\chapter{GNSS diferencial}\label{CH:DGNSS}
+\chapter{GNSS diferencial}\label{ch:DGNSS}
 	Este capítulo presenta los conceptos del posicionamiento relativo, introduciendo la combinación de mediciones de múltiples satélites o múltiples receptores. Se desarrolla el concepto de GNSS diferencial haciendo foco en la posibilidad de resolución de ambigüedades en las mediciones de fase de portadora que quedó sin disolver en el enfoque del capítulo anterior. Además, se detallan los aspectos más importantes de la estandarización de los mensajes para la comunicación entre los receptores que trabajan en red en un enfoque de posicionamiento diferencial cinemático.
 \section{Introducción}
 	%Cuando se habla de precisión, es a 1 sigma? Definir eso...
@@ -757,11 +771,13 @@ Máscara de celdas GNSS                              & DF396                    
 
 	Hasta aquí se desarrollaron los conceptos de posicionamiento relativo, o GNSS diferencial basado en fase de portadora. Este enfoque permite obtener soluciones de posición con una precisión en el orden de las decenas de centímetros o incluso centímetros. La ganancia es obtenida a costo de precisar trabajar no solo con un receptor GNSS, sino con varios, y no de manera aislada sino en conjunto. Para esto fue necesario presentar las distintas combinaciones que se pueden formar con las mediciones para desafectar errores y llegar a un escenario donde es factible resolver las ambigüedades que presentan las mediciones de fase. La complejidad que trae esto no es menor debido a que se precisa definir estándares de comunicación para los receptores operando en conjunto. Es por esto que se desarrollaron los puntos principales que sugiere el estándar RTCM para DGNSS, ahondando en los mensajes más importantes para conseguir el objetivo aquí planteado. Habiendo llegado hasta este punto resulta de interés poder validar lo desarrollado mediante ensayos con receptores GNSS operando en tiempo real. En el próximo capítulo se podrán observar resultados experimentales obtenidos en el laboratorio.
 \chapter{Ensayos con receptores comerciales}
-Este capítulo comienza con el desarrollo práctico del trabajo y los ensayos que se basan en la teoría  
-Arquitectura de ambos receptores. Modos de funcionamiento por arriba. Ensayo con Rx u-blox.
+	Este capítulo comienza con el desarrollo experimental del trabajo y los ensayos que se basan en el marco teórico planteado en los Capítulos \ref{ch:GNSS} y \ref{ch:DGNSS}. Primero se busca replicar ensayos de esquemas \textit{RTK} con receptores comerciales, que se sabe que logran obtener soluciones diferenciales con resolución de ambigüedades. Se plantean ensayos con linea de base nula donde la comunicación entre los receptores operando en conjunto (base y rover) es cableada, en particular, por una interfaz UART. Esto es debido a que posteriormente a los ensayos con receptores comerciales se busca implementar esta comunicación con un receptor diseñado e implementado en el lugar de trabajo, que actualmente solo cuenta con la interfaz UART cableada disponible para la comunicación de este protocolo. 
+	
+	Se desarrollan los materiales utilizados para las pruebas experimentales, principalmente haciendo hincapié en los receptores GNSS utilizados y su placa de evaluación. Por último, se muestran los resultados obtenidos en los ensayos.
+
 % \section{Arquitectura del receptor}
 \section{Placa de evaluación F9P u-blox}
-	El módulo GNSS \textit{ZED-F9P} del fabricante \textit{u-blox} es un receptor comercial de alta precisión. Permite operación GNSS multisistema (GPS, GLONASS, Galileo, Beidou) y multibanda, además de operar con distintos sistemas de aumento de precisión como QZSS, SBAS o DGNSS. Al trabajar con el sistema GPS el módulo puede operar con las señales L1C/A y L2C. Está especialmente pensado para aplicaciones donde los receptores operan en red, por lo que el mismo puede ser configurado como rover o estación de referencia en enfoques \textit{RTK}.
+	El módulo GNSS \textit{ZED-F9P} del fabricante \textit{u-blox} es un receptor comercial de alta precisión. Permite operación GNSS multisistema (GPS, GLONASS, Galileo, Beidou) y multibanda, además de operar con distintos sistemas de aumento de precisión como QZSS, SBAS o DGNSS. Al trabajar con el sistema GPS el módulo puede operar con las señales L1C/A y L2C. Está especialmente pensado para aplicaciones donde los receptores operan en red, por lo que el mismo puede ser configurado como rover o estación de referencia en enfoques \textit{RTK} \cite{ZEDds}.
 
 \begin{figure}
     \centering
@@ -769,9 +785,9 @@ Arquitectura de ambos receptores. Modos de funcionamiento por arriba. Ensayo con
     \caption{Diagrama en bloques del módulo GNSS ZED-F9P.}
     \label{fig:BDublox}
 \end{figure}
-	Este módulo sigue a rasgos generales un esquema bastante universal de un receptor GNSS como se puede observar en la Fig. \ref{fig:BDublox}. Cuenta con una única antena GNSS, pero al trabajar a doble frecuencia inmediatamente debe dividir la señal para llevarla a la etapa del \textit{front-end} de RF para cada banda de frecuencias. Cada rama hace un filtrado pasabanda centrado en $L_1$ y $L_2$ respectivamente para quedarse con la señal de interés, y luego ingresa al bloque de RF correspondiente a cada señal. Es interesante recordar como en los capítulos anteriores se analizó la cancelación de los retardos de hardware al combinar mediciones entre receptores, aquí queda en evidencia para un ejemplo de receptor real que al contar con una etapa de RF individual para cada señal no hay razón para que los retardos instrumentales sean iguales. En caso de que los receptores sean diseñados correctamente para igualar estos retardos las consideraciones son distintas. Por eso es que a la hora del diseño se suele tener en cuenta este detalle incluso para aplicaciones de posicionamiento absoluto ya que es necesario que las señales lleguen sincronizadas a la etapa digital donde serán muestreadas. La etapa digital contiene los filtros digitales en frecuencia intermedia y a partir de aquí toda la tarea de procesamiento de la señal realizada por el sistema embebido. Ejecuta todas las rutinas necesarias para el seguimiento y luego adquisición de las señales, obtención de la solución de posición y todas las validaciones necesarias para poder dar una solución confiable.
+	Este módulo sigue a rasgos generales un esquema bastante universal de un receptor GNSS como se puede observar en la Fig. \ref{fig:BDublox}. Cuenta con una única antena GNSS, pero al trabajar a doble frecuencia inmediatamente debe dividir la señal para llevarla a la etapa del \textit{front-end} de RF para cada banda de frecuencias. Cada rama hace un filtrado pasabanda centrado en $L_1$ y $L_2$ respectivamente para quedarse con la señal de interés, y luego ingresa al bloque de RF correspondiente a cada señal. Es interesante recordar como en los capítulos anteriores se analizó la cancelación de los retardos de hardware al combinar mediciones entre receptores, aquí queda en evidencia para un ejemplo de receptor real. Al contar con una etapa de RF individual para cada señal no hay razón para que los retardos instrumentales sean iguales. En caso de que los receptores sean diseñados correctamente para igualar estos retardos las consideraciones son distintas. Por eso es que a la hora del diseño se suele tener en cuenta este detalle incluso para aplicaciones de posicionamiento absoluto ya que es necesario que las señales lleguen sincronizadas a la etapa digital donde serán muestreadas. La etapa digital contiene los filtros en frecuencia intermedia y a partir de aquí toda la tarea de procesamiento de la señal realizada por el sistema embebido. El mismo ejecuta todas las rutinas necesarias para el seguimiento y luego adquisición de las señales, obtención de la solución de posición y todas las validaciones necesarias para poder dar una solución confiable.
 	
-	En el lugar donde se desarrolla el presente trabajo se cuenta con un par de placas de evaluación para este módulo, con la finalidad de poder realizar experimentos \textit{RTK} con un rover y una base. La placa de evaluación de la que se tiene disponibilidad es la \textit{C099-F9P}, que además de contar con soporte para la interfaz con el módulo \textit{ZED} tiene un módulo de comunicaciones inalámbricas (ODIN-W2). Este ultimo permite la conexión con otros receptores operando a distancia mediante comunicaciones de radio, en particular utilizando Wi-Fi o Bluetooth. En la Fig. \ref{fig:EvBoard} se puede observar la placa de evaluación. Además de contar con la posibilidad de conectar una antena para la conexión inalámbrica, es posible utilizar los terminales cableados (conectores \textit{Arduino} en la Figura) para una comunicación serie entre la base y el rover mediante UART (Transmisor-Receptor Asíncrono Universal).
+	En el lugar donde se desarrolla el presente trabajo se cuenta con un par de placas de evaluación para este módulo, con la finalidad de poder realizar experimentos \textit{RTK} con un rover y una base. La placa de evaluación de la que se tiene disponibilidad es la \textit{C099-F9P}\cite{C099_ds}, que además de contar con soporte para la interfaz con el módulo \textit{ZED} tiene un módulo de comunicaciones inalámbricas (ODIN-W2). Este ultimo permite la conexión con otros receptores operando a distancia mediante comunicaciones de radio, en particular utilizando Wi-Fi o Bluetooth. En la Fig. \ref{fig:EvBoard} se puede observar la placa de evaluación. Además de contar con la posibilidad de conectar una antena para la conexión inalámbrica, es posible utilizar los terminales cableados (conectores \textit{Arduino} en la Figura) para una comunicación serie entre la base y el rover mediante UART (Transmisor-Receptor Asíncrono Universal).
 	
 \begin{figure}
     \centering
@@ -780,9 +796,52 @@ Arquitectura de ambos receptores. Modos de funcionamiento por arriba. Ensayo con
     \label{fig:EvBoard}
 \end{figure}
 \subsection{Software de evaluación u-center}
+	El primer paso para poder hacer uso de los receptores aquí mencionados es poder configurarlos para que operen de la manera buscada. En la Fig. \ref{fig:EvBoard} se puede ver el puerto serie (USB por sus siglas en inglés) con el que cuenta la placa de evaluación, el mismo es la interfaz USB y UART con el módulo ZED, y la interfaz UART con el módulo ODIN. Para comunicarnos con el módulo ZED, el fabricante provee un software de evaluación GNSS llamado \textit{u-center} \cite{u_center}. A través del mismo podemos generar y enviar los mensajes de configuración al módulo, ya sea para almacenar estos parámetros en memoria volátil como no volátil (RAM o FLASH). En caso de querer configurar el módulo inalámbrico ODIN es necesario utilizar el software \textit{s-center} también propietario del fabricante. Si bien se utilizó el modulo ODIN para realizar pruebas preliminares al momento de familiarización con el software de evaluación y la placa, este fue deshabilitado en el momento en que se aprendió a realizar la comunicación cableada por los terminales UART.
+	
+	Además de poder configurar la placa de evaluación, a través del mismo es posible visualizar los resultados en tiempo real mientras el receptor se encuentra operativo. Las distintas ventanas pueden mostrar la solución de posición obtenida, el nivel de precisión obtenido (en función de la varianza de las soluciones), el nivel de potencia de señal recibido para cada señal y satélite, y los mensajes que esta enviando el receptor. Esto último es de utilidad en aplicaciones diferenciales donde podemos observar qué mensajes está enviando la base. Se agrega un indicador del modo en que se han fijado las ambigüedades, el mismo puede estar en los siguientes estados
+
+\begin{itemize}
+	\item 3D: Cuando el receptor está operando individualmente.
+	\item 3D/DGNSS: Cuando el receptor está recibiendo mensajes RTCM.
+	\item 3D/DGNSS/FLOAT: Cuando el receptor está resolviendo ambigüedades flotantes (enteras) y no está logrando fijarlas.
+	\item 3D/DGNSS/FIXED: Cuando el receptor logró resolver ambigüedades enteras y fijarlas.
+\end{itemize}	
 
 \section{Esquema de ensayos con linea base nula}
-\section{Desempeño y calidad de la solución en el ensayo}
+	En el Capítulo \ref{ch:DGNSS} se detallaron los beneficios que traen los esquemas de combinación de mediciones con linea de base nula debido a la cancelación de errores y sesgos que presenta. Es por esto que se decide tratar con un escenario de este estilo para poder discutir aspectos respecto al desempeño obtenido. Además, al contar con una capa física en el enlace de comunicación que es cableada, no es posible realizar ensayos con grandes distancias entre los receptores, por lo que pensar en esta situación resulta lo más conveniente.
+	
+	La UIDET SENyT cuenta con una antena emplazada en la terraza del Departamento de Electrotecnia de la Facultad de Ingeniería, a la altura de un cuarto piso. La misma es una antena activa en las bandas $L_1$ y $L_2$ para los sistemas GPS y GLONASS. La señal que proviene de la antena es dividida mediante un diplexor como se observa en la Fig. \ref{fig:EnsayoZBL}. El mismo cuenta con un desacople de continua para uno de los dos caminos en que se divide la señal para el caso en que se conecten dos receptores que den alimentación a la antena los mismos no sean cortocircuitados. Luego cada señal va a su respectivo receptor, rover y base. 
+
+\begin{figure}
+\centering
+\subfloat[Diagrama del ensayo.]{%
+  \includegraphics[width=0.7\textwidth]{/EnsayosUblox/EnsayoZBL.png}
+%  \caption{Esquema de ensayo con rover y base estacionarios, para linea base nula.}
+  \label{fig:EnsayoZBL}
+}
+
+\centering
+\subfloat[Diplexor con desacople de continua.]{%
+  \includegraphics[width=0.7\textwidth]{/EnsayosUblox/diplexor.png}
+  \label{fig:diplexor}
+}
+\caption{Esquema de ensayo con rover y base estacionarios, para linea base nula.}
+\end{figure}
+
+	La base debe ser configurada como tal, y al ser una estación de referencia estacionaria la misma debe enviar siempre la misma solución de posición. Para esto se puede configurar de dos modos, ingresar las coordenadas ECEF del ARP de la antena de la base para que el mensaje 1005 que transmita la base contenga esta ubicación. La otra opción, es en caso de no contar con las coordenadas, se puede hacer que la base haga un relevamiento por determinado tiempo, filtre su solución de posición y la fije para usar esta solución en los mensajes RTCM a transmitir. Como la antena utilizada tiene sus coordenadas relevadas con suficiente precisión (por trabajos previos que se han desarrollado en el lugar), se puede utilizar el primer enfoque. Por último es necesario indicar qué mensajes de observables transmitirá la base. En principio estos receptores pueden transmitir el mensaje Tipo 1005, los mensajes MSM 4 y MSM 7 para las constelaciones GPS (Tipos 1074 y 1077), GLONASS (Tipos 1084 y 1087), Galileo (Tipos 1094 y 1097) y BeiDou (Tipos 1124 y 1127). Se configura para que envíe el mensaje Tipo 1005 y el MSM 4 de GPS (Tipo 1074), lo enviará por UART a una tasa de 460800 baudios.
+	
+	Cómo el módulo ODIN no está siendo utilizado ya que no hay ninguna comunicación inalámbrica en este ensayo, puede ser deshabilitado mediante un puente en los terminales de arranque seguro del ODIN-W2 \cite{moving_base_AppN}. En cuanto a la interfaz cableada, se conecta el terminal de salida de la UART ($T_X$) de la base al terminal de entrada UART ($R_X$) del rover y se les da la misma referencia de tierra a ambas placas.
+	
+	En cuanto a la configuración del rover es necesario indicarle cuáles son los mensajes que recibirá por las distintas interfaces. En particular, hay que prestar atención a que espere recibir los mensajes que enviará la base por la interfaz UART y que tenga la misma velocidad de transmisión que la que se configuró para la base.
+
+\section{Desempeño y calidad de la solución}
+Scatter plot para GNSS y DGNSS.
+
+ns me dice la cantidad de satélites...
+
+sdX es la desviación estandar de los datos --> observar como se reduce drasticamente en el momento en que Q pasa de ser 2(Q=2 es float) a 1(Q=1 es fix).
+Podría armar la matrix de covarianzas con sde,sdn,sdu,sdne,sdeu,sdun... Segun dice rtklib MANUAL...
+
 \chapter{Implementación de la transmisión de correcciones RTCM en un sistema embebido} 
 
 \section{Receptor Q Series propietario de SENyT}
@@ -798,16 +857,20 @@ Arquitectura de ambos receptores. Modos de funcionamiento por arriba.
 Empaquetado del mensaje. \cite{detector}
 \subsection{Capa de protocolo}
 \textbf{PUEDO TIRAR IMAGEN DE MASCARAS Y CELL. QUIZÁS EN IMPLEMENTACIóN ESTO}
+Se decide implementar el 1005 y 1074 (MSM4) ya que son los mas actualizados y permiten expansiones a futuro. Ademas de que los receptores comerciales ublox con los que se validará la recepción de los mensajes, no admiten la recepción de mensajes legacy, solo MSM.
 \subsection{Capa de transporte}
 
 \chapter{Validación en tiempo real}
 \section{Solución de posición utilizando correcciones diferenciales}
 	No se usan dos receptores iguales, entonces retardos instrumentales no tienen por qué cancelarse. Esto puede explicar las diferencias.
+	
+	Si bien un escenario de receptores operando en modo DGNSS con una linea de base nula no tiene real utilidad práctica, la validación de la implementación se puede realizar de este modo. Y en caso de modificar la capa física del enlace de comunicación por una con mayor alcance, como podría ser utilizando señales de radio, simplemente variarán los resultados de desempeño pues el protocolo se encuentra completamente implementado y funcional. La modificación de la interfaz por donde se envían los mensajes RTCM es un problema aislado del que se presenta en este trabajo, debido a la modularización que se logró en la implementación realizada.
 \section{Resolución de ambigüedades fijas}
 \subsection{Embrace mediocrity and pray for BART}
 \section{Comparación de los resultados obtenidos por post procesamiento}
 \chapter*{Conclusiones generales}
 \addcontentsline{toc}{chapter}{Conclusiones generales}
+	
 \section*{Trabajo a futuro}
 \addcontentsline{toc}{section}{Trabajo a futuro}
 %\chapter*{Referencias}
@@ -834,6 +897,10 @@ DF003                                                         &                 
 \bibitem{bart} Garcia, Javier G. and Roncagliolo, Pedro A. and Muravchik, Carlos H., ``A Bayesian Technique for Real and Integer Parameters Estimation in Linear Models and Its Application to GNSS High Precision Positioning'', IEEE Transactions on Signal Processing, vol. 64, no. 4, 2016, pp. 923-933.
 \bibitem{rtcm} Cita del estándar RTCM v3.3.(me falta buscar bien como se cita un estándar).
 \bibitem{rinex} Cita al estándar RINEX 3.05 (idem anterior).
+\bibitem{ZEDds} ZED-F9P u-blox F9 high precision GNSS module Data sheet.
+\bibitem{C099_ds} 
+\bibitem{u_center} Manual del u-center.
+\bibitem{moving_base_AppN} Moving base applications - Application note ZED-F9P.
 
 \end{thebibliography}
 
