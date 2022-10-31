@@ -756,12 +756,32 @@ Máscara de celdas GNSS                              & DF396                    
 
 
 	Hasta aquí se desarrollaron los conceptos de posicionamiento relativo, o GNSS diferencial basado en fase de portadora. Este enfoque permite obtener soluciones de posición con una precisión en el orden de las decenas de centímetros o incluso centímetros. La ganancia es obtenida a costo de precisar trabajar no solo con un receptor GNSS, sino con varios, y no de manera aislada sino en conjunto. Para esto fue necesario presentar las distintas combinaciones que se pueden formar con las mediciones para desafectar errores y llegar a un escenario donde es factible resolver las ambigüedades que presentan las mediciones de fase. La complejidad que trae esto no es menor debido a que se precisa definir estándares de comunicación para los receptores operando en conjunto. Es por esto que se desarrollaron los puntos principales que sugiere el estándar RTCM para DGNSS, ahondando en los mensajes más importantes para conseguir el objetivo aquí planteado. Habiendo llegado hasta este punto resulta de interés poder validar lo desarrollado mediante ensayos con receptores GNSS operando en tiempo real. En el próximo capítulo se podrán observar resultados experimentales obtenidos en el laboratorio.
-\chapter{Ensayos con base y rover estacionarios utilizando receptores comerciales}
+\chapter{Ensayos con receptores comerciales}
+Este capítulo comienza con el desarrollo práctico del trabajo y los ensayos que se basan en la teoría  
 Arquitectura de ambos receptores. Modos de funcionamiento por arriba. Ensayo con Rx u-blox.
 % \section{Arquitectura del receptor}
 \section{Placa de evaluación F9P u-blox}
+	El módulo GNSS \textit{ZED-F9P} del fabricante \textit{u-blox} es un receptor comercial de alta precisión. Permite operación GNSS multisistema (GPS, GLONASS, Galileo, Beidou) y multibanda, además de operar con distintos sistemas de aumento de precisión como QZSS, SBAS o DGNSS. Al trabajar con el sistema GPS el módulo puede operar con las señales L1C/A y L2C. Está especialmente pensado para aplicaciones donde los receptores operan en red, por lo que el mismo puede ser configurado como rover o estación de referencia en enfoques \textit{RTK}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{/EnsayosUblox/BDublox.png}
+    \caption{Diagrama en bloques del módulo GNSS ZED-F9P.}
+    \label{fig:BDublox}
+\end{figure}
+	Este módulo sigue a rasgos generales un esquema bastante universal de un receptor GNSS como se puede observar en la Fig. \ref{fig:BDublox}. Cuenta con una única antena GNSS, pero al trabajar a doble frecuencia inmediatamente debe dividir la señal para llevarla a la etapa del \textit{front-end} de RF para cada banda de frecuencias. Cada rama hace un filtrado pasabanda centrado en $L_1$ y $L_2$ respectivamente para quedarse con la señal de interés, y luego ingresa al bloque de RF correspondiente a cada señal. Es interesante recordar como en los capítulos anteriores se analizó la cancelación de los retardos de hardware al combinar mediciones entre receptores, aquí queda en evidencia para un ejemplo de receptor real que al contar con una etapa de RF individual para cada señal no hay razón para que los retardos instrumentales sean iguales. En caso de que los receptores sean diseñados correctamente para igualar estos retardos las consideraciones son distintas. Por eso es que a la hora del diseño se suele tener en cuenta este detalle incluso para aplicaciones de posicionamiento absoluto ya que es necesario que las señales lleguen sincronizadas a la etapa digital donde serán muestreadas. La etapa digital contiene los filtros digitales en frecuencia intermedia y a partir de aquí toda la tarea de procesamiento de la señal realizada por el sistema embebido. Ejecuta todas las rutinas necesarias para el seguimiento y luego adquisición de las señales, obtención de la solución de posición y todas las validaciones necesarias para poder dar una solución confiable.
+	
+	En el lugar donde se desarrolla el presente trabajo se cuenta con un par de placas de evaluación para este módulo, con la finalidad de poder realizar experimentos \textit{RTK} con un rover y una base. La placa de evaluación de la que se tiene disponibilidad es la \textit{C099-F9P}, que además de contar con soporte para la interfaz con el módulo \textit{ZED} tiene un módulo de comunicaciones inalámbricas (ODIN-W2). Este ultimo permite la conexión con otros receptores operando a distancia mediante comunicaciones de radio, en particular utilizando Wi-Fi o Bluetooth. En la Fig. \ref{fig:EvBoard} se puede observar la placa de evaluación. Además de contar con la posibilidad de conectar una antena para la conexión inalámbrica, es posible utilizar los terminales cableados (conectores \textit{Arduino} en la Figura) para una comunicación serie entre la base y el rover mediante UART (Transmisor-Receptor Asíncrono Universal).
+	
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{/EnsayosUblox/EvBoard.png}
+    \caption{Placa de evaluación \textit{C099-F9P}.}
+    \label{fig:EvBoard}
+\end{figure}
 \subsection{Software de evaluación u-center}
-% \section{Ensayos con base y rover estacionarios}
+
+\section{Esquema de ensayos con linea base nula}
 \section{Desempeño y calidad de la solución en el ensayo}
 \chapter{Implementación de la transmisión de correcciones RTCM en un sistema embebido} 
 
