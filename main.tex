@@ -30,8 +30,6 @@
 }
 
 
-\graphicspath{{Images}}
-
 
 
 
@@ -175,12 +173,19 @@ RINEX
 % \mainmatter
 \chapter*{Introducción}
 \addcontentsline{toc}{chapter}{Introducción}
-Intro o contexto
+Los Sistemas Satelitales de Navegación Global (GNSS) presentan en la actualidad un uso extendido y creciente, demostrando ser de gran importancia en aplicaciones de navegación aérea, satelital, terrestre y marítima, para agrimensura y mapeo, servicios basados en localización, entre otros usos civiles, científicos y militares. En particular, en el campo de aplicaciones aeroespaciales, la utilización de receptores GNSS resulta idónea debido al costo y nivel de precisión en tiempo real que los mismos proporcionan. Misiones de observación terrestre realizadas por satélites en órbita baja, utilizando diversos tipos de instrumentos, permiten generar datos útiles para campos como la agricultura, meteorología, monitoreo de desastres naturales, entre otros. En dicho tipo de misiones, los receptores GNSS proporcionan una solución de navegación a bordo en tiempo real, la cual permite tanto el control de la órbita como la localización necesaria para la generación de datos de ciencia.
+
+Con el paso del tiempo, existe una creciente tendencia a la segmentación de las misiones espaciales, con el objetivo de distribuir los instrumentos en múltiples satélites de menor tamaño y costo, incrementando a su vez la robustez y la adaptabilidad de las misiones. En estos casos, resulta de vital importancia la implementación de sistemas de navegación relativa, necesario para el control del vuelo en formación de los satélites. Ejemplos recientes de este tipo de arquitecturas segmentadas y de satélites en vuelo en formación son las misiones TerraSAR-X/TanDEM-X de radar de apertura sintética, GRACE y GRACE-FO de gravimetría, PRISMA, y los nanosatélites CanX-4 y 5 de demostración tecnológica, entre otros. El nivel de precisión requerido por estos sistemas de navegación es, en general, superior al obtenido mediante la navegación absoluta de cada uno de los satélites de la formación. Esto hace necesario el uso de técnicas diferenciales empleando las mediciones crudas de fase de portadora, las cuales poseen un nivel de ruido del orden de los milímetros, pero con el inconveniente de ser ambiguas en un número entero de ciclos de portadora.
+
+	Resulta de interés aplicar estas técnicas diferenciales a bordo en tiempo real, a fin de incrementar la autonomía y la versatilidad en cuanto a las posibles aplicaciones de ciencia. Para esto, la transmisión de las mediciones entre satélites en tiempo real es necesaria. Adicionalmente, otros campos donde la navegación relativa de alta precisión en tiempo real presenta grandes utilidades incluyen la agricultura de precisión, topografía y la navegación autónoma de vehículos, donde un receptor utilizado como estación base transmite correcciones a múltiples receptores móviles o rovers. Estas correcciones son transmitidas en forma de mensajes basados en el estándar RTCM, cuya estandarización permite el empleo de receptores de diferentes características y fabricantes para estas técnicas diferenciales.
 \section*{Motivación}
 \addcontentsline{toc}{section}{Motivación}
+	El presente trabajo se enmarca dentro de los distintos desarrollos llevados a cabo por la UIDET SENyT en torno al desarrollo de receptores GNSS de aplicación espacial. Además del desarrollo, se realiza investigación en distintas areas dentro de los sistemas GNSS. En particular, existe una fuerte linea de investigación relacionada al posicionamiento diferencial de alta precisión. Resulta de interes poder contar con receptores de desarrollo propio que puedan operar de manera diferencial en tiempo real ya que esto da lugar a probar algoritmos de procesamiento diferencial de desarrollo propio. Al trabajar únicamente con receptores comerciales todo el procesamiento se debe realizar de manera no sincrónica, es decir, como post procesamiento, debido a la imposibilidad de modificar el software de los receptores.
 \section*{Objetivos}
 \addcontentsline{toc}{section}{Objetivos}
-Se terminan los objetivos con la estructura del trabajo.
+	El objetivo general de este trabajo es el estudio e implementación de técnicas de posicionamiento diferencial utilizando receptores GNSS diseñados y fabricados en el lugar de trabajo. Dichos receptores cuentan actualmente con la capacidad de generar las mediciones crudas necesarias para la aplicación de estas técnicas. Para ello, deberán cumplirse los objetivos particulares de implementar la transmisión de las correcciones necesarias en base a los estándares para posicionamiento diferencial en un sistema embebido operando en tiempo real. Además de la validación del desarrollo mediante la operación diferencial entre un receptor comercial y el receptor con la implementación llevada a cabo.
+
+	El trabajo se estructura de la siguiente manera: El Capítulo \ref{ch:GNSS} presenta los conceptos principales de los Sistemas Globales de Navegación por Satélite. En el Capítulo \ref{ch:DGNSS} se aplican esos mismos conceptos a un enfoque diferencial para dar lugar a las bases que fundamentan el objetivo de este trabajo. Posteriormente se presentan ensayos de posicionamiento relativo entre dos receptores GNSS comerciales, los resultados se pueden encontrar en el Capítulo \ref{ch:ublox}. El Capítulo \ref{ch:Qseries} detalla la implementación llevada a cabo en uno de los receptores GNSS propietarios del lugar de trabajo y la validación de esta implementación con la presentación de los resultados se encuentra en el Capítulo \ref{ch:validacion}. Por último, se termina el trabajo dando las conclusiones generales del mismo junto con propuestas de lineas de trabajo a futuro que surgen a partir de lo aquí desarrollado.
 \chapter{Sistemas globales de navegación por satélite}\label{ch:GNSS}
 	Este capítulo introduce los primeros conceptos para el posicionamiento basado en sistemas de navegación por satélite. Incluye una breve descripción del sistema de posicionamiento global (GPS por sus siglas en inglés) junto con sus señales y las mediciones que pueden obtenerse mediante las mismas. Se hace hincapié en las características de estas señales, analizando las fuentes de error que hay presentes en las mediciones que pueden obtenerse de las mismas. Si bien el foco de este trabajo está puesto en el sistema GPS, ya que los resultados obtenidos son para el mismo, se desarrollan los conceptos de este capítulo de forma general para todos los sistemas. 
 	
@@ -794,12 +799,12 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Es interesante recordar como en los capítulos anteriores se analizó la cancelación de los retardos de hardware al combinar mediciones entre receptores, aquí queda en evidencia para un ejemplo de receptor real. Al contar con una etapa de RF individual para cada señal no hay razón para que los retardos instrumentales sean iguales. En caso de que los receptores sean diseñados correctamente para igualar estos retardos las consideraciones son distintas. Por eso es que a la hora del diseño se suele tener en cuenta este detalle incluso para aplicaciones de posicionamiento absoluto ya que es necesario que las señales lleguen sincronizadas a la etapa digital donde serán muestreadas. 
 	
-	En el lugar donde se desarrolla el presente trabajo se cuenta con un par de placas de evaluación para este módulo, con la finalidad de poder realizar experimentos \textit{RTK} con un rover y una base. La placa de evaluación de la que se tiene disponibilidad es la \textit{C099-F9P} \cite{C099_ds}, que además de contar con soporte para la interfaz con el módulo \textit{ZED} tiene un módulo de comunicaciones inalámbricas (ODIN-W2). Este ultimo permite la conexión con otros receptores operando a distancia mediante comunicaciones de radio, en particular utilizando Wi-Fi o Bluetooth. En la Fig. \ref{fig:EvBoard} se puede observar la placa de evaluación. Además de contar con la posibilidad de conectar una antena para la conexión inalámbrica, es posible utilizar los terminales cableados (conectores \textit{Arduino} en la Figura) para una comunicación serie entre la base y el rover mediante UART (Transmisor-Receptor Asíncrono Universal).
+	En el lugar donde se desarrolla el presente trabajo se cuenta con un par de placas de evaluación para este módulo, con la finalidad de poder realizar experimentos \textit{RTK} con un rover y una base. La placa de evaluación de la que se tiene disponibilidad es la \textit{C099-F9P} \cite{C099_ds}, que además de contar con soporte para la interfaz con el módulo \textit{ZED} tiene un módulo de comunicaciones inalámbricas (ODIN-W2). Este ultimo permite la conexión con otros receptores operando a distancia mediante comunicaciones de radio, en particular utilizando Wi-Fi o Bluetooth. En la Fig. \ref{fig:EvBoard} se puede observar la placa de evaluación. Además de contar con la posibilidad de conectar una antena para la conexión inalámbrica, es posible utilizar los terminales cableados (conector J9 en la Fig.~\ref{fig:EvBoard}) para una comunicación serie entre la base y el rover mediante UART (Transmisor-Receptor Asíncrono Universal).
 	
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{/EnsayosUblox/EvBoard.png}
-    \caption{Placa de evaluación \textit{C099-F9P} \textbf{PONER LINEA A Tx y Rx}.}
+    \includegraphics[width=0.7\textwidth]{/EnsayosUblox/ublox_foto.eps}
+    \caption{Placa de evaluación \textit{C099-F9P}.}
     \label{fig:EvBoard}
 \end{figure}
 \subsection{Software de evaluación u-center}\label{sec:ucenter}
@@ -913,10 +918,16 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Hasta aquí se pudieron plantear esquemas que ponen en evidencia de manera experimental lo que es bien conocido a nivel teórico. Se debieron diseñar las condiciones de ensayo para obtener los resultados presentados, lo cual implicó la familiarización con nuevos equipos y herramientas. Esto permite comenzar a desarrollar la parte del trabajo en donde hay implementación directa sobre un sistema embebido, en particular sobre un receptor GNSS desarrollado en la UIDET SENyT.
 
-\chapter{Implementación de la transmisión de correcciones RTCM en un sistema embebido} 
+\chapter{Implementación de la transmisión de correcciones RTCM en un sistema embebido}\label{ch:Qseries}
 	Este capitulo comienza con una descripción de la arquitectura y del funcionamiento de un receptor GNSS propietario de la UIDET SENyT, diseñado y fabricado por completo en el lugar de trabajo. Se desarrollan los aspectos relevantes a la hora de generar un estándar de comunicación RTCM, desde el lado de la estación de referencia. Por ultimo, se presenta la creación de una pila de comunicación completa para el estándar ya mencionado, con su respectiva capa de enlace, capa de protocolo y capa de transporte. Ademas de mencionar decisiones en la implementación de la capa física del enlace.
 \section{Receptor Q Series propietario de SENyT}
-	La linea de receptores \textit{Serie Q} consiste en receptores GNSS con dos entradas independientes de antena, con posibilidad de operar en doble banda ($L_1$ y $L_2$) en ambas antenas. Pueden operar con los sistemas GPS y GLONASS, ademas de que los mismos estan diseñados con un factor de forma CubeSat estandarizado~\cite{Qseries_1}\cite{Qseries_2}.
+	La linea de receptores \textit{Serie Q} consiste en receptores GNSS con dos entradas independientes de antena, con posibilidad de operar en doble banda ($L_1$ y $L_2$) en ambas antenas. Pueden operar con los sistemas GPS y GLONASS, ademas de que los mismos estan diseñados con un factor de forma CubeSat estandarizado~\cite{Qseries_1}\cite{Qseries_2} (ver Fig.~\ref{fig:Q}).
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{/Qseries/receptorQ.png}
+    \caption{Foto del receptor serie Q.}
+    \label{fig:Q}
+\end{figure}
 \subsection{Arquitectura del receptor y funcionamiento}\label{sec:Qarq}
 	Se puede referenciar nuevamente a la Fig.~\ref{fig:BDublox} para una idea a grandes rasgos del diagrama en bloques de un receptor GNSS. En este caso las diferencias principales consisten en la presencia de dos antenas, es por esto que se cuenta con dos cadenas de RF independientes, para cada antena. Esta etapa divide la señal por banda y luego diplexa cada banda a la etapa posterior que es separada para cada frecuencia. La etapa posterior, correspondiente al \textit{front-end} de RF es realizada por un circuito integrado (NT1065 de NTLab). La etapa digital esta implementada en una FPGA, que en particular, sintetiza un procesador de la arquitectura LEON3. La etapa previa de correlación también es implementada mediante descripción de hardware para lograr mayor eficiencia de procesamiento y cuenta con 24 canales independientes para señales en $L_1$ (L1C/A) de GPS/GLONASS y 12 canales para la banda $L_2$ (señal L2C) de GPS.
 
@@ -962,7 +973,7 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	En cuanto a las mediciones de fase de portadora, tal como se había introducido en el Capítulo \ref{ch:GNSS}, la etapa de correlación deberá integrar el \textit{doppler} para obtener una medición de \textit{doppler} acumulado que es equivalente a la medición de fase de portadora. La misma está expresada en ciclos de portadora, por lo que habrá que utilizar la longitud de onda de cada señal con la que se toman esas mediciones si se quisiera llevarlo a metros. Es conveniente utilizarlo en ciclos para evitar conversiones aunque el estándar especifica que la transmisión del mismo debe hacerse en unidades de metros (ver Sección~\ref{sec:RTCM}).
 \section{Pila de comunicación asociada a la interfaz RTCM}
-	El receptor donde se implementa esta etapa del trabajo ya cuenta con una pila de comunicación llamada \textit{Integración y Test} (I\&T) que es utilizada para la comunicación por USB con un cliente que puede obtener datos del receptor. Esta es utilizada tanto para depuración como para poder visualizar los resultados que esta obteniendo el receptor de sus soluciones y parámetros mas importantes. La idea es crear una pila de comunicación independiente de la de I\&T, especifica para el protocolo RTCM. La misma cuenta con una capa física cableada asociada al par de terminales UART del receptor y debera tener su propia capa de dispositivo, protocolo y transporte. En particular, la interfaz UART utilizada se configura para operar a una tasa de 230400 baudios. 
+	El receptor donde se implementa esta etapa del trabajo ya cuenta con una pila de comunicación llamada \textit{Integración y Test} (I\&T) que es utilizada para la comunicación por USB con un cliente que puede obtener datos del receptor. Esta es utilizada tanto para depuración como para poder visualizar los resultados que esta obteniendo el receptor de sus soluciones y parámetros mas importantes. La idea es crear una pila de comunicación independiente de la de I\&T, especifica para el protocolo RTCM. La misma cuenta con una capa física cableada asociada al par de terminales UART del receptor (en el bus de datos que se observa en la Fig.~\ref{fig:Q}) y deberá tener su propia capa de dispositivo, protocolo y transporte. En particular, la interfaz UART utilizada se configura para operar a una tasa de 230400 baudios. 
 	
 	Las rutinas que generan y empaquetan los mensajes RTCM serán invocadas cada vez que suceda el evento de que hay datos de rango disponibles. Esto es indicado por la etapa de navegación con un periodo de un segundo, por lo que la tasa con la que se enviaran los mensajes RTCM sera de 1\,Hz. Se obtienen los datos de las rutinas de navegación y a partir de ahí se revisa que se haya conseguido sincronismo PPS. Si estamos sincronizados a PPS se procede a generar y enviar los mensajes RTCM. En caso contrario no tiene sentido pensar en enviar mediciones crudas de la estación de referencia a un rover, ya que el receptor de la estación no puede asegurar que tiene un sesgo de reloj con respecto al tiempo del sistema lo suficientemente chico. Esto se puede observar en la Fig.~\ref{fig:diagramaflujo_RTCM}, donde vale la aclaración de que las rutinas del estándar RTCM y el resto de las rutinas del receptor están al mismo nivel porque se ejecutan paralelamente.
 
@@ -1085,7 +1096,7 @@ Máscara de celdas GNSS                              & DF396                    
 	Se obtiene una pila de comunicación independiente de las demás presentes en el receptor serie Q, que permite una comunicación según el estándar RTCM entre una estación base y un receptor móvil GNSS operando en modo diferencial. Ademas, por la forma en la que se implementó permite la continuación del trabajo agregando el envío de nuevos mensajes sin necesidad de tener en cuenta capas inferiores en la comunicación, solo trabajando a nivel de protocolo. Es decir, generando los nuevos campos y realizando el empaquetado correcto de los mismos según como lo especifica el estándar.
 	
 	Es natural continuar a partir de aquí con una validación de la pila de comunicación creada, para poner en evidencia si la implementación es correcta y hasta donde se pueden replicar los resultados obtenidos en el Capítulo \ref{ch:ublox} con receptores comerciales.
-\chapter{Validación en tiempo real}
+\chapter{Validación en tiempo real}\label{ch:validacion}
 	Este capítulo presenta las \footnote{asdasdasdas Hola}
 \section{Solución de posición utilizando correcciones diferenciales}
 	No se usan dos receptores iguales, entonces retardos instrumentales no tienen por qué cancelarse. Esto puede explicar las diferencias.
@@ -1095,7 +1106,7 @@ Máscara de celdas GNSS                              & DF396                    
 \subsection{Embrace mediocrity and pray for BART}
 \section{Comparación de los resultados obtenidos por post procesamiento}
 \section{Tiempo utilizado por RTCM (comparado con las otras rutinas)}
-\chapter*{Conclusiones generales}
+\chapter*{Conclusiones generales}\label{ch:conclusion}
 \addcontentsline{toc}{chapter}{Conclusiones generales}
 	
 \section*{Trabajo a futuro}
@@ -1150,3 +1161,4 @@ DF003                                                         &                 
 % Revisar todos los como y cómo para poner bien las tildes.
 % Capítulo por capitulo.
 % Máscara por mascara.
+% Logo senyt VECTORIAL!!!
