@@ -138,9 +138,9 @@
 
 \chapter*{Agradecimientos}
 \addcontentsline{toc}{chapter}{Agradecimientos}
-Primero quiero dar las gracias a mis directores, Javier Smidt y Ernesto López, por la confianza que me depositaron y el constante acompañamiento, tanto técnico como humano. A todo el SENyT en general por haber hecho de este trabajo un proceso disfrutable y de constante aprendizaje. No puedo dejar de mencionar a Germán Scillone y Agus Catellani que sin ellos mis aportes al código del receptor hoy ni compilarían. 
+Primero quiero dar las gracias a mis directores, Javier Smidt y Ernesto López, por la confianza que me depositaron y el constante acompañamiento, tanto técnico como humano. A todo el SENyT en general por haber hecho de este trabajo un proceso disfrutable y de constante aprendizaje. No puedo dejar de mencionar a Germán Scillone y Agus Catellani que sin ellos mis aportes al código del receptor hoy no compilarían. 
 
-A todos los profesores apasionados que me contagiaron el amor por las telecomunicaciones. En especial a Adrián Carlotto, que fue el primero y una gran fuente de confianza para tomar la decisión de seguir, la que para mí, es la especialidad más apasionante de la ingeniería. También a Javier y Agustín Roncagliolo que ademas de introducirme en el mundo GNSS, me abrieron las puertas para seguir forjando mi camino en el mismo.\\
+A todos los profesores apasionados que me contagiaron el amor por las telecomunicaciones. En especial a Adrián Carlotto, que fue el primero y una gran fuente de confianza para tomar la decisión de seguir, la que para mí, es la especialidad más apasionante de la ingeniería. También a Javier y Agustín Roncagliolo que me abrieron las puertas para seguir formando mi camino en el mundo GNSS.\\
 
 Gracias  a todos los amigos y amigas que me dió la facultad, Electrónicos, Aeronáuticos y Nacho. Siempre con las puertas de sus casas abiertas, realmente hicieron que esta etapa sea inolvidable. No puedo evitar pensar en mis amigos de la infancia y algunos más nuevos, Tobi, Martín, Facu, Cami, Chiari, Luci, Kevin y Juani, por estar en todo momento. A la familia Pérez-Arrua, Milton y Santi por las charlas vislumbradoras. A mi familia en Roca por recibirme siempre que necesite volver. Por último el agradecimiento más grande, a Felipe y a mis padres, por permitirme hacer lo que me apasiona y apoyarme incondicionalmente.\\
 
@@ -698,7 +698,7 @@ Punto de Referencia de la Antena (ARP) ECEF-Z       & DF027                     
 	
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{/DGNSS/Parte gruesa y fina.png}
+    \includegraphics[width=1\textwidth]{/DGNSS/Parte_gruesa_fina.eps}
     \caption{Rango al satélite durante todo el tiempo que permanece en vista.}
     \label{fig:rrng_frng}
 \end{figure}
@@ -753,7 +753,7 @@ Máscara de celdas GNSS                              & DF396                    
 	\item[Indicador de múltiples mensajes MSM] En alto si a continuación vendrán mensajes con mediciones para una misma época. En caso de que las mediciones fueron divididas en múltiples mensajes MSM, el rover deberá esperar a recibir el último mensaje para poder usar los datos que cada uno contiene.
 	\item[Indicador de correcciones de reloj] Este campo indica si se están realizando correcciones de reloj al tiempo de receptor de la base que está generando los mensajes. Si se indica que se están haciendo las correcciones, las mismas deben asegurar que el reloj del receptor esté dentro de un rango de $\pm 1\,\mu s$ de error. En caso de indicar que no hay correcciones esta condición es menos restrictiva y el rango aumenta a $\pm 1\,ms$. También hay un estado que indica que no se conoce el estado de las correcciones, por lo que podrían estar haciéndose como no.
 	\item[Indicador de reloj externo] Este campo indica qué tipo de reloj está usando el receptor, un reloj interno o uno externo. Y si fuera externo además se puede indicar si esta enganchado o no, en caso de no estarlo podría haber fallas en este reloj y que la información no sea confiable.
-	\item[Indicador de suavizado sin divergencia] Este campo indica si se realiza un suavizado a las mediciones con un método sin divergencia (\textit{DFS} por sus siglas en inglés), se realiza otro tipo de suavizado o ninguno.
+	\item[Indicador de suavizado sin divergencia] Este campo indica si se realiza un suavizado a las mediciones con un método sin divergencia (\textit{DFs} por sus siglas en inglés), se realiza otro tipo de suavizado o ninguno.
 	\item[Intervalo de suavizado] Es el periodo de integración en el cual se están promediando las mediciones de pseudorango con información de la fase de portadora. En caso de no hacer ningún tipo de suavizado esté campo se llena con ceros.
 	\item[Máscara de satélites GNSS] Este campo va a ser de utilidad para el software decodificador para saber de qué satélites se están enviando mediciones. Es un campo de 64 bits donde cada bit corresponde a un satélite, en GPS corresponden a cada PRN comenzando por el primer bit que equivale a $\text{PRN}_1$. GPS tiene solo 32 satélites operativos por lo que se llenarán la primer mitad del campo con los satélites disponibles y la segunda mitad estará en cero siempre. En GLONASS ocurre lo mismo pero el primer bit corresponde al primer slot de frecuencia.
 	\item[Máscara de señales GNSS] Este campo será utilizado por el software decodificador para saber qué señales tienen mediciones disponibles en los mensajes enviados. Tiene 32 bits y se corresponden con los identificadores de señal del estándar RINEX 3.01. Entonces, si en las mediciones hay disponibilidad de una señal para al menos un satélite, el bit correspondiente a esta señal se encuentra en alto.
@@ -786,7 +786,7 @@ Máscara de celdas GNSS                              & DF396                    
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{/EnsayosUblox/BDublox.png}
+    \includegraphics[width=0.85\textwidth]{/EnsayosUblox/BDublox.eps}
     \caption{Diagrama en bloques del módulo GNSS ZED-F9P.}
     \label{fig:BDublox}
 \end{figure}
@@ -799,7 +799,7 @@ Máscara de celdas GNSS                              & DF396                    
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{/EnsayosUblox/EvBoard.png}
-    \caption{Placa de evaluación \textit{C099-F9P}.}
+    \caption{Placa de evaluación \textit{C099-F9P} \textbf{PONER LINEA A Tx y Rx}.}
     \label{fig:EvBoard}
 \end{figure}
 \subsection{Software de evaluación u-center}\label{sec:ucenter}
@@ -977,12 +977,11 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Para conseguir eficiencia en términos de almacenamiento utilizado, el software del receptor realiza una distinción entre contenedores según tamaño. Siendo los contenedores los espacios de memoria donde se ubican los mensajes antes de ser enviados. Se reserva una cantidad fija de cada contenedor y la pila comienza a llenarlos con mensajes para enviar, cada vez que un mensaje es enviado se libera un contenedor y cuando llega el momento de enviar nuevos mensajes se pide un contenedor disponible para ser llenado. En caso de no contar con contenedores disponibles simplemente se omite el envío de mensajes RTCM hasta contar con contenedores libres.
 	
-	 Aquí se decide implementar tres contenedores, uno pequeño pensado para el mensaje Tipo 1005 (de largo fijo), uno de tamaño mediano pensado para los mensajes MSM (de largo variable pero acotados) hasta el MSM 4, y un ultimo contenedor grande que soporta todos los mensajes MSM (hasta el mas largo que es el MSM 7) e incluso otros mensajes del estándar que pueden ser mas largos que este tipo de mensajes. Los tamaños elegidos y la comparación con los mensajes que deberán contener se puede observar en la Fig.~\ref{fig:contenedores}, siempre quedando un remanente en cuanto a espacio entre el mensaje en su largo máximo y el limite del contenedor correspondiente.
+	 Aquí se decide implementar tres contenedores, uno pequeño pensado para el mensaje Tipo 1005 (de largo fijo), uno de tamaño mediano pensado para los mensajes MSM (de largo variable pero acotados) hasta el MSM 4, y un ultimo contenedor grande que soporta todos los mensajes MSM (hasta el mas largo que es el MSM 7) e incluso otros mensajes del estándar que pueden ser mas largos que este tipo de mensajes. Los tamaños elegidos (en bytes) y la comparación con los mensajes que deberán contener se puede observar en la Fig.~\ref{fig:contenedores}, siempre quedando un remanente en cuanto a espacio entre el mensaje en su largo máximo y el limite del contenedor correspondiente.
 \begin{figure}
     \centering
-%    \includegraphics[width=0.9\textwidth]{/Qseries/contenedores.eps}
-	\includegraphics[width=0.9\textwidth]{/Qseries/Contenedores.pdf}
-    \caption{Tipos de contenedores de la pila de comunicación RTCM.}
+	\includegraphics[width=0.9\textwidth]{/Qseries/Contenedores.eps}
+    \caption{Tipos de contenedores de la pila de comunicación RTCM con los largos límites de cada mensaje (en bytes).}
     \label{fig:contenedores}
 \end{figure}
 
@@ -1087,6 +1086,7 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Es natural continuar a partir de aquí con una validación de la pila de comunicación creada, para poner en evidencia si la implementación es correcta y hasta donde se pueden replicar los resultados obtenidos en el Capítulo \ref{ch:ublox} con receptores comerciales.
 \chapter{Validación en tiempo real}
+	Este capítulo presenta las \footnote{asdasdasdas Hola}
 \section{Solución de posición utilizando correcciones diferenciales}
 	No se usan dos receptores iguales, entonces retardos instrumentales no tienen por qué cancelarse. Esto puede explicar las diferencias.
 	
@@ -1119,7 +1119,7 @@ DF003                                                         &                 
 \begin{thebibliography}{00}
 \bibitem{proakis} John G. Proakis, Masoud Salehi, ``Digital Communications'', 5th ed., McGraw Hill.
 \bibitem{kaplan} Elliot D. Kaplan, Christopher J. Hegarty, ``Understandign GPS: Principles and Applications'', 2nd ed., Artech House.
-\bibitem{handbook} Peter J.G. Teunissen, Oliver Montenbruck, ``Handbook of Global Navigation Satellite Systems'', Springer.
+\bibitem{handbook} Peter J.G. Teunissen \& Oliver Montenbruck (eds.), ``Handbook of Global Navigation Satellite Systems'', Springer.
 \bibitem{psiakis} Mark L. Psiaki and S. Mohiuddin, ``Modeling, Analysis, and Simulation of GPS Carrier Phase for Spacecraft Relative Navigation'', \textit{Journal of Guidance, Control, and Dynamics}, vol. 30, num. 6, 2007, pp. 1628-1639.
 \bibitem{bart} Garcia, Javier G. and Roncagliolo, Pedro A. and Muravchik, Carlos H., ``A Bayesian Technique for Real and Integer Parameters Estimation in Linear Models and Its Application to GNSS High Precision Positioning'', IEEE Transactions on Signal Processing, vol. 64, no. 4, 2016, pp. 923-933.
 \bibitem{rtcm} Cita del estándar RTCM v3.3.(me falta buscar bien como se cita un estándar).
