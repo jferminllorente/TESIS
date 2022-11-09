@@ -1112,8 +1112,22 @@ Máscara de celdas GNSS                              & DF396                    
 	Es natural continuar a partir de aquí con una validación de la pila de comunicación creada, para poner en evidencia si la implementación es correcta y hasta donde se pueden replicar los resultados obtenidos en el Capítulo \ref{ch:ublox} con receptores comerciales.
 \chapter{Validación en tiempo real}\label{ch:validacion}
 	Este capítulo presenta las \footnote{asdasdasdas Hola}
-\section{Solución de posición utilizando correcciones diferenciales}
-	No se usan dos receptores iguales, entonces retardos instrumentales no tienen por qué cancelarse. Esto puede explicar las diferencias.
+\section{Receptor Serie Q como estacion de referencia estacionaria}
+	En esta etapa del trabajo se procede a poner en funcionamiento el receptor serie Q con el que se va a trabajar (introducido en el Capitulo~\ref{ch:Qseries}). En el capitulo anterior se testeo la pila de comunicaciones creada, por lo que fue necesario cargar el software del receptor en el mismo, pero sin la necesidad de que reciba señales de los satelites GPS. Ahora sera necesario llegar a este punto por lo que se debera conectar la antena en una de los conectores de antena del receptor (ver Fig~\ref{fig:Q}) y corroborar que el mismo esta adquiriendo señales de los distintos satelites en vista. 
+	
+	A traves del comando de \textit{Linux} {\ttfamily `make'}, se puede compilar el ejecutable del software que debera ser cargado en memoria RAM del receptor. Una vez cargado este ejecutable en el receptor, desde una computadora y a traves de uno de los puertos serie, se puede dar inicio al programa y conectar un cliente que escuche una de las interfaces de comunicaciones del receptor. Se pueden visualizar los mensajes de consola que envia el receptor, los datos del estado de los canales y los datos de navegacion. Los mensajes de consola dan informacion respecto a las rutinas que esta ejecutando el receptor, en general para depuracion y a modo de conocer en que estado se encuentra el mismo durante la ejecucion. En el estado de los canales lo que se puede observar es el identificador de la señal que esta en seguimiento por cada canal, en particular, el sistema, la frecuencia y a que satelite corresponde. Ademas, se puede ver la estimacion de la frecuencia de portadora junto con el $C/N_0$ que se recibe. La visualizacion de los datos de navegacion contiene la calidad de la solucion, segun los testeos que haya pasado. En particular, para la aplicacion aqui tratada interesa la solucion de mejor calidad, la misma se obtiene con observables de mas de cuatro satelites para que el receptor pueda validar la solucion de posicion con redundancia. Esta solucion es etiquetada como solucion con calidad $S_4$. 
+%\begin{itemize}
+%	\item $S_0$: No hay solucion.
+%	\item $S_2$: Hay solucion pero no es segura ya que solo 4 sats.
+%	
+%	\item $S_4$: Hay solucion y fue validada por el propio receptor. Sats>4
+%	
+%\end{itemize}
+	
+	Ademas, se puede visualizar la solucion de posicion obtenida con cada una de las dos frecuencias (GPS $L_1$ y $L_2$) junto con la de velocidad en cada coordenada. Y por ultimo, existe un indicador de si hay sincronismo PPS, que en general es obtenido algunas epocas posteriores a haber conseguido una solucion con calidad $S_4$. 
+	
+	En los ensayos aqui tratados queda en evidencia el tiempo que demora el receptor en tener la primer solucion de posicion. Debido a la busqueda ciega mencionada en el Capitulo~\ref{ch:Qseries}, segun que tan favorable sea la geometria de satelites al momento del ensayo puede demorar mas tiempo o menos. La busqueda de cada señal demora aproximadamente 18 segundos si se configura una incerteza a la frecuencia de portadora de 14\,kHz. De esta manera, si los primeros cuatro satelites en vista corresponden a un SVID alto, es esperable que la primera solucion sea obtenida luego de algunos minutos de busqueda. Esto muestra el tiempo prolongado que lleva realizar cada ensayo con este receptor.
+	No se usan dos receptores iguales, entonces retardos instrumentales no tienen por qué cancelarse. Esto puede explicar las diferencias. OJO QUE TA MAL esto.
 %	
 	Si bien un escenario de receptores operando en modo DGNSS con una linea de base nula no tiene real utilidad práctica, la validación de la implementación se puede realizar de este modo. Y en caso de modificar la capa física del enlace de comunicación por una con mayor alcance, como podría ser utilizando señales de radio, simplemente variarán los resultados de desempeño pues el protocolo se encuentra completamente implementado y funcional. La modificación de la interfaz por donde se envían los mensajes RTCM es un problema aislado del que se presenta en este trabajo, debido a la modularización que se logró en la implementación realizada.
 \section{Resolución de ambigüedades fijas}
