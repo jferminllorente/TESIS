@@ -762,7 +762,7 @@ Máscara de celdas GNSS                              & DF396                    
 	\item[Indicador de múltiples mensajes MSM] En alto si a continuación vendrán mensajes con mediciones para una misma época. En caso de que las mediciones fueron divididas en múltiples mensajes MSM, el rover deberá esperar a recibir el último mensaje para poder usar los datos que cada uno contiene.
 	\item[Indicador de correcciones de reloj] Este campo indica si se están realizando correcciones de reloj al tiempo de receptor de la base que está generando los mensajes. Si se indica que se están haciendo las correcciones, las mismas deben asegurar que el reloj del receptor esté dentro de un rango de $\pm 1\,\mu s$ de error. En caso de indicar que no hay correcciones esta condición es menos restrictiva y el rango aumenta a $\pm 1\,ms$. También hay un estado que indica que no se conoce el estado de las correcciones, por lo que podrían estar haciéndose como no.
 	\item[Indicador de reloj externo] Este campo indica qué tipo de reloj está usando el receptor, un reloj interno o uno externo. Y si fuera externo además se puede indicar si esta enganchado o no, en caso de no estarlo podría haber fallas en este reloj y que la información no sea confiable.
-	\item[Indicador de suavizado sin divergencia] Este campo indica si se realiza un suavizado a las mediciones con un método sin divergencia (\textit{DFs} por sus siglas en inglés), se realiza otro tipo de suavizado o ninguno.
+	\item[Indicador de suavizado sin divergencia] Este campo indica si se realiza un suavizado a las mediciones con un método sin divergencia (\textit{DFS} por sus siglas en inglés), se realiza otro tipo de suavizado o ninguno.
 	\item[Intervalo de suavizado] Es el periodo de integración en el cual se están promediando las mediciones de pseudorango con información de la fase de portadora. En caso de no hacer ningún tipo de suavizado esté campo se llena con ceros.
 	\item[Máscara de satélites GNSS] Este campo va a ser de utilidad para el software decodificador para saber de qué satélites se están enviando mediciones. Es un campo de 64 bits donde cada bit corresponde a un satélite, en GPS corresponden a cada PRN comenzando por el primer bit que equivale a $\text{PRN}_1$. GPS tiene solo 32 satélites operativos por lo que se llenarán la primer mitad del campo con los satélites disponibles y la segunda mitad estará en cero siempre. En GLONASS ocurre lo mismo pero el primer bit corresponde al primer slot de frecuencia.
 	\item[Máscara de señales GNSS] Este campo será utilizado por el software decodificador para saber qué señales tienen mediciones disponibles en los mensajes enviados. Tiene 32 bits y se corresponden con los identificadores de señal del estándar RINEX 3.01. Entonces, si en las mediciones hay disponibilidad de una señal para al menos un satélite, el bit correspondiente a esta señal se encuentra en alto.
@@ -859,7 +859,7 @@ Máscara de celdas GNSS                              & DF396                    
 
 \section{Desempeño y calidad de la solución}
 	El fabricante provee el protocolo UBX para loguear datos de los receptores. Es necesario establecer un cliente que pueda conectarse mediante un puerto serie al receptor y guardar los datos que fueron configurados para ser enviados. Haciendo las conversiones necesarias entre formatos se obtienen los datos de solución de posición para cada época y así poder analizar los resultados.
-\subsection{Ensayo con rover operando individualmente} 
+\subsection{Ensayo con rover operando individualmente}\label{sec:rover_alone}
 \begin{figure}
 
 \begin{subfigure}{1\linewidth}
@@ -896,11 +896,11 @@ Máscara de celdas GNSS                              & DF396                    
 %\end{figure}
 
 
-	El gráfico de la Fig.~\ref{fig:scatter_ublox_GNSS} muestra la dispersión que presentan las soluciones obtenidas, se puede notar por la escala de los ejes que hay dispersión al nivel de los metros. Esto resulta esperable por lo que se ha planteado en el Capítulo \ref{ch:GNSS} al trabajar con un enfoque GNSS no diferencial. Además, se indica la posición real de la antena SENyT utilizada en el ensayo para dejar en evidencia que al trabajar con un enfoque de posicionamiento absoluto además de tener una precisión en el orden de la mencionada, hay errores sistemáticos en la medición que no van a ser cancelados. Aquí el receptor está operando a doble frecuencia por lo que puede cancelar el efecto de la ionosfera, pero aún queda el efecto de la troposfera y demás errores presentes en la medición de pseudorango que se discutieron en el Capítulo \ref{ch:GNSS}. En cuanto a la nube de soluciones obtenidas por el receptor, las mismas alcanzan dispersiones del orden del metro (en las proyecciones es evidente resulta esta dispersión para cada coordenada).
+	El gráfico de la Fig.~\ref{fig:scatter_ublox_GNSS} muestra la dispersión que presentan las soluciones obtenidas, se puede notar por la escala de los ejes que hay dispersión al nivel de los metros. Esto resulta esperable por lo que se ha planteado en el Capítulo \ref{ch:GNSS} al trabajar con un enfoque GNSS no diferencial. Además, se indica la posición real de la antena SENyT utilizada en el ensayo para dejar en evidencia que al trabajar con un enfoque de posicionamiento absoluto además de tener una precisión en el orden de la mencionada, hay errores sistemáticos en la medición que no van a ser cancelados. Aquí el receptor está operando a doble frecuencia por lo que puede cancelar el efecto de la ionosfera, pero aún queda el efecto de la troposfera. En cuanto a la nube de soluciones obtenidas por el receptor, las mismas alcanzan dispersiones del orden del metro (en las proyecciones es evidente cómo resulta esta dispersión para cada coordenada). Se observa que no hay una dispersión uniforme que se podría asociar a ruido, en cambio, las soluciones se concentran por zonas. Esto indica correlación temporal debido a errores que están presentes en la medición, tales como multicamino y demás errores en el pseudorango que se discutieron en el Capítulo \ref{ch:GNSS}. El multicamino es un ejemplo muy evidente ya que depende de la geometría entre los satélites y el receptor, que va a cambiar con el tiempo.
 	
 	 Se puede agregar un gráfico de la desviación de cada coordenada respecto a la posición real de la antena (ver Fig. \ref{fig:error_ublox_GNSS}). Se indica el valor medio que presentan estas desviaciones y el mismo es realmente notables en las tres coordenadas. Aquí se observa con mas detalle como las mediciones oscilan respecto a su valor medio pudiendo llegar a un metro de diferencia una de otra, confirmando lo que se discutió con la Fig.~\ref{fig:scatter_ublox_GNSS}. Pero al analizar la varianza de las soluciones obtenidas en base a la desviación estándar indicada en la figura, se ve que es similar para las tres coordenadas, obteniendo un valor de $3\sigma$ cercano al metro. 
 
-\subsection{Ensayo RTK}
+\subsection{Ensayo RTK}\label{sec:RTK_ublox}
 	Aquí es donde podremos observar la ganancia presentada por un esquema DGNSS, que logra entrar en modo RTK, comparando con los resultados obtenidos en el ensayo presentado anteriormente. Se trabaja con la base y el rover en un esquema como el presentado en la Sección \ref{sec:esquema_ZBL}, los receptores operando a doble frecuencia, con el sistema GPS y utilizando la antena SENyT. Se toman muestras aproximadamente por trece minutos, en particular, 832 épocas con mediciones cada un segundo. 
 	
 \begin{figure}
@@ -1120,27 +1120,119 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Es natural continuar a partir de aquí con una validación de la pila de comunicación creada, para poner en evidencia si la implementación es correcta y hasta donde se pueden replicar los resultados obtenidos en el Capítulo \ref{ch:ublox} con receptores comerciales.
 \chapter{Validación en tiempo real}\label{ch:validacion}
-	Este capítulo presenta las \footnote{asdasdasdas Hola}
-\section{Receptor Serie Q como estación de referencia estacionaria}
+	Este capítulo presenta las 
+\section{Receptor Serie Q utilizado como estación de referencia estacionaria}
 	En esta etapa del trabajo se procede a poner en funcionamiento el receptor serie Q con el que se va a trabajar (introducido en el Capitulo~\ref{ch:Qseries}). En el capitulo anterior se puso a prueba la pila de comunicaciones creada, por lo que fue necesario cargar el software del receptor en el mismo, pero sin la necesidad de que reciba señales de los satélites GPS. Ahora es necesario llegar a este punto por lo que se debe conectar la antena en una de los conectores de antena del receptor (ver Fig~\ref{fig:Q}) y corroborar que el mismo esté adquiriendo señales de los distintos satélites en vista. 
-	
-	A través del comando de \textit{Linux} {\ttfamily `make'}, se puede compilar el ejecutable del software que se carga en memoria RAM del receptor. Una vez cargado este ejecutable en el receptor, desde una computadora y a través de uno de los puertos serie, se puede dar inicio al programa y conectar un cliente que escuche una de las interfaces de comunicaciones del receptor. Se pueden visualizar los mensajes de consola que envía el receptor, los datos del estado de los canales y los datos de navegación. Los mensajes de consola dan información respecto a las rutinas que esta ejecutando el receptor, en general para depuración y a modo de conocer en que estado se encuentra el mismo durante la ejecución. En el estado de los canales lo que se puede observar es el identificador de la señal que está en seguimiento por cada canal, en particular, el sistema, la frecuencia y a qué satélite corresponde. Ademas, se puede ver la estimación de la frecuencia de portadora junto con el $C/N_0$ que se recibe. La visualización de los datos de navegación contiene la calidad de la solución, según las validaciones que haya pasado. 
+\begin{figure}
+\begin{subfigure}{1\linewidth}
+    \centering
+	\includegraphics[width=1\textwidth]{/validacion/sgr_channelstatus.png}
+    \caption{Estado de los canales.}
+    \label{fig:sgr_channelstatus}
+\end{subfigure}
+
+\begin{subfigure}{1\linewidth}
+    \centering
+	\includegraphics[height=0.9\textwidth]{/validacion/sgr_navigation.png}
+    \caption{Datos de navegación.}
+    \label{fig:sgr_navigation}
+\end{subfigure}
+\caption{Terminales cliente recibiendo datos del receptor operando en GPS $L_1/L_2$, 9 satélites en vista.}
+\label{fig:sgrclient}
+\end{figure}
+	A través del comando de \textit{Linux} {\ttfamily `make'}, se puede compilar el ejecutable del software que se carga en memoria RAM del receptor. Una vez cargado este ejecutable en el receptor, desde una computadora y a través de uno de los puertos serie, se puede dar inicio al programa y conectar un cliente que escuche una de las interfaces de comunicaciones del receptor. Se pueden visualizar los mensajes de consola que envía el receptor, los datos del estado de los canales y los datos de navegación. Los mensajes de consola dan información respecto a las rutinas que esta ejecutando el receptor, en general para depuración y a modo de conocer en que estado se encuentra el mismo durante la ejecución. En el estado de los canales lo que se puede observar es el identificador de la señal que está en seguimiento por cada canal, en particular, el sistema, la frecuencia y a qué satélite corresponde. En la Fig.~\ref{fig:sgr_channelstatus} se puede observar como no todos los satélites GPS tienen señal en $L_2$. Ademas, se puede ver la estimación de la frecuencia de portadora junto con el $C/N_0$ que se recibe. Es interesante observar como las frecuencias de portadora se mantienen siempre al rededor del valor conocido de $L_1$ o $L_2$, pero hay desviaciones debido al \textit{doppler} asociado a la dinamica de los satélites. La visualización de los datos de navegación contiene la calidad de la solución, según las validaciones que haya pasado, las más significativas para los ensayos aquí tratados se muestran a continuación.
 \begin{itemize}
 	\item $S_0$: No hay solución.
 	\item $S_2$: Hay solución pero no es segura ya que se utilizaron observables de solo cuatro satélites en vista.
 	\item $S_4$: Hay solución y fue validada por el propio receptor ya que se cuenta con observables de más de cuatro satélites en vista.
 \end{itemize}
-	En particular, para la aplicación aquí tratada interesa la solución de mejor calidad, la misma se obtiene con observables de mas de cuatro satélites para que el receptor pueda validar la solución de posición con redundancia. Esta solución es etiquetada como solución con calidad $S_4$. 
-	Ademas, se puede visualizar la solución de posición obtenida con cada una de las dos frecuencias (GPS $L_1$ y $L_2$) junto con la de velocidad en cada coordenada. Y por ultimo, existe un indicador de si hay sincronismo PPS, que en general es obtenido algunas épocas posteriores a haber conseguido una solución con calidad $S_4$. 
-	
+	Ademas, se puede visualizar la solución de posición obtenida con cada una de las dos frecuencias (GPS $L_1$ y $L_2$) junto con la de velocidad en cada coordenada. Y por ultimo, existe un indicador de si hay sincronismo PPS (ver Fig.~\ref{fig:sgr_navigation}), que en general es obtenido algunas épocas posteriores a haber conseguido una solución con calidad $S_4$. En particular, por las condiciones necesarias para que el protocolo de comunicación RTCM sea activado interesa la solución de mejor calidad.
+	 
 	En los ensayos aquí tratados queda en evidencia el tiempo que demora el receptor en tener la primer solución de posición. Debido a la búsqueda ciega mencionada en el Capitulo~\ref{ch:Qseries}, según que tan favorable sea la geometría de satélites al momento del ensayo puede demorar mas tiempo o menos. La búsqueda de cada señal demora aproximadamente 18 segundos si se configura una búsqueda de la frecuencia de portadora con una incerteza de 14\,kHz. De esta manera, si los primeros cuatro satélites en vista corresponden a un SVID alto, es esperable que la primera solución sea obtenida luego de algunos minutos de búsqueda. Esto muestra el tiempo prolongado que lleva realizar cada ensayo con este receptor.
-	No se usan dos receptores iguales, entonces retardos instrumentales no tienen por qué cancelarse. Esto puede explicar las diferencias. OJO QUE TA MAL esto.
+
+\section{Uso de CPU de las rutinas RTCM}
+	Dentro de los mensajes que el receptor envía por consola, se puede observar un balance del uso de CPU de las distintas rutinas que ejecuta el mismo. En particular, tiene valor analizar el porcentaje de tiempo que es utilizado por las rutinas asociadas a la pila de comunicación RTCM. En general el receptor operando con el sistema GPS y a doble banda, esta más de la mitad del tiempo inactivo o esperando algún evento para ejecutar nuevas rutinas. Pero en caso de trabajar en una configuración demandante (en cuanto a tiempos de procesamiento) y esperar enviar mensajes RTCM, es de utilidad que la comunicación RTCM no se lleve gran parte del tiempo de computo utilizado por el receptor. 
+
+	Esto se pudo poner a prueba y corroborar que la funcionalidad agregada no interfiere con el resto las tareas del receptor. En la Fig.~\ref{fig:CPU_usage} se puede observar el porcentaje de tiempo empleado por cada hilo. La primer columna indica el nombre para identificar cada hilo, la segunda muestra la cantidad de segundos que fueron utilizados por cada tarea en un lapso de 10 segundos y la ultima columna lo muestra en porcentaje. Los hilos correspondientes a la comunicación RTCM estan resaltados y tienen por nombre \textit{PRTK} y \textit{TRTK} para la capa de protocolo y de transporte, respectivamente. Estos resultados corresponden con las condiciones presentadas en la Fig.~\ref{fig:sgrclient}, al estar con la bandera de sincronización PPS en alto se ejecutan todas las rutinas del protocolo RTCM y el mismo consume tiempo de CPU. Cabe destacar que la capa de protocolo es la que domina en cuanto a tiempo de computo, ya que es la que debe generar y empaquetar los campos, en cambio el uso asociado a la capa de transporte es realmente insignificante ya que solo agrega el encabezado, el pie y encola los mensajes a ser enviados. 
+\begin{figure}
+    \centering
+	\includegraphics[width=0.6\linewidth]{/validacion/CPU_usage.png}
+    \caption{Tiempo de uso de CPU del receptor por los distintos hilos.}
+    \label{fig:CPU_usage}
+\end{figure}
+	De todas maneras, el tiempo total empleado por las rutinas RTCM no tiene peso frente a otras rutinas asociadas a la etapa de seguimiento como son \textit{UTRK} y \textit{LTRK}.
+\section{Ensayo DGNSS sin mediciones de fase}
+	Durante una etapa del trabajo no era posible la utilización de las mediciones de fase debido a que las mismas no eran empaquetadas correctamente por la capa de protocolo RTCM. Se sacó provecho de esta situación para realizar ensayos de posicionamiento relativo utilizando solo mediciones de pseudorango. La base enviaba los mismos mensajes pero con mediciones de fase que no podrían ser utilizadas por el rover por lo que el software decodificador las descartaría. El ensayo realizado es con una linea de base nula tal como se mostró en el Capítulo~\ref{ch:ublox}, con el receptor serie Q como base y el receptor del fabricante \textit{u-blox} como rover. El enlace de comunicación RTCM es cableado por la interfaz UART, el receptor está operando con el sistema GPS a doble frecuencia ($L_1/L_2$) y se tomaron mediciones por aproximadamente 15 minutos. Esto corresponde a 916 épocas cada 1 segundo (ver Fig.~\ref{fig:ensayoDGNSS_psrng_Q} para mayor detalle de las condiciones de ensayo).
+	
+	Se espera que el rover no pueda entrar en modo RTK y no logre estimar ni siquiera ambigüedades flotantes. Si las mediciones de fase de portadora no son correctas no existe forma de que las utilice para la estimación de las ambigüedades, ni siquiera va a haber consistencia entre las mismas mediciones de fase. Al realizar el ensayo observa que el receptor logra entrar en modo \textit{3D/DGNSS}, es decir, está recibiendo mensajes RTCM y logra hacer un posicionamiento relativo, pero sin hacer uso de las mediciones de fase. 
+\begin{figure}
+\begin{subfigure}{1\linewidth}
+\centering
+%\subfloat[Gráfico de dispersión de las soluciones de posición.]{%
+  	\includegraphics[width=0.7\textwidth]{/validacion/psrng_scatter_ENU.png}
+  	\caption{Gráfico de dispersión ENU de las soluciones de posición relativa (linea base).}
+    \label{fig:scatter_psrng_DGNSS_Q}
+\end{subfigure}
+
+
+\begin{subfigure}{1\linewidth}
+\centering
+%\subfloat[Errores para cada coordenada.]{%
+ 	\includegraphics[width=0.7\textwidth]{/validacion/psrng_time_ENU.eps}
+ 	\caption{Error ENU de linea base.}
+  	\label{fig:error_psrng_DGNSS_Q}
+
+\end{subfigure}
+\caption{Ensayo de posicionamiento relativo con linea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con ocho satélites en vista.}
+\label{fig:ensayoDGNSS_psrng_Q}
+\end{figure}
+
+	Se presenta un diagrama de dispersión de la solución de posición relativa (ver Fig~\ref{fig:scatter_psrng_DGNSS_Q}) y si bien no se logra bajar la dispersión de las soluciones obtenidas, u obtener mejor precisión, se observa como se pudo cancelar el efecto de los errores sistemáticos presentados en el ensayo del receptor operando individualmente (Sección~\ref{sec:rover_alone}). Esto es evidente al analizar las proyecciones de la nube de puntos en las distintas coordenadas, están todas centradas y además tienen una forma uniforme. A partir de esto se pone en evidencia cómo se lograron cancelar los errores en la medición debido a la formación de mediciones en dobles diferencias, resultando en una dispersión dominada por ruido de tipo gaussiano. Esta última es la principal diferencia que se presenta con los resultados obtenidos al trabajar con un receptor operando individualmente.
+	
+	Si bien al utilizar mediciones en DD, se obtienen diferencias en los resultados con los que se compara, la precisión lograda no tiene cambios significativos. Esto es debido a que se siguen utilizando mediciones de pseudorango para obtener la solución de posición, entonces la dispersión de las soluciones sigue estando dominada por el ruido en la formación del pseudorango. Los resultados se condicen con lo esperado debido al tipo de solución lograda por el rover, en el modo \textit{3D/DGNSS} no se logra aprovechar la precisión de las mediciones de fase.
+	
+	Lo discutido con el gráfico de dispersión puede ser visto con mayor claridad en términos de los errores de línea base obtenidos con cada coordenada (Fig.~\ref{fig:error_psrng_DGNSS_Q}). Cada coordenada presenta un valor medio muy cercano al cero, y una varianza prácticamente igual al caso con el que se compara (receptor operando individualmente). La coordenada vertical presenta una media un poco desplazada del cero y una mayor varianza, pero esto se puede atribuir a los efectos que presenta la coordenada vertical debido a la geometría (mayor DOP discutido en el Capítulo~\ref{ch:ublox}).
+\section{Resolución de ambigüedades fijas}
+\begin{figure}
+\centering
+ 	\includegraphics[width=0.7\textwidth]{/validacion/transition_float_fix_Q_DGNSS.eps}
+ 	\caption{Error ENU de linea base mientras intenta resolver ambigüedades.}
+  	\label{fig:trans_float_fix_DGNSS_Q}
+\end{figure}
+	Una vez resuelto el inconveniente con el empaquetado de las mediciones de fase del receptor serie Q, se procede a ensayar un esquema de posicionamiento relativo RTK con receptores de distinto modelo. Con este ensayo se busca validar por completo el desarrollo e implementación realizados.
+\begin{figure}
+\begin{subfigure}{1\linewidth}
+\centering
+  	\includegraphics[width=0.7\textwidth]{/validacion/FIX_scatter_ENU.png}
+  	\caption{Gráfico de dispersión ENU de las soluciones de posición relativa (línea base).}
+    \label{fig:scatter_fix_DGNSS_Q}
+\end{subfigure}
+
+\begin{subfigure}{1\linewidth}
+\centering
+ 	\includegraphics[width=0.7\textwidth]{/validacion/FIX_time_ENU.eps}
+ 	\caption{Error ENU de linea base.}
+  	\label{fig:error_fix_DGNSS_Q}
+\end{subfigure}
+\caption{Ensayo RTK con línea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con diez satélites en vista.}
+\label{fig:ensayoDGNSS_fix_Q}
+\end{figure}
+	
+	Ya se mencionó que el receptor utilizado solo puede operar con las señales \textit{L1C} y \textit{L2L} según RINEX. Como la comparación natural en esta sección corresponde con los ensayos RTK realizados entre dos receptores comerciales \textit{u-blox} (ver Sección~\ref{sec:RTK_ublox}), cabe destacar que ese ensayo se realizó con las señales \textit{L1C} y \textit{L2C}. Esto no genera inconvenientes pero es un cambio en las condiciones de ensayo impuesto por las limitaciones que presenta el receptor utilizado como base.
+	
+	Aquí el rover intentará resolver ambigüedades flotantes mediante técnicas como las presentadas en el Capítulo \ref{ch:DGNSS}, en caso de tener éxito con esto procederá a resolver las ambigüedades enteras y fijarlas. Es interesante observar cómo resultan los errores en cada coordenada ENU de la línea base al inicio del ensayo mientras intenta resolver las ambigüedades (ver Fig.~\ref{fig:trans_float_fix_DGNSS_Q}). La evolución de cada coordenada converge a un valor centrado en cero, a partir de la época número siete, es decir, 7 segundos luego de comenzar el ensayo, se logran fijar las ambigüedades y el error en cada coordenada disminuye notablemente. El detalle de cada coordenada una vez que se logró resolver ambigüedades se puede observar en la Fig.~\ref{fig:error_fix_DGNSS_Q}.
+		
+	Los resultados de este ensayo presentados de igual manera que para los ensayos anteriores se pueden observar en la Fig.~\ref{fig:ensayoDGNSS_fix_Q}. Se obtiene una mejora considerable con respecto al ensayo donde no se utilizan mediciones de fase, esto es esperable ya que al resolver las ambigüedades se consigue utilizar las mediciones de fase de portadora como mediciones de rango pero con errores al nivel de los centímetros. Es de interés analizar la nube de soluciones obtenidas ya que se puede distinguir a grandes rasgos dos nubes, una exterior y otra interior. La nube exterior puede ser circunscrita en una circunferencia de 5\,cm de radio y se mantiene la diferencia entre las proyecciones que ya se discutió reiteradamente a lo largo de este trabajo. En cuanto a la nube interior, sucede lo mismo pero la circunferencia tiene un radio de 1\,cm o incluso menos. 
+	
+	Es necesaria una distinción entre ambas nubes ya que las mediciones tiene valores anómalos, esto se puede observar tanto en el gráfico de dispersión (Fig.~\ref{fig:scatter_fix_DGNSS_Q}) como en el error de cada coordenada (Fig.~\ref{fig:error_fix_DGNSS_Q}). En los errores de cada coordenada se presentan como los picos que existen casi de manera periódica y hacen que la varianza del error crezca considerablemente. La nube interior o más densa corresponde a las soluciones de posición sin tener en cuenta estos valores anómalos. Y se condice con los valores obtenidos en el error de cada coordenada de la Fig.~\ref{fig:error_fix_DGNSS_Q} (sin tener en cuenta los picos).
+	
+	Como estos resultados se repiten en los distintos ensayos de este tipo realizados, se puede atribuir este comportamiento al receptor serie Q que es utilizado como estación base. En trabajos anteriores se ha observado un comportamiento no esperable en la generación de las mediciones de fase de portadora en la frecuencia $L_1$. En particular, se observaba que las ambigüedades de las mediciones no eran constantes, sino que presentaban una deriva. De esta manera se puede explicar que cada vez que la deriva de las ambigüedades en esta medición de fase crece de manera tal que hace incrementar el valor entero de ambigüedades en uno, se observa una solución de posición anómala o un pico en el error de las distintas coordenadas.
+	 
+	\textbf{Aclarar mejoras respecto a sección anterior y que no se llega a algo igual a lo que obtienen los dos ublox.}
+\section{Conclusiones}
+No se usan dos receptores iguales, entonces retardos instrumentales no tienen por qué cancelarse. Esto puede explicar las diferencias. OJO QUE TA MAL esto.
 %	
 	Si bien un escenario de receptores operando en modo DGNSS con una linea de base nula no tiene real utilidad práctica, la validación de la implementación se puede realizar de este modo. Y en caso de modificar la capa física del enlace de comunicación por una con mayor alcance, como podría ser utilizando señales de radio, simplemente variarán los resultados de desempeño pues el protocolo se encuentra completamente implementado y funcional. La modificación de la interfaz por donde se envían los mensajes RTCM es un problema aislado del que se presenta en este trabajo, debido a la modularización que se logró en la implementación realizada.
-\section{Resolución de ambigüedades fijas}
-\subsection{Embrace mediocrity and pray for BART}
-\section{Comparación de los resultados obtenidos por post procesamiento}
-\section{Tiempo utilizado por RTCM (comparado con las otras rutinas)}
 \chapter*{Conclusiones generales}\label{ch:conclusion}
 \addcontentsline{toc}{chapter}{Conclusiones generales}
 	
