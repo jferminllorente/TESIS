@@ -860,6 +860,27 @@ Máscara de celdas GNSS                              & DF396                    
 \section{Desempeño y calidad de la solución}
 	El fabricante provee el protocolo UBX para loguear datos de los receptores. Es necesario establecer un cliente que pueda conectarse mediante un puerto serie al receptor y guardar los datos que fueron configurados para ser enviados. Haciendo las conversiones necesarias entre formatos se obtienen los datos de solución de posición para cada época y así poder analizar los resultados.
 \subsection{Ensayo con rover operando individualmente} 
+\begin{figure}
+
+\begin{subfigure}{1\linewidth}
+\centering
+%\subfloat[Gráfico de dispersión de las soluciones de posición.]{%
+  	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ECEF_GNSS_ublox.png}
+  	\caption{Gráfico de dispersión ECEF de las soluciones de posición con la posición real de la antena.}
+    \label{fig:scatter_ublox_GNSS}
+\end{subfigure}
+
+\begin{subfigure}{1\linewidth}
+\centering
+%\subfloat[Errores para cada coordenada.]{%
+ 	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ErroresXYZ_gnssUblox.eps}
+ 	\caption{Error de posición ECEF respecto a posición real.}
+  	\label{fig:error_ublox_GNSS}
+
+\end{subfigure}
+\caption{Ensayo de un receptor individual operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
+\label{fig:ensayoGNSS_ublox}
+\end{figure}
 	En primer lugar se puede ver un gráfico de dispersión de las soluciones obtenidas en coordenadas ECEF para un receptor \textit{u-blox} operando por su cuenta, sin pensar en un enfoque \textit{RTK}. La Fig. \ref{fig:scatter_ublox_GNSS} muestra este resultado con el receptor operando solo con el sistema GPS, a doble frecuencia ($L_1$ y $L_2$) y utilizando la antena activa ya mencionada anteriormente, que a partir de aquí será referenciada como \textit{antena SENyT}. Se tomaron mediciones por diez minutos aproximadamente, para ser específicos por 625 épocas (cada un segundo).
 %\begin{figure}
 %    \centering
@@ -874,29 +895,10 @@ Máscara de celdas GNSS                              & DF396                    
 %    \label{fig:error_ublox_GNSS}
 %\end{figure}
 
-\begin{figure}
 
-\begin{subfigure}{1\linewidth}
-\centering
-%\subfloat[Gráfico de dispersión de las soluciones de posición.]{%
-  	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ECEF_GNSS_ublox.png}
-  	\caption{Gráfico de dispersión de las soluciones de posición.}
-    \label{fig:scatter_ublox_GNSS}
-\end{subfigure}
-
-\begin{subfigure}{1\linewidth}
-\centering
-%\subfloat[Errores para cada coordenada.]{%
- 	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ErroresXYZ_gnssUblox.eps}
- 	\caption{Errores para cada coordenada.}
-  	\label{fig:error_ublox_GNSS}
-
-\end{subfigure}
-\caption{Ensayo de un receptor individual operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
-\label{fig:ensayoGNSS_ublox}
-\end{figure}
-
-	El gráfico muestra la dispersión que presentan las soluciones obtenidas, se puede notar por la escala de los ejes que hay dispersión al nivel de los metros. Esto resulta esperable por lo que se ha planteado en el Capítulo \ref{ch:GNSS} al trabajar con un enfoque GNSS no diferencial. Se puede agregar un gráfico de la desviación de cada coordenada respecto al valor medio de la medición para poder compararlo con la varianza que presentan las mediciones (ver Fig. \ref{fig:error_ublox_GNSS}). En linea punteada se observa un delimitador de $\sigma$ para cada coordenada, donde este valor es la desviación estándar de las mediciones de cada coordenada. Aquí se observa con mas detalle como las mediciones oscilan respecto a su valor medio pudiendo llegar a un metro de diferencia, confirmando lo que se discutió con la Fig. \ref{fig:scatter_ublox_GNSS}.
+	El gráfico de la Fig.~\ref{fig:scatter_ublox_GNSS} muestra la dispersión que presentan las soluciones obtenidas, se puede notar por la escala de los ejes que hay dispersión al nivel de los metros. Esto resulta esperable por lo que se ha planteado en el Capítulo \ref{ch:GNSS} al trabajar con un enfoque GNSS no diferencial. Además, se indica la posición real de la antena SENyT utilizada en el ensayo para dejar en evidencia que al trabajar con un enfoque de posicionamiento absoluto además de tener una precisión en el orden de la mencionada, hay errores sistemáticos en la medición que no van a ser cancelados. Aquí el receptor está operando a doble frecuencia por lo que puede cancelar el efecto de la ionosfera, pero aún queda el efecto de la troposfera y demás errores presentes en la medición de pseudorango que se discutieron en el Capítulo \ref{ch:GNSS}. En cuanto a la nube de soluciones obtenidas por el receptor, las mismas alcanzan dispersiones del orden del metro (en las proyecciones es evidente resulta esta dispersión para cada coordenada).
+	
+	 Se puede agregar un gráfico de la desviación de cada coordenada respecto a la posición real de la antena (ver Fig. \ref{fig:error_ublox_GNSS}). Se indica el valor medio que presentan estas desviaciones y el mismo es realmente notables en las tres coordenadas. Aquí se observa con mas detalle como las mediciones oscilan respecto a su valor medio pudiendo llegar a un metro de diferencia una de otra, confirmando lo que se discutió con la Fig.~\ref{fig:scatter_ublox_GNSS}. Pero al analizar la varianza de las soluciones obtenidas en base a la desviación estándar indicada en la figura, se ve que es similar para las tres coordenadas, obteniendo un valor de $3\sigma$ cercano al metro. 
 
 \subsection{Ensayo RTK}
 	Aquí es donde podremos observar la ganancia presentada por un esquema DGNSS, que logra entrar en modo RTK, comparando con los resultados obtenidos en el ensayo presentado anteriormente. Se trabaja con la base y el rover en un esquema como el presentado en la Sección \ref{sec:esquema_ZBL}, los receptores operando a doble frecuencia, con el sistema GPS y utilizando la antena SENyT. Se toman muestras aproximadamente por trece minutos, en particular, 832 épocas con mediciones cada un segundo. 
@@ -905,30 +907,37 @@ Máscara de celdas GNSS                              & DF396                    
 \begin{subfigure}{1\linewidth}
 \centering
 %\subfloat[Gráfico de dispersión de las soluciones de posición relativa (linea de base).]{%
-  	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ENU_DGNSSublox.png}
-  	\caption{Gráfico de dispersión de las soluciones de posición relativa (linea de base).}
+  	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ENU_DGNSSublox_scatter.png}
+  	\caption{Gráfico de dispersión ENU de las soluciones de posición relativa (linea de base).}
     \label{fig:scatter_ublox_DGNSS}
 \end{subfigure}
 
-\begin{subfigure}{1\linewidth}
+\begin{subfigure}{0.49\linewidth}
 \centering
 %\subfloat[Errores para la linea base en cada coordenada.]{%
- 	\includegraphics[width=0.85\textwidth]{/EnsayosUblox/ENU_timeplot_ublox_dgnss.eps}
- 	\caption{Errores para la linea base en cada coordenada (este grafico sera mejorado...).}
-  	\label{fig:error_ublox_DGNSS}
+ 	\includegraphics[width=1\textwidth]{/EnsayosUblox/ENU_DGNSSublox.eps}
+ 	\caption{Error ENU de linea base al inicio del ensayo.}
+  	\label{fig:error_ublox_DGNSS_ini}
+\end{subfigure}
+\begin{subfigure}{0.49\linewidth}
+\centering
+%\subfloat[Errores para la linea base en cada coordenada.]{%
+ 	\includegraphics[width=1\textwidth]{/EnsayosUblox/ENU_timeplot_ublox_dgnss.eps}
+ 	\caption{Error ENU de linea base una vez fijadas las ambigüedades.}
+  	\label{fig:error_ublox_DGNSS_fin}
 \end{subfigure}
 \caption{Ensayo RTK con linea base nula operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
 \label{fig:ensayoDGNSS_ublox}
 \end{figure}
 	
-	El diagrama de dispersión de la Fig. \ref{fig:scatter_ublox_DGNSS} muestra como la nube de puntos se comprimió, teniendo muchos menos valores anómalos. En este caso se presentan los resultados en coordenadas ENU (por Este, Norte y Vertical) debido a que no se presenta una posición absoluta, si no la diferencia de coordenadas, es decir, la linea base. Además, cabe destacar que si se presta atención a la escala de los ejes, se logró reducir por casi tres ordenes de magnitud la precisión lograda. 
+	El diagrama de dispersión de la Fig. \ref{fig:scatter_ublox_DGNSS} muestra como la nube de puntos se comprimió, teniendo muchos menos valores anómalos. En este caso se presentan los resultados en coordenadas ENU (por Este, Norte y Vertical) debido a que no se presenta una posición absoluta, si no la diferencia de coordenadas, es decir, la linea base. Pero como la base estacionaria tiene su posición fija (en cualquier ensayo más allá de la línea de base nula), conocer la linea de base con precisión es también conocer la posición del rover con precisión. Se pudieron desafectar los errores sistemáticos obtenidos en el ensayo individual, efectivamente las soluciones están centradas en el origen ya que la linea de base es nula. Además, cabe destacar que si se presta atención a la escala de los ejes, se logró reducir por casi tres ordenes de magnitud la precisión lograda. 
 	
 	También se puede hacer un análisis respecto a la forma de la nube obtenida. Si observamos la proyección en el plano horizontal todas las mediciones se encuentran circunscritas dentro de una región circular de radio 2\,mm, que incluso siendo un poco menos restrictivos podríamos decir que la mayor parte esta dentro de la región de radio 1\,mm. Esto habla de una precisión en dos dimensiones, pero las proyecciones se pueden ver en otros planos. Si vemos las sombras en la coordenada vertical las mismas se extienden mucho más, teniendo que definir una circunferencia de hasta 5\,mm de radio para poder abarcar todas las mediciones. Esto es conocido para las soluciones de posición GNSS ya que por la distribución de los satélites de la constelación, se cuenta con poca diversidad de ángulos para los satélites en vista. Esto significa que hay una dilución de precisión (DOP por sus siglas en inglés) vertical más alta que en el resto de las dimensiones (7.3 de \cite{kaplan}). Debido a este efecto, al considerar la precisión lograda en tres dimensiones los resultados no serán igual de favorables. Por esto es que si referimos a la Fig. \ref{fig:ucenter} se puede ver la distinción que hace el software \textit{u-center} para presentar la precisión 2D y 3D, teniendo la 2D un valor más chico que la 3D. Tal cual como se explica cualitativamente en esta sección.
 	
-	Tal como se hizo para el ensayo con un único receptor, se puede analizar cómo resulta la evolución temporal de las coordenadas obtenidas para la solución diferencial. Hay que hacer una diferencia entre los distintos estados de la solución que ya se mencionaron en la Sección \ref{sec:ucenter}. Al comienzo del ensayo los receptores todavía no han logrado entrar en modo RTK por lo que es esperable que la solución obtenida esté apartada en mayor medida del cero (valor que sabemos que tiene la linea base en este caso), tal como se puede observar en la izquierda de la Fig. \ref{fig:error_ublox_DGNSS}. Mientras el software intenta resolver las ambigüedades la solución converge de a poco al valor nulo en las tres coordenadas, pero un poco antes de la época numero cincuenta, el mismo logra resolver ambigüedades enteras y fijarlas. Aquí comienza a devolver una solución con el identificador 3D/DGNSS/FIXED, e instantáneamente se observa como la precisión (2D y 3D) aumentó considerablemente hasta llegar a valores como los que se observan en el diagrama de dispersión (derecha de la Fig. \ref{fig:error_ublox_DGNSS}). Incluso en ese instante se logra ver cómo la precisión 2D y 3D que indica el software de evaluación (\textit{u-center}) decrece considerablemente numéricamente.
+	Tal como se hizo para el ensayo con un único receptor, se puede analizar cómo resulta la evolución temporal de las coordenadas obtenidas para la solución diferencial. Hay que hacer una diferencia entre los distintos estados de la solución que ya se mencionaron en la Sección \ref{sec:ucenter}. Al comienzo del ensayo los receptores todavía no han logrado entrar en modo RTK por lo que es esperable que la solución obtenida esté apartada en mayor medida del cero (valor que sabemos que tiene la linea base en este caso), tal como se puede observar en la Fig.~\ref{fig:error_ublox_DGNSS_ini}. Mientras el software intenta resolver las ambigüedades la solución converge de a poco al valor nulo en las tres coordenadas, primero logra resolver ambiguedades flotantes hasta conseguir fijarlas en números enteros. Aquí comienza a devolver una solución con el identificador 3D/DGNSS/FIXED, e instantáneamente se observa como la precisión (2D y 3D) aumentó considerablemente hasta llegar a valores como los que se observan en la evolución temporal de la Fig.~\ref{fig:error_ublox_DGNSS_fin} (notar el cambio en la escala del eje vertical). Incluso en ese instante se logra ver cómo la precisión 2D y 3D que indica el software de evaluación (\textit{u-center}) decrece considerablemente numéricamente.
 	
 \section{Conclusiones}
-	Se presentan los resultados para ensayos de receptores GNSS comerciales operando individualmente o en conjunto en un enfoque diferencial. Se corroboran los valores numéricos planteados en el desarrollo conceptual y teórico de este trabajo, en particular para la precisión y cancelación de términos. Los resultados que obtienen estos receptores comerciales son realmente destacables, teniendo en cuenta la complejidad que presenta la implementación en un sistema embebido de un esquema de procesamiento diferencial. Además, se planteó una situación muy favorable en cuanto a la cancelación de errores y sesgos en la formación de dobles diferencias. Al usar dos receptores exactamente iguales (de fabricantes de gran porte que pueden asegurar regularidad entre distintos equipos del mismo modelo) se consigue una cancelación total de sesgos, lo que hace muy sencilla la resolución de ambigüedades y así la obtención de la posición relativa. 
+	Se presentan los resultados para ensayos de receptores GNSS comerciales operando individualmente o en conjunto en un enfoque diferencial. Se corroboran los valores numéricos planteados en el desarrollo conceptual y teórico de este trabajo, en particular para la precisión y cancelación de términos. Cabe destacar la limitación que existe en los enfoques de posicionamiento absoluto, ya que al tener las soluciones afectadas por errores sistemáticos debido a las condiciones de medición, no será posible cancelar estos errores ni realizando un filtrado de las soluciones. Teniendo en cuenta estos efectos en el modelo y cambiando el enfoque a uno de posicionamiento relativo, los resultados que obtienen estos receptores comerciales son realmente destacables. Sobre todo teniendo en cuenta la complejidad que presenta la implementación en un sistema embebido de un esquema de procesamiento diferencial. Además, se planteó una situación muy favorable en cuanto a la cancelación de errores y sesgos en la formación de dobles diferencias.
 	
 	Hasta aquí se pudieron plantear esquemas que ponen en evidencia de manera experimental lo que es bien conocido a nivel teórico. Se debieron diseñar las condiciones de ensayo para obtener los resultados presentados, lo cual implicó la familiarización con nuevos equipos y herramientas. Esto permite comenzar a desarrollar la parte del trabajo en donde hay implementación directa sobre un sistema embebido, en particular sobre un receptor GNSS desarrollado en la UIDET SENyT.
 
@@ -1112,21 +1121,19 @@ Máscara de celdas GNSS                              & DF396                    
 	Es natural continuar a partir de aquí con una validación de la pila de comunicación creada, para poner en evidencia si la implementación es correcta y hasta donde se pueden replicar los resultados obtenidos en el Capítulo \ref{ch:ublox} con receptores comerciales.
 \chapter{Validación en tiempo real}\label{ch:validacion}
 	Este capítulo presenta las \footnote{asdasdasdas Hola}
-\section{Receptor Serie Q como estacion de referencia estacionaria}
-	En esta etapa del trabajo se procede a poner en funcionamiento el receptor serie Q con el que se va a trabajar (introducido en el Capitulo~\ref{ch:Qseries}). En el capitulo anterior se testeo la pila de comunicaciones creada, por lo que fue necesario cargar el software del receptor en el mismo, pero sin la necesidad de que reciba señales de los satelites GPS. Ahora sera necesario llegar a este punto por lo que se debera conectar la antena en una de los conectores de antena del receptor (ver Fig~\ref{fig:Q}) y corroborar que el mismo esta adquiriendo señales de los distintos satelites en vista. 
+\section{Receptor Serie Q como estación de referencia estacionaria}
+	En esta etapa del trabajo se procede a poner en funcionamiento el receptor serie Q con el que se va a trabajar (introducido en el Capitulo~\ref{ch:Qseries}). En el capitulo anterior se puso a prueba la pila de comunicaciones creada, por lo que fue necesario cargar el software del receptor en el mismo, pero sin la necesidad de que reciba señales de los satélites GPS. Ahora es necesario llegar a este punto por lo que se debe conectar la antena en una de los conectores de antena del receptor (ver Fig~\ref{fig:Q}) y corroborar que el mismo esté adquiriendo señales de los distintos satélites en vista. 
 	
-	A traves del comando de \textit{Linux} {\ttfamily `make'}, se puede compilar el ejecutable del software que debera ser cargado en memoria RAM del receptor. Una vez cargado este ejecutable en el receptor, desde una computadora y a traves de uno de los puertos serie, se puede dar inicio al programa y conectar un cliente que escuche una de las interfaces de comunicaciones del receptor. Se pueden visualizar los mensajes de consola que envia el receptor, los datos del estado de los canales y los datos de navegacion. Los mensajes de consola dan informacion respecto a las rutinas que esta ejecutando el receptor, en general para depuracion y a modo de conocer en que estado se encuentra el mismo durante la ejecucion. En el estado de los canales lo que se puede observar es el identificador de la señal que esta en seguimiento por cada canal, en particular, el sistema, la frecuencia y a que satelite corresponde. Ademas, se puede ver la estimacion de la frecuencia de portadora junto con el $C/N_0$ que se recibe. La visualizacion de los datos de navegacion contiene la calidad de la solucion, segun los testeos que haya pasado. En particular, para la aplicacion aqui tratada interesa la solucion de mejor calidad, la misma se obtiene con observables de mas de cuatro satelites para que el receptor pueda validar la solucion de posicion con redundancia. Esta solucion es etiquetada como solucion con calidad $S_4$. 
-%\begin{itemize}
-%	\item $S_0$: No hay solucion.
-%	\item $S_2$: Hay solucion pero no es segura ya que solo 4 sats.
-%	
-%	\item $S_4$: Hay solucion y fue validada por el propio receptor. Sats>4
-%	
-%\end{itemize}
+	A través del comando de \textit{Linux} {\ttfamily `make'}, se puede compilar el ejecutable del software que se carga en memoria RAM del receptor. Una vez cargado este ejecutable en el receptor, desde una computadora y a través de uno de los puertos serie, se puede dar inicio al programa y conectar un cliente que escuche una de las interfaces de comunicaciones del receptor. Se pueden visualizar los mensajes de consola que envía el receptor, los datos del estado de los canales y los datos de navegación. Los mensajes de consola dan información respecto a las rutinas que esta ejecutando el receptor, en general para depuración y a modo de conocer en que estado se encuentra el mismo durante la ejecución. En el estado de los canales lo que se puede observar es el identificador de la señal que está en seguimiento por cada canal, en particular, el sistema, la frecuencia y a qué satélite corresponde. Ademas, se puede ver la estimación de la frecuencia de portadora junto con el $C/N_0$ que se recibe. La visualización de los datos de navegación contiene la calidad de la solución, según las validaciones que haya pasado. 
+\begin{itemize}
+	\item $S_0$: No hay solución.
+	\item $S_2$: Hay solución pero no es segura ya que se utilizaron observables de solo cuatro satélites en vista.
+	\item $S_4$: Hay solución y fue validada por el propio receptor ya que se cuenta con observables de más de cuatro satélites en vista.
+\end{itemize}
+	En particular, para la aplicación aquí tratada interesa la solución de mejor calidad, la misma se obtiene con observables de mas de cuatro satélites para que el receptor pueda validar la solución de posición con redundancia. Esta solución es etiquetada como solución con calidad $S_4$. 
+	Ademas, se puede visualizar la solución de posición obtenida con cada una de las dos frecuencias (GPS $L_1$ y $L_2$) junto con la de velocidad en cada coordenada. Y por ultimo, existe un indicador de si hay sincronismo PPS, que en general es obtenido algunas épocas posteriores a haber conseguido una solución con calidad $S_4$. 
 	
-	Ademas, se puede visualizar la solucion de posicion obtenida con cada una de las dos frecuencias (GPS $L_1$ y $L_2$) junto con la de velocidad en cada coordenada. Y por ultimo, existe un indicador de si hay sincronismo PPS, que en general es obtenido algunas epocas posteriores a haber conseguido una solucion con calidad $S_4$. 
-	
-	En los ensayos aqui tratados queda en evidencia el tiempo que demora el receptor en tener la primer solucion de posicion. Debido a la busqueda ciega mencionada en el Capitulo~\ref{ch:Qseries}, segun que tan favorable sea la geometria de satelites al momento del ensayo puede demorar mas tiempo o menos. La busqueda de cada señal demora aproximadamente 18 segundos si se configura una incerteza a la frecuencia de portadora de 14\,kHz. De esta manera, si los primeros cuatro satelites en vista corresponden a un SVID alto, es esperable que la primera solucion sea obtenida luego de algunos minutos de busqueda. Esto muestra el tiempo prolongado que lleva realizar cada ensayo con este receptor.
+	En los ensayos aquí tratados queda en evidencia el tiempo que demora el receptor en tener la primer solución de posición. Debido a la búsqueda ciega mencionada en el Capitulo~\ref{ch:Qseries}, según que tan favorable sea la geometría de satélites al momento del ensayo puede demorar mas tiempo o menos. La búsqueda de cada señal demora aproximadamente 18 segundos si se configura una búsqueda de la frecuencia de portadora con una incerteza de 14\,kHz. De esta manera, si los primeros cuatro satélites en vista corresponden a un SVID alto, es esperable que la primera solución sea obtenida luego de algunos minutos de búsqueda. Esto muestra el tiempo prolongado que lleva realizar cada ensayo con este receptor.
 	No se usan dos receptores iguales, entonces retardos instrumentales no tienen por qué cancelarse. Esto puede explicar las diferencias. OJO QUE TA MAL esto.
 %	
 	Si bien un escenario de receptores operando en modo DGNSS con una linea de base nula no tiene real utilidad práctica, la validación de la implementación se puede realizar de este modo. Y en caso de modificar la capa física del enlace de comunicación por una con mayor alcance, como podría ser utilizando señales de radio, simplemente variarán los resultados de desempeño pues el protocolo se encuentra completamente implementado y funcional. La modificación de la interfaz por donde se envían los mensajes RTCM es un problema aislado del que se presenta en este trabajo, debido a la modularización que se logró en la implementación realizada.
@@ -1191,3 +1198,4 @@ DF003                                                         &                 
 % Máscara por mascara.
 % Logo senyt VECTORIAL!!!
 % biblatex en vez de bibtex
+% borrar todos los eps-to-pdf antes de entregar asi los genera de nuevo y me aseguro de que no haya imagenes mezcladas por el pdf.
