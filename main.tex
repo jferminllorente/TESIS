@@ -167,7 +167,7 @@
 
 \addcontentsline{toc}{chapter}{Índice de símbolos}
 \chapter*{Índice de símbolos}
-\noindent\textbf{USB:} Universal Serial Bus, Bus Serie Universal.\\
+\noindent\textbf{USB:} \textit{Universal Serial Bus}, Bus Serie Universal.\\
 \textbf{GNSS:} \textit{Global Navigation Satellite Systems}, Sistemas Globales de Navegación por Satélite.\\
 \textbf{DGNSS:} \textit{Differential GNSS}, GNSS diferenciales.\\
 \textbf{GPS:} \textit{Global Positioning System}, Sistema Global de Posicionamiento.\\
@@ -178,10 +178,33 @@
 \textbf{CDMA:} \textit{Code Division Multiple Access}, Acceso Múltiple por División de Código.\\
 \textbf{DSSS:} \textit{Direct Sequence Spread Spectrum}, Espectro Expandido de Secuencia Directa.\\
 \textbf{PRN:} \textit{Pseudorandom Noise}, Ruido Pseudo Aleatorio.\\
-\textbf{UART:} \textit{Universal Asincronus Receiver Transmitter}, Receptor Transmisor Asincrónico Universal.\\
-\textbf{RTCM:} \textit{Radio Technical bla bla}.\\
-\textbf{RINEX:}\\
+\textbf{UART:} \textit{Universal Asincronus Receiver Transmitter}, Transmisor-Receptor Asíncrono Universal.\\
+\textbf{RTCM:} \textit{Radio Technical Commission for Maritime Services}, Comisión Técnica de Radio para Servicios Marítimos.\\
+\textbf{RINEX:} \textit{Receiver INdependent EXchange}, Intercambio Independiente del Receptor.\\
 \textbf{ARP:} \textit{Antenna Reference Point}, Punto de Referencia de la Antena.\\
+\textbf{ECEF:} \textit{Earth Centered Earth Fixed}, Centrado en la Tierra con la Tierra Fija.\\
+\textbf{ENU:} \textit{East-North-Up}, Este-Norte-Arriba.\\
+\textbf{FDMA:} \textit{Frequency Division Multiple Access}, Acceso Múltiple por División de Frecuencia.\\
+\textbf{BPSK:} \textit{Binary Phase Shift Keying}, Modulación Binaria por Desplazamiento de Fase.\\
+\textbf{DLL:} \textit{Delay Lock Loop}, Lazo de Enganche de Retardo.\\
+\textbf{PLL:} \textit{Phase Lock Loop}, Lazo de Enganche de Fase.\\
+\textbf{DSP:} \textit{Digital Signal Processing}, Procesamiento Digital de Señales.\\
+\textbf{SD:} \textit{Simple Differences}, Simple Diferencias.\\
+\textbf{BRSD:} \textit{Between Receivers Simple Differences}, Simples Diferencias Entre Receptores.\\
+\textbf{BSSD:} \textit{Between Satellite Simple Differences}, Simples Diferencias Entre Satélites.\\
+\textbf{DD:} \textit{Double Differences}, Dobles Diferencias.\\
+\textbf{RF:} \textit{Radio Frequency}, Radiofrecuencia.\\
+\textbf{LAMBDA:} \textit{Least-squares AMBiguity Decorrelation Approach}.\\
+\textbf{BART:} \textit{Bayesian Amiguity Resolution Technique}.\\
+\textbf{CRC:} \textit{Cyclic Redundancy Check}, Control de Redundancia Cíclica.\\
+\textbf{MSM:} \textit{Multiple Signal Messages}, Mensajes de Múltiples Señales.\\
+\textbf{DOP:} \textit{Dilution Of Precision}, Dilución de Precisión.\\
+\textbf{FPGA:} \textit{Field Programmable Gate Array}, Matriz de Puertas Lógicas Programable en Campo.\\
+\textbf{RTOS:} \textit{Real Time Operative System}, Sistema Operativo de Tiempo Real.\\
+\textbf{PPS:} \textit{Pulse Per Second}, Pulso Por Segundo.\\
+\textbf{CPU:} \textit{Central Processing Unit}, Unidad Central de Procesamiento.\\
+\textbf{SVID:} \textit{Space Vehicle Identifier}, Identificador de Vehículo Espacial.\\
+
 \newpage
 
 \addcontentsline{toc}{chapter}{Índice de figuras}
@@ -672,8 +695,6 @@ Punto de Referencia de la Antena (ARP) ECEF-Z       & DF027                     
 	\item[Indicador de cuarto de ciclo] Indica si el fabricante del receptor que actua como base tiene implementado un mecanismo para corregir los desfasajes de cuarto de ciclo de la fase de la portadora. Es decir que pueden asegurar que las mediciones de fase de distintas señales a una misma frecuencia están en fase y por lo tanto no presentan el desfasaje ya mencionado.
 %	 Existen tres estados para este campo, el primero indica que no se conoce el estado de la corrección (corresponde a `00'), el segundo indica que se están haciendo las correcciones (corresponde a `01') y por último cuando no se hacen correcciones (corresponde a `10').
 \end{description}
-	
-	Es interesante analizar los rangos y resoluciones definidos para cada campo del mensaje. Esta información será de gran utilidad teniendo en cuenta que se busca implementar este protocolo de comunicación en un sistema embebido. Para mayor detalle se puede recurrir al Anexo~\ref{ch:anexo}.
 	
 	El mensaje 1006 presenta los mismos campos que el 1005 pero como es utilizado en aplicaciones especificas de geodesia, define la altura del ARP de manera distinta. Es decir, agrega información sobre la altura del ARP respecto de un marcador del que se conoce la posición con mucha precisión. Por otro lado, el mensaje 1033 describe la antena de la estación de referencia además de dar información del tipo de receptor utilizado en la estación. Esto permite al rover generar archivos RINEX \cite{rinex} a partir de la información recibida.
 	
@@ -1279,46 +1300,46 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Siendo aún más ambiciosos, se puede extender el enfoque RTK aquí logrado a uno del tipo red RTK. Debiendo contar con varias estaciones de referencia estacionarias para que el rover pueda recibir mensajes de múltiples bases. También se puede pensar en trabajar con estaciones base móviles, y que el posicionamiento relativo sea entre receptores que se encuentran todos en movimiento. Esto podría ser el caso de satélites de órbita baja volando formación, donde pensar en una base estacionaria es más complejo.
 
-\chapter*{Anexo I}\label{ch:anexo}
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-\begin{table}[]
-\begin{tabular}{|l|c|c|c|}
-\hline
-\rowcolor[HTML]{9B9B9B} 
-\multicolumn{1}{|c|}{\cellcolor[HTML]{9B9B9B}ID}              & Resolución                       & Rango                                             & Tipo de dato \\ \hline
-DF002                                                         & 1                                & 0-4095                                            & uint12       \\ \hline
-DF003                                                         & 1                                & 0-4095                                            & uint12       \\ \hline
-DF004                                                         & 1\,ms                            & 0-604799999\,ms                                   & uint30       \\ \hline
-\begin{tabular}[c]{@{}l@{}}DF025\\ DF026\\ DF027\end{tabular} & 0.0001\,m                        & $\pm$13743895,3471\,m                             & int38        \\ \hline
-DF364                                                         & 1                                & 0-3                                               & bit(2)       \\ \hline
-DF397                                                         & 1\,ms                            & 0-254\,ms                                         & uint8        \\ \hline
-DF398                                                         & $2^{-10}$\,ms                    & 0 a (1-$2^{-10}$)\,ms                             & uint10       \\ \hline
-DF399                                                         & 1\,m/s                           & $\pm$8191\,m/s                                    & int14        \\ \hline
-DF400                                                         & $2^{-24}$\,ms (aprox. 0.018\,m)  & $\pm(2^{-10}-2^{-24})$\,ms (aprox. $\pm$0.018\,m) & int15        \\ \hline
-DF401                                                         & $2^{-29}$\,ms (aprox. 0.0006\,m) & $\pm(2^{-8}-2^{-29})$\,ms (aprox. $\pm$1171\,m)   & int22        \\ \hline
-DF402                                                         & 1                                & 0-15                                              & uint4        \\ \hline
-DF403                                                         & 1\,dB/Hz                         & 1-63\,dB/Hz                                       & uint6        \\ \hline
-DF420                                                         & 1                                & 0-1                                               & bit(1)       \\ \hline
-\end{tabular}
-\end{table}
+%\chapter*{Anexo I}\label{ch:anexo}
+%% Please add the following required packages to your document preamble:
+%% \usepackage[table,xcdraw]{xcolor}
+%% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+%\begin{table}[]
+%\begin{tabular}{|l|c|c|c|}
+%\hline
+%\rowcolor[HTML]{9B9B9B} 
+%\multicolumn{1}{|c|}{\cellcolor[HTML]{9B9B9B}ID}              & Resolución                       & Rango                                             & Tipo de dato \\ \hline
+%DF002                                                         & 1                                & 0-4095                                            & uint12       \\ \hline
+%DF003                                                         & 1                                & 0-4095                                            & uint12       \\ \hline
+%DF004                                                         & 1\,ms                            & 0-604799999\,ms                                   & uint30       \\ \hline
+%\begin{tabular}[c]{@{}l@{}}DF025\\ DF026\\ DF027\end{tabular} & 0.0001\,m                        & $\pm$13743895,3471\,m                             & int38        \\ \hline
+%DF364                                                         & 1                                & 0-3                                               & bit(2)       \\ \hline
+%DF397                                                         & 1\,ms                            & 0-254\,ms                                         & uint8        \\ \hline
+%DF398                                                         & $2^{-10}$\,ms                    & 0 a (1-$2^{-10}$)\,ms                             & uint10       \\ \hline
+%DF399                                                         & 1\,m/s                           & $\pm$8191\,m/s                                    & int14        \\ \hline
+%DF400                                                         & $2^{-24}$\,ms (aprox. 0.018\,m)  & $\pm(2^{-10}-2^{-24})$\,ms (aprox. $\pm$0.018\,m) & int15        \\ \hline
+%DF401                                                         & $2^{-29}$\,ms (aprox. 0.0006\,m) & $\pm(2^{-8}-2^{-29})$\,ms (aprox. $\pm$1171\,m)   & int22        \\ \hline
+%DF402                                                         & 1                                & 0-15                                              & uint4        \\ \hline
+%DF403                                                         & 1\,dB/Hz                         & 1-63\,dB/Hz                                       & uint6        \\ \hline
+%DF420                                                         & 1                                & 0-1                                               & bit(1)       \\ \hline
+%\end{tabular}
+%\end{table}
 \begin{thebibliography}{00}
 \bibitem{proakis} John G. Proakis, Masoud Salehi, ``Digital Communications'', 5th ed., McGraw Hill.
 \bibitem{kaplan} Elliot D. Kaplan, Christopher J. Hegarty, ``Understandign GPS: Principles and Applications'', 2nd ed., Artech House.
 \bibitem{handbook} Peter J.G. Teunissen \& Oliver Montenbruck (eds.), ``Handbook of Global Navigation Satellite Systems'', Springer.
 \bibitem{psiakis} Mark L. Psiaki and S. Mohiuddin, ``Modeling, Analysis, and Simulation of GPS Carrier Phase for Spacecraft Relative Navigation'', \textit{Journal of Guidance, Control, and Dynamics}, vol. 30, num. 6, 2007, pp. 1628-1639.
 \bibitem{bart} Garcia, Javier G. and Roncagliolo, Pedro A. and Muravchik, Carlos H., ``A Bayesian Technique for Real and Integer Parameters Estimation in Linear Models and Its Application to GNSS High Precision Positioning'', IEEE Transactions on Signal Processing, vol. 64, no. 4, 2016, pp. 923-933.
-\bibitem{rtcm} Cita del estándar RTCM v3.3.(me falta buscar bien como se cita un estándar).
-\bibitem{rinex} Cita al estándar RINEX 3.05 (idem anterior).
-\bibitem{ZEDds} ZED-F9P u-blox F9 high precision GNSS module Data sheet.
-\bibitem{C099_ds} Hoja de datos de la placa de evaluación.
-\bibitem{u_center} Manual del u-center.
-\bibitem{moving_base_AppN} Moving base applications - Application note ZED-F9P.
+\bibitem{rtcm} Comisión Radio Técnica para Servicios Marítimos, Estándar RTCM 10403.3, Versión 3.
+\bibitem{rinex} IGS, Estándar RINEX 3.05, Dec. 2020.
+\bibitem{ZEDds} u-blox, ``u-blox F9 high precision GNSS module'', ZED-F9P data sheet, Jun. 2020, [rev. R08].
+\bibitem{C099_ds} u-blox, ``Application board ZED-F9P ODIN-W2'', C099-F9P user guide, Jun. 2020, [rev. R12].
+\bibitem{u_center} u-blox, ``GNSS evaluation software for Windows'', u-center user guide, Oct. 2021, [rev. R28].
+\bibitem{moving_base_AppN} u-blox, ``Moving base applications'', App. Note, Jul. 2020, [rev. R02].
 \bibitem{Qseries_1} Rodríguez Santiago, Ramón López La Valle, Gerardo Puga, Javier G. García y Pedro A. Roncagliolo, ``Design of a dual-antenna and dual-band GPS receiver for CubeSats'', Congreso de IEEE Uruguay, URUCON 2017, Montevideo, Uruguay. ISBN: 978-1-5386-3397-7.
 \bibitem{Qseries_2} Rodríguez Santiago, García Javier G., Scillone Germán, Díaz Juan G., López La Valle Ramón, Martire Lucas y Roncagliolo Pedro A., ``Receptor GNSS satelital con factor de forma CubeSat'', X Congreso de Tecnología Espacial CATE 2019, Anales del congreso, Buenos Aires, Argentina.
 \bibitem{correlation} Pedro A. Roncagliolo, Javier G. García, Carlos H. Muravchik, ``Carrier Phase Discrimination for a Common Correlation Interval GNSS Receiver Architecture'', International Journal on Advances in Telecommunications, vol. 5, no. 3 \& 4, 2012, pp. 264-273.
-\bibitem{rtklib} RTKLIB ver. 2.4.2 Manual T. Takasu.
+\bibitem{rtklib} T. Takasu, ``RTKLIB: An Open Source Program Package for GNSS Positioning'', RTKLIB v. 2.4.2 manual, 2013.
 \end{thebibliography}
 
 \end{document}
