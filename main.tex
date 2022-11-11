@@ -138,15 +138,17 @@
 \addcontentsline{toc}{chapter}{Resumen/Abstract}
 	En este trabajo se estudian los aspectos más importantes del estándar RTCM para el envío de mensajes entre receptores GNSS realizando posicionamiento diferencial en tiempo real. Se decide trabajar con un mensaje de la estación de referencia y un mensaje con observables crudos de pseudorango y fase de portadora. Estos mensajes son tipificados por el estándar e identificados como Tipo 1005 y Tipo 1074, siendo este último un mensaje particular para el sistema GPS. 
 
-	Se realizan ensayos DGPS con línea de base nula utilizando receptores comerciales y obteniendo soluciones con la precisión esperada. Se implementa en un sistema embebido la transmisión de los mensajes ya mencionados mediante una interfaz cableada. Por último, se replican los ensayos con linea de base nula utilizando como estación de referencia el receptor de diseño y desarrollo propio del lugar de trabajo donde se implementó la transmisión de los mensajes. Se mantiene al receptor comercial como el receptor que realiza el procesamiento diferencial y se observa la ganancia que presenta un enfoque diferencial en términos de la precisión obtenida en las soluciones de posición.
-	
+	Se realizan ensayos DGPS con línea de base nula utilizando receptores comerciales y obteniendo soluciones con la precisión esperada. Se implementa en un sistema embebido la transmisión de los mensajes ya mencionados mediante una interfaz cableada. Por último, se replican los ensayos con linea de base nula utilizando como estación de referencia el receptor de diseño y desarrollo propio del lugar de trabajo donde se implementó la transmisión de los mensajes. Se mantiene al receptor comercial como el receptor que realiza el procesamiento diferencial y se observa la ganancia que presenta un enfoque diferencial en términos de la precisión obtenida en las soluciones de posición.\\
+\textbf{\textit{Index Terms:}} \textit{GNSS}, \textit{posicionamiento relativo}, \textit{estándar RTCM}.
+
 \vspace{1cm}
 \noindent\rule{3.5cm}{0.4pt}
 \vspace{1cm}
 
 	The present work consists of the study of the most important aspects that the RTCM standard describes for the communication between GNSS receivers performing differential positioning in real time. It is decided to work with a message for the reference station and one with raw pseudorange and phaserange observables. These messages are typified by the standard and identified as Type 1005 and Type 1074, being the last one mentioned a particular message for the GPS system.
 	
-	DGPS tests are done with zero baseline and usign commercial receivers, solutions with expected accuracy are obtained. The wired transmission of the messages mentioned above is implemented in an embedded system. Finally, tests with zero baseline are replicated, while using the receiver designed and integrated previously in the workplace as reference station. This is the receiver where the RTCM messages transmission was implemented. The commercial receiver performing differential processing is mantained and the gain, in terms of accuracy in the position solution, that a differential approach obtains is evident.
+	DGPS tests are done with zero baseline and usign commercial receivers, solutions with expected accuracy are obtained. The wired transmission of the messages mentioned above is implemented in an embedded system. Finally, tests with zero baseline are replicated, while using the receiver designed and integrated previously in the workplace as reference station. This is the receiver where the RTCM messages transmission was implemented. The commercial receiver performing differential processing is mantained and the gain, in terms of accuracy in the position solution, that a differential approach obtains is evident.\\
+\textbf{\textit{Index Terms:}} \textit{GNSS}, \textit{relative positioning}, \textit{RTCM standard}.\\
 \newpage
 \chapter*{Agradecimientos}
 \addcontentsline{toc}{chapter}{Agradecimientos}
@@ -671,7 +673,7 @@ Punto de Referencia de la Antena (ARP) ECEF-Z       & DF027                     
 %	 Existen tres estados para este campo, el primero indica que no se conoce el estado de la corrección (corresponde a `00'), el segundo indica que se están haciendo las correcciones (corresponde a `01') y por último cuando no se hacen correcciones (corresponde a `10').
 \end{description}
 	
-	Es interesante analizar los rangos y resoluciones definidos para cada campo del mensaje. Esta información será de gran utilidad teniendo en cuenta que se busca implementar este protocolo de comunicación en un sistema embebido. Para mayor detalle se puede recurrir al Anexo (rangos-resoluciones-tipos de variables).
+	Es interesante analizar los rangos y resoluciones definidos para cada campo del mensaje. Esta información será de gran utilidad teniendo en cuenta que se busca implementar este protocolo de comunicación en un sistema embebido. Para mayor detalle se puede recurrir al Anexo~\ref{ch:anexo}.
 	
 	El mensaje 1006 presenta los mismos campos que el 1005 pero como es utilizado en aplicaciones especificas de geodesia, define la altura del ARP de manera distinta. Es decir, agrega información sobre la altura del ARP respecto de un marcador del que se conoce la posición con mucha precisión. Por otro lado, el mensaje 1033 describe la antena de la estación de referencia además de dar información del tipo de receptor utilizado en la estación. Esto permite al rover generar archivos RINEX \cite{rinex} a partir de la información recibida.
 	
@@ -1277,20 +1279,30 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Siendo aún más ambiciosos, se puede extender el enfoque RTK aquí logrado a uno del tipo red RTK. Debiendo contar con varias estaciones de referencia estacionarias para que el rover pueda recibir mensajes de múltiples bases. También se puede pensar en trabajar con estaciones base móviles, y que el posicionamiento relativo sea entre receptores que se encuentran todos en movimiento. Esto podría ser el caso de satélites de órbita baja volando formación, donde pensar en una base estacionaria es más complejo.
 
-\chapter*{Anexo I}
-\textbf{Cuando ponga los rangos de cada DF acordarme de agregar DF004 (gnss epoch time) del encabezad0}.
+\chapter*{Anexo I}\label{ch:anexo}
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[]
-\centering
-\begin{tabular}{|l|l|c|c|}
+\begin{tabular}{|l|c|c|c|}
 \hline
-\multicolumn{1}{|c|}{ID}                                      & \multicolumn{1}{c|}{Nombre} & \multicolumn{1}{l|}{Resolución} & Rango                  \\ \hline
-DF002                                                         &                             & 1                               & 0 - 4095               \\ \hline
-DF003                                                         &                             & 1                               & 0 - 4095               \\ \hline
-\begin{tabular}[c]{@{}l@{}}DF025\\ DF026\\ DF027\end{tabular} &                             & 0.0001\,m                       & $\pm$13.743.895,3471 m \\ \hline
+\rowcolor[HTML]{9B9B9B} 
+\multicolumn{1}{|c|}{\cellcolor[HTML]{9B9B9B}ID}              & Resolución                       & Rango                                             & Tipo de dato \\ \hline
+DF002                                                         & 1                                & 0-4095                                            & uint12       \\ \hline
+DF003                                                         & 1                                & 0-4095                                            & uint12       \\ \hline
+DF004                                                         & 1\,ms                            & 0-604799999\,ms                                   & uint30       \\ \hline
+\begin{tabular}[c]{@{}l@{}}DF025\\ DF026\\ DF027\end{tabular} & 0.0001\,m                        & $\pm$13743895,3471\,m                             & int38        \\ \hline
+DF364                                                         & 1                                & 0-3                                               & bit(2)       \\ \hline
+DF397                                                         & 1\,ms                            & 0-254\,ms                                         & uint8        \\ \hline
+DF398                                                         & $2^{-10}$\,ms                    & 0 a (1-$2^{-10}$)\,ms                             & uint10       \\ \hline
+DF399                                                         & 1\,m/s                           & $\pm$8191\,m/s                                    & int14        \\ \hline
+DF400                                                         & $2^{-24}$\,ms (aprox. 0.018\,m)  & $\pm(2^{-10}-2^{-24})$\,ms (aprox. $\pm$0.018\,m) & int15        \\ \hline
+DF401                                                         & $2^{-29}$\,ms (aprox. 0.0006\,m) & $\pm(2^{-8}-2^{-29})$\,ms (aprox. $\pm$1171\,m)   & int22        \\ \hline
+DF402                                                         & 1                                & 0-15                                              & uint4        \\ \hline
+DF403                                                         & 1\,dB/Hz                         & 1-63\,dB/Hz                                       & uint6        \\ \hline
+DF420                                                         & 1                                & 0-1                                               & bit(1)       \\ \hline
 \end{tabular}
-\caption{Características de los campos del mensaje Tipo 1005.}
-\label{tab:Msg1005DFs}
-\end{table}	
+\end{table}
 \begin{thebibliography}{00}
 \bibitem{proakis} John G. Proakis, Masoud Salehi, ``Digital Communications'', 5th ed., McGraw Hill.
 \bibitem{kaplan} Elliot D. Kaplan, Christopher J. Hegarty, ``Understandign GPS: Principles and Applications'', 2nd ed., Artech House.
