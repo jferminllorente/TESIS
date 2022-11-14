@@ -113,8 +113,8 @@
     \begin{minipage}[t]{0.9\linewidth}
         \vspace{.5cm}
         \centering
-        \includegraphics[width=0.5\textwidth]{Images/logos/senyt.png}\\
-        UIDET Sistemas Electrónicos de Navegación y Telecomunicaciones (SENyT)
+        \includegraphics[width=0.8\textwidth]{Images/logos/logoSenytByN.png}\\
+%        UIDET Sistemas Electrónicos de Navegación y Telecomunicaciones (SENyT)
     \end{minipage}
     
 %    \vspace{2cm}
@@ -238,7 +238,14 @@
 \section{Introducción}
 	Los sistemas GNSS (\textit{Global Navigation Satellite System} en inglés) se basan en el concepto de mediciones de rango mediante el retardo de propagación de las señales transmitidas por satélites de posicionamiento que orbitan la tierra. Ante la necesidad de poder contar con mecanismos para obtener posición y velocidad de usuarios en la tierra, a la cual se agrega la necesidad de sincronización entre distintos sistemas de referencia temporal, surge la idea e implementación de los sistemas GNSS. Los mismos no han dejado de ser utilizados desde su puesta en funcionamiento debido a que permiten cobertura global para distintas aplicaciones de posicionamiento. Se mencionó que pueden ser utilizados para sincronización de relojes debido a que las señales que transmiten los satélites también tienen información temporal de alta precision. Además del uso civil, están las aplicaciones científicas o militares, pero existen áreas donde estos sistemas presentan un uso extendido y creciente, tales como la geodesia, seguimiento de fauna, navegación aérea, satelital, terrestre y marítima.
 	
-	El concepto subyacente para poder obtener posición es el de triangulación. El tiempo de arribo (TOA por sus siglas en inglés) determina el instante en el que se recibió la señal, conociendo el instante en el que la misma fue transmitida se puede determinar el tiempo de viaje de la misma. Haciendo uso de la velocidad de propagación de la señal es posible obtener el rango en el que se encuentra el equipo transmisor. Introduciendo múltiples mediciones de rango con satélites transmitiendo en distintas ubicaciones se puede acotar la ubicación del receptor. La solución puntual queda determinada por el punto de intersección de las esferas formadas por el rango que se midió a cada uno de los satélites involucrados, siempre y cuando se tomen suficientes mediciones para poder resolver la posición de manera unívoca. 
+\begin{figure}%Se puede agregar un indicador de chip en la imagen.
+    \centering
+    \includegraphics[width=0.8\textwidth]{/GNSS/triangulacion.eps}
+    \caption{Resolución de la posición del usuario en dos dimensiones mediante la medición de distancias a los transmisores.}
+    \label{fig:triangulacion}
+\end{figure}	
+	
+	El concepto subyacente para poder obtener posición es el de triangulación. El tiempo de arribo (TOA por sus siglas en inglés) determina el instante en el que se recibió la señal, conociendo el instante en el que la misma fue transmitida se puede determinar el tiempo de viaje de la misma. Haciendo uso de la velocidad de propagación de la señal es posible obtener el rango en el que se encuentra el equipo transmisor. Introduciendo múltiples mediciones de rango con satélites transmitiendo en distintas ubicaciones se puede acotar la ubicación del receptor. En la Fig.~\ref{fig:triangulacion} se puede observar el mecanismo para acotar la solución con un ejemplo en el plano, es decir, en dos dimensiones. En el caso tridimensional, es equivalente, la diferencia resulta en que la solución puntual queda determinada por el punto de intersección de las esferas formadas por el rango que se midió a cada uno de los satélites involucrados, siempre y cuando se tomen suficientes mediciones para poder resolver la posición de manera unívoca.
 	
 	Habiendo introducido el concepto de medición de rango mediante TOA, es necesario analizar la sincronización entre las distintas partes que conforman el sistema. Si se busca resolver la posición mediante este concepto, las señales recibidas de los distintos satélites deben haber sido transmitidas en el mismo instante de tiempo. El instante de tiempo de toma de las observaciones tiene el nombre de época en este contexto. Es evidente que para conseguir esto los relojes de referencia de los satélites y del usuario (llamado receptor anteriormente) deben tener muy alta precisión y sincronización entre ellos. Para ello se busca alinear los instantes de toma de medición de los receptores a las épocas del tiempo del sistema. La precisión no es un inconveniente ya que los satélites GPS utilizan relojes atómicos que logran una estabilidad destacable. En cambio, la sincronización del usuario al tiempo del sistema GPS (al cual deberían estar sincronizados todos los satélites de la constelación), es un tanto más compleja y por ello se analizarán los errores que introducen las fallas en la sincronización.
 	
@@ -256,7 +263,7 @@
 	En términos generales, la polaridad de cada símbolo rectangular estará dada por el bit de información de navegación a transmitir. Luego se expande esta señal mediante el producto de la amplitud de cada símbolo con el código, la modulación por desplazamiento de fase de la señal resultante estará dominada por las transiciones del código (Fig. \ref{fig:PRN}). Cabe destacar que cada transición del código es denominado \textit{chip}. Es evidente que la tasa resultante de la señal BPSK multiplicada por el código es mucho mayor que la de la señal original, ya que en cada transición de símbolo tiene múltiples transiciones de \textit{chip}. La señal de espectro expandido tiene una tasa igual a la tasa de \textit{chip} $R_c$ tal que $R_c \gg R_b$, resultando en una expansión en el espectro.
 \begin{figure}%Se puede agregar un indicador de chip en la imagen.
     \centering
-    \includegraphics[width=0.8\textwidth]{/GNSS/codigoPRN.png}
+    \includegraphics[width=0.8\textwidth]{/GNSS/codigoPRN.eps}
     \caption{Ejemplo de las distintas partes que conforman a la señal GPS.}
     \label{fig:PRN}
 \end{figure}
@@ -467,13 +474,13 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 \begin{figure}
     \begin{subfigure}{.49\textwidth}
     \centering
-    \includegraphics[width=0.9\textwidth]{/DGNSS/BRSD.png}
+    \includegraphics[width=1\textwidth]{/DGNSS/BRSD.eps}
     \caption{Diferencia entre receptores con un único satélite (BRSD).}
     \label{fig:BRSD}
     \end{subfigure}
     \begin{subfigure}{.49\textwidth}
       \centering
-      \includegraphics[width=0.9\textwidth]{/DGNSS/BSSD.png}
+      \includegraphics[width=1\textwidth]{/DGNSS/BSSD.eps}
       \caption{Diferencia entre satélites con un único receptor (BSSD).}
       \label{fig:BSSD}
     \end{subfigure}
@@ -518,7 +525,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	Por lo que podemos pensar a las dobles diferencias como una BRSD y una BSSD, por eso es que obtienen la ganancia respecto a cancelación de términos comparadas con unas SD. De manera que este nuevo operador es una combinación de los operadores vistos en la Sección \ref{sec:SD}.
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{/DGNSS/DD.png}
+    \includegraphics[width=0.7\textwidth]{/DGNSS/DD.eps}
     \caption{Configuración de receptores y satélites necesaria para dobles diferencias (DD).}
     \label{fig:DD}
 \end{figure}
@@ -548,7 +555,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{/DGNSS/ZB.png}
+    \includegraphics[width=0.7\textwidth]{/DGNSS/ZB.eps}
     \caption{Configuración con linea de base nula.}
     \label{fig:ZB}
 \end{figure}
@@ -878,7 +885,7 @@ Máscara de celdas GNSS                              & DF396                    
 \begin{figure}
 \centering
 \subfloat[Diagrama del ensayo.]{%
-  \includegraphics[width=0.6\textwidth]{/EnsayosUblox/EnsayoZBL.png}
+  \includegraphics[width=0.6\textwidth]{/EnsayosUblox/EnsayoZBL.eps}
 %  \caption{Esquema de ensayo con rover y base estacionarios, para linea base nula.}
   \label{fig:diagramaEnsayoZBL}
 }
@@ -887,7 +894,7 @@ Máscara de celdas GNSS                              & DF396                    
   \includegraphics[width=0.4\textwidth]{/EnsayosUblox/diplexor.jpg}
   \label{fig:diplexor}
 }
-\caption{Esquema de ensayo con rover y base estacionarios, para linea base nula.}
+\caption{Esquema de ensayo con rover y base estacionarios, para línea base nula.}
 \label{fig:EnsayoZBL}
 \end{figure}
 
@@ -1012,7 +1019,7 @@ Máscara de celdas GNSS                              & DF396                    
 \end{itemize}
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{/Qseries/tiempos_Q.pdf}
+    \includegraphics[width=0.9\textwidth]{/Qseries/tiempos_Q.eps}
     \caption{Evolución de cada referencia temporal en los receptores serie Q.}
     \label{fig:tiemposQ}
 \end{figure}
