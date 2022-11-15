@@ -23,14 +23,14 @@
 \hypersetup{colorlinks=true,linkcolor=black,citecolor=black}
 \addto\captionsspanish{
 \renewcommand*\contentsname{Índice de contenidos}
-\renewcommand*{\listfigurename}{Índice de figuras}
+\renewcommand*{\listfigurename}{Índice de Figuras y Tablas}
 \renewcommand*{\listtablename}{Índice de símbolos}
 \renewcommand*{\spanishtablename}{Tabla}
 \renewcommand\bibname{Referencias}
 }
 
-
-
+\def\table{\def\figurename{Tabla}\figure}
+\let\endtable\endfigure 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,7 +130,6 @@
 
 \begin{document}
 \maketitle
-
 
 % \frontmatter
 
@@ -675,7 +674,7 @@ Identificador de estación de referencia             & DF003                    
 Reservado                                           & DF021                                                            \\ \hline
 Indicador GPS                                       & DF022                                                            \\ \hline
 Indicador GLONASS                                   & DF023                                                            \\ \hline
-Reservado para Indicador Galileo                    & DF024                                                            \\ \hline
+Reservado para Indicador \textit{Galileo}                    & DF024                                                            \\ \hline
 Indicador de estación de referencia                 & DF141                                                            \\ \hline
 Punto de Referencia de la Antena (ARP) ECEF-X       & DF025                                                            \\ \hline
 Indicador de oscilador de único receptor            & DF142                                                            \\ \hline
@@ -711,8 +710,49 @@ Punto de Referencia de la Antena (ARP) ECEF-Z       & DF027                     
 	
 \subsection{Mensajes de múltiples señales}
 	El estándar RTCM define los mensajes de observables dentro del rango de tipos de mensaje 1001-1004 para GPS, 1009-1012 para GLONASS. Hay mensajes particulares para cada sistema, lo cual trae complicaciones al pensar en agregar nuevos sistemas e incluso nuevas señales. Para poder generalizar los mensajes necesarios en un enfoque RTK de cualquier sistema GNSS se definen los mensajes de múltiples señales (MSM por sus siglas en inglés). Los mismos son universales para el envío de observables de cualquier sistema, lo que trae la ventaja de ya tener estandarizado los mensajes en caso de agregar disponibilidad de servicios RTK de nuevos sistemas en versiones futuras del estándar. Además de permitir generalizar según el sistema, los mismos también permiten agregar nuevas señales en las observaciones. Esto se logra compatibilizando los identificadores de señales con la tercera versión del estándar RINEX. El enfoque universal para los mensajes se logra debido a la similaridad que existe entre los observables de los sistemas operativos y los planeados.
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[]
+\begin{subtable}{1\linewidth}
+\centering
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+CAMPOS                                                                                                    & MSM1  & MSM2  & MSM3  & MSM4  & MSM5  & MSM6  & MSM7  \\ \hline
+\begin{tabular}[c]{@{}l@{}}Número entero\\ de milisegundos \\ en la parte \\gruesa del rango\end{tabular} &       &       &       & DF397 & DF397 & DF397 & DF397 \\ \hline
+\begin{tabular}[c]{@{}l@{}}Información\\ extendida\\ del satélite\end{tabular}                            &       &       &       &       & *     &       & *     \\ \hline
+\begin{tabular}[c]{@{}l@{}}Parte gruesa\\ del rango \\ módulo 1\,ms\end{tabular}                           & DF398 & DF398 & DF398 & DF398 & DF398 & DF398 & DF398 \\ \hline
+\begin{tabular}[c]{@{}l@{}}Parte gruesa\\ de la desviación\\ en frecuencia\end{tabular}                   &       &       &       &       & DF399 &       & DF399 \\ \hline
+\end{tabular}
+    \caption{Parte satelital. $^*$ Campo específico para cada sistema}
+    \label{tab:MSMall_sat}
+\end{subtable}
+\vspace{0.5cm}
 	
-	Los mensajes MSM reemplazan a los mensajes antiguos que se mencionan para GPS y GLONASS, completando el conjunto de mensajes que no pueden faltar en el enlace de comunicación para lograr un enfoque DGNSS. Existen siete mensajes MSM que difieren en la información enviada y por lo tanto en la aplicación en la que tienen utilidad. En la Tab.~\ref{tab:MSMall} se puede observar los distintos campos que acepta cada uno de los mensajes, por lo que una descripción resumida de cada tipo de mensaje resulta de la siguiente manera.
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{subtable}{1\linewidth}
+\centering
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+\rowcolor[HTML]{C0C0C0} 
+CAMPOS                                                                                         & MSM1  & MSM2  & MSM3  & MSM4  & MSM5  & MSM6      & MSM7      \\ \hline
+\begin{tabular}[c]{@{}l@{}}Rangos finos\\ de \\ pseudorango\end{tabular}                       & DF400 &       & DF400 & DF400 & DF400 & DF405$^1$ & DF405$^1$ \\ \hline
+\begin{tabular}[c]{@{}l@{}}Rangos finos\\ de fase de \\ portadora\end{tabular}                 &       & DF401 & DF401 & DF401 & DF401 & DF406$^1$ & DF406$^1$ \\ \hline
+\begin{tabular}[c]{@{}l@{}}Tiempo de\\ enganche de \\ fase de\\ portadora\end{tabular}         &       & DF402 & DF402 & DF402 & DF402 & DF407$^1$ & DF407$^1$ \\ \hline
+\begin{tabular}[c]{@{}l@{}}Indicador de \\ ambigüedades \\ de medio ciclo\end{tabular}         &       & DF420 & DF420 & DF420 & DF420 & DF420     & DF420     \\ \hline
+\begin{tabular}[c]{@{}l@{}}Relación\\portadora a\\densidad\\espectral\\de ruido\end{tabular} &       &       &       & DF403 & DF403 & DF408$^1$ & DF408$^1$ \\ \hline
+\begin{tabular}[c]{@{}l@{}}Parte fina de la \\ desviación en \\ frecuencia\end{tabular}        &       &       &       &       & DF404 &           & DF404     \\ \hline
+\end{tabular}
+	\caption{Parte de señal. $^1$ Con resolución extendida.}
+    \label{tab:MSMall_sig}
+\end{subtable}
+\caption{Campos de los distintos tipos de mensajes MSM.}
+\label{tab:MSMall}
+\end{table}
+	Los mensajes MSM reemplazan a los mensajes antiguos que se mencionan para GPS y GLONASS, completando el conjunto de mensajes que no pueden faltar en el enlace de comunicación para lograr un enfoque DGNSS. Existen siete mensajes MSM que difieren en la información enviada y por lo tanto en la aplicación en la que tienen utilidad. En la Tab~\ref{tab:MSMall} se puede observar los distintos campos que acepta cada uno de los mensajes, por lo que una descripción resumida de cada tipo de mensaje resulta de la siguiente manera.
 \begin{itemize}
 	\item MSM 1: Información compacta de pseudorango.
 	\item MSM 2: Información compacta de fase de portadora.
@@ -723,38 +763,10 @@ Punto de Referencia de la Antena (ARP) ECEF-Z       & DF027                     
 	\item MSM 7: Idéntico a MSM 5 pero con resolución extendida.
 \end{itemize}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{multirow}
-\begin{table}[]
-\centering
-\begin{tabular}{|l|l|c|c|c|c|c|c|c|}
-\hline
-                  & CAMPOS                                                                                                   & MSM1  & MSM2  & MSM3  & MSM4  & MSM5  & MSM6      & MSM7      \\ \hline
-\multirow{4}{*}{\centering\rotatebox[origin=c]{90}{Parte satelital}} & \begin{tabular}[c]{@{}l@{}}Número entero de \\ milisegundos en la \\ parte gruesa del\\rango\end{tabular} &       &       &       & DF397 & DF397 & DF397     & DF397     \\ \cline{2-9} 
-                  & \begin{tabular}[c]{@{}l@{}}Información\\extendida del\\satélite\end{tabular}                             &       &       &       &       & *     &           & *         \\ \cline{2-9} 
-                  & \begin{tabular}[c]{@{}l@{}}Parte gruesa del\\rango modulo 1 ms\end{tabular}                            & DF398 & DF398 & DF398 & DF398 & DF398 & DF398     & DF398     \\ \cline{2-9} 
-                  & \begin{tabular}[c]{@{}l@{}}Parte gruesa de\\la desviación en\\frecuencia\end{tabular}                   &       &       &       &       & DF399 &           & DF399     \\ \hline
-\multirow{6}{*}{\centering\rotatebox[origin=c]{90}{Parte de señal}} & \begin{tabular}[c]{@{}l@{}}Rangos finos de \\ pseudorango\end{tabular}                                   & DF400 &       & DF400 & DF400 & DF400 & DF405$^1$ & DF405$^1$ \\ \cline{2-9} 
-                  & \begin{tabular}[c]{@{}l@{}}Rangos finos de\\fase de portadora\end{tabular}                             &       & DF401 & DF401 & DF401 & DF401 & DF406$^1$ & DF406$^1$ \\ \cline{2-9} 
-                  & \begin{tabular}[c]{@{}l@{}}Tiempo de enganche\\de fase de\\portadora\end{tabular}                        &       & DF402 & DF402 & DF402 & DF402 & DF407$^1$ & DF407$^1$ \\ \cline{2-9} 
-                  & \begin{tabular}[c]{@{}l@{}}Indicador de\\ambigüedades\\de medio ciclo\end{tabular}                   &       & DF420 & DF420 & DF420 & DF420 & DF420     & DF420     \\ \cline{2-9} 
-                  & \begin{tabular}[c]{@{}l@{}}Relación portadora\\a densidad espectral \\ de ruido\end{tabular}           &       &       &       & DF403 & DF403 & DF408$^1$ & DF408$^1$ \\ \cline{2-9} 
-                  & \begin{tabular}[c]{@{}l@{}}Parte fina de la\\desviación en \\ frecuencia\end{tabular}                  &       &       &       &       & DF404 &           & DF404     \\ \hline
-\end{tabular}
-    \caption{Campos de los distintos tipos de mensajes MSM (me esta costando el formato jeje).}
-    \label{tab:MSMall}
-\end{table}
-
-%\begin{figure}
-%    \centering
-%    \includegraphics[width=0.6\textwidth]{/DGNSS/MSMcomparation.png}
-%    \caption{Campos de los distintos tipos de mensajes MSM.}
-%    \label{fig:MSMall}
-%\end{figure}
 	El mensaje MSM 1 puede ser utilizado en GNSS diferencial convencional y avanzado. El MSM 2 tiene gran utilidad cuando la tasa del enlace de comunicación RTCM es baja ya que se precisa actualización más frecuente de los observables de fase de portadora para lograr precisiones altas, pero en cambio las observaciones de $C/N_0$ y pseudorango pueden actualizarse a menor tasa. El mensaje MSM 2, junto con el MSM 3 y MSM 4, forman el conjunto de mensajes utilizados en modos RTK convencionales. El mensaje MSM 5 permite almacenar información completa en el formato RINEX. Y los mensajes MSM 6 y MSM 7 extienden la resolución de los mensajes ya mencionados por lo que las aplicaciones son las mismas solo que a mayor precisión.
 
 \subsubsection{Empaquetado del pseudorango y fase de portadora}\label{sec:rrng_frng}
-	En la Tabla~\ref{tab:MSMall} se puede observar que existe una diferenciación entre los datos correspondientes a la parte satelital y otra correspondiente a la señal. En particular, la sección satelital contiene lo que corresponde a la parte gruesa del rango y es común a todas las señales de cada satélite. La sección de señal contiene la parte fina del rango y del rango basado en fase de portadora, está es única por cada señal de cada satélite. 
+	En las Tablas~\ref{tab:MSMall_sat} y \ref{tab:MSMall_sig} se puede observar que existe una diferenciación entre los datos correspondientes a la parte satelital y otra correspondiente a la señal. En particular, la sección satelital contiene lo que corresponde a la parte gruesa del rango y es común a todas las señales de cada satélite. La sección de señal contiene la parte fina del rango y del rango basado en fase de portadora, está es única por cada señal de cada satélite. 
 	
 \begin{figure}
     \centering
@@ -902,7 +914,7 @@ Máscara de celdas GNSS                              & DF396                    
 \label{fig:EnsayoZBL}
 \end{figure}
 
-	La base debe ser configurada como tal, y al ser una estación de referencia estacionaria la misma debe enviar siempre la misma solución de posición. Para esto se puede configurar de dos modos, ingresar las coordenadas ECEF del ARP de la antena de la base para que el mensaje Tipo 1005 a transmitir contenga esta ubicación. La otra opción, en caso de no contar con las coordenadas, puede hacer que la base haga un relevamiento por determinado tiempo, filtre su solución de posición y la fije para usar esta solución en los mensajes RTCM a transmitir. Como la antena utilizada tiene sus coordenadas relevadas con suficiente precisión (por trabajos previos que se han desarrollado en el lugar), se puede utilizar el primer enfoque. Por último, es necesario indicar qué mensajes de observables transmitirá la base. En principio estos receptores pueden transmitir el mensaje Tipo 1005, los mensajes MSM 4 y MSM 7 para las constelaciones GPS (Tipos 1074 y 1077), GLONASS (Tipos 1084 y 1087), Galileo (Tipos 1094 y 1097) y BeiDou (Tipos 1124 y 1127). Se configura para que envíe el mensaje Tipo 1005 y el MSM 4 de GPS (Tipo 1074), lo enviará por UART a una tasa de 460800 baudios.
+	La base debe ser configurada como tal, y al ser una estación de referencia estacionaria la misma debe enviar siempre la misma solución de posición. Para esto se puede configurar de dos modos, ingresar las coordenadas ECEF del ARP de la antena de la base para que el mensaje Tipo 1005 a transmitir contenga esta ubicación. La otra opción, en caso de no contar con las coordenadas, puede hacer que la base haga un relevamiento por determinado tiempo, filtre su solución de posición y la fije para usar esta solución en los mensajes RTCM a transmitir. Como la antena utilizada tiene sus coordenadas relevadas con suficiente precisión (por trabajos previos que se han desarrollado en el lugar), se puede utilizar el primer enfoque. Por último, es necesario indicar qué mensajes de observables transmitirá la base. En principio estos receptores pueden transmitir el mensaje Tipo 1005, los mensajes MSM 4 y MSM 7 para las constelaciones GPS (Tipos 1074 y 1077), GLONASS (Tipos 1084 y 1087), \textit{Galileo} (Tipos 1094 y 1097) y \textit{BeiDou} (Tipos 1124 y 1127). Se configura para que envíe el mensaje Tipo 1005 y el MSM 4 de GPS (Tipo 1074), lo enviará por UART a una tasa de 460800 baudios.
 	
 	Cómo el módulo ODIN no está siendo utilizado ya que no hay ninguna comunicación inalámbrica en este ensayo, puede ser deshabilitado mediante un puente en los terminales de arranque seguro del ODIN-W2. En cuanto a la interfaz cableada, se conecta el terminal de salida de la UART ($T_X$) de la base al terminal de entrada UART ($R_X$) del rover y se les da la misma referencia de tierra a ambas placas~\cite{moving_base_AppN}.
 	
@@ -1357,7 +1369,6 @@ Máscara de celdas GNSS                              & DF396                    
 
 %Revisar todo esto!!!
 %=============================================================================
-% Las figuras de RTCM deberían ser tablas, cambiar referencias e incluso nombres...
 % Reemplazar numeros por su version escrita? 0-1023 no da mepa...
 % Figuras de matlab en png! Figuras de libre office en eps-pdf (vectoriales)...
 % Logo senyt VECTORIAL!!!
