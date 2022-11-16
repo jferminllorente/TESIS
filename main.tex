@@ -235,7 +235,7 @@
 	Este capítulo introduce los primeros conceptos para el posicionamiento basado en sistemas de navegación por satélite. Incluye una breve descripción del Sistema de Posicionamiento Global (GPS por sus siglas en inglés) junto con sus señales y las mediciones que pueden obtenerse mediante las mismas. Se hace hincapié en las características de estas señales, analizando las fuentes de error que hay presentes en las mediciones que pueden obtenerse. Si bien el foco de este trabajo está puesto en el sistema GPS, ya que los resultados obtenidos son para el mismo, se desarrollan los conceptos de este capítulo de forma general para cualquiera de los sistemas globales de navegación por satélite..
 	
 \section{Introducción}
-	Los sistemas GNSS (Sistemas Globales de Navegación por Satélite o \textit{Global Navigation Satellite System} en inglés) se basan en el concepto de mediciones de distancia mediante el retardo de propagación de las señales transmitidas por satélites de posicionamiento que orbitan la tierra. Ante la necesidad de poder contar con mecanismos para obtener posición y velocidad de usuarios en la tierra, a la cual se agrega la necesidad de sincronización entre distintos sistemas de referencia temporal, surge la idea e implementación de los sistemas GNSS. Los mismos no han dejado de ser utilizados desde su puesta en funcionamiento debido a que permiten cobertura global para distintas aplicaciones de posicionamiento. Se mencionó que pueden ser utilizados para sincronización de relojes debido a que las señales que transmiten los satélites también tienen información temporal de alta precision. Además del uso civil, están las aplicaciones científicas o militares, pero existen áreas donde estos sistemas presentan un uso extendido y creciente, tales como la geodesia, seguimiento de fauna, navegación aérea, satelital, terrestre y marítima.
+	Los sistemas GNSS (Sistemas Globales de Navegación por Satélite o \textit{Global Navigation Satellite System} en inglés) se basan en el concepto de mediciones de distancia mediante el retardo de propagación de las señales transmitidas por satélites de posicionamiento que orbitan la tierra. Ante la necesidad de poder contar con mecanismos para obtener posición y velocidad de usuarios en la tierra, a la cual se agrega la necesidad de sincronización entre distintos sistemas de referencia temporal, surge la idea e implementación de los sistemas GNSS. Los mismos no han dejado de ser utilizados desde su puesta en funcionamiento debido a que permiten cobertura global para distintas aplicaciones de posicionamiento. Se mencionó que pueden ser utilizados para sincronización de relojes debido a que las señales que transmiten los satélites también tienen información temporal de alta precisión. Además del uso civil, están las aplicaciones científicas o militares, pero existen áreas donde estos sistemas presentan un uso extendido y creciente, tales como la geodesia, seguimiento de fauna, navegación aérea, satelital, terrestre y marítima.
 	
 \begin{figure}%Se puede agregar un indicador de chip en la imagen.
     \centering
@@ -938,7 +938,7 @@ Máscara de celdas GNSS                              & DF396                    
  	\caption{Error de posición ECEF respecto a posición real.}
   	\label{fig:error_ublox_GNSS}
 \end{subfigure}
-\caption{Ensayo de un receptor individual operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
+\caption{Ensayo de un receptor comercial individual operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
 \label{fig:ensayoGNSS_ublox}
 \end{figure}
 \subsection{Ensayo con rover operando individualmente}\label{sec:rover_alone}
@@ -1250,9 +1250,8 @@ Máscara de celdas GNSS                              & DF396                    
  	\includegraphics[width=0.7\textwidth]{/validacion/psrng_time_ENU.eps}
  	\caption{Error ENU de línea base.}
   	\label{fig:error_psrng_DGNSS_Q}
-
 \end{subfigure}
-\caption{Ensayo de posicionamiento relativo con línea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con ocho satélites en vista.}
+\caption{Ensayo de posicionamiento relativo con línea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con ocho satélites en vista y base Serie Q.}
 \label{fig:ensayoDGNSS_psrng_Q}
 \end{figure}
 
@@ -1265,7 +1264,7 @@ Máscara de celdas GNSS                              & DF396                    
 \begin{figure}[t]
 \centering
  	\includegraphics[width=0.7\textwidth]{/validacion/transition_float_fix_Q_DGNSS.eps}
- 	\caption{Error ENU de línea base mientras intenta resolver ambigüedades. Ensayo RTK con línea de base nula.}
+ 	\caption{Error ENU de línea base mientras intenta resolver ambigüedades. Ensayo RTK con línea de base nula y base Serie Q.}
   	\label{fig:trans_float_fix_DGNSS_Q}
 \end{figure}
 	Una vez resuelto el inconveniente con el empaquetado de las mediciones de fase del receptor serie Q, se procede a ensayar un esquema de posicionamiento relativo RTK con receptores de distinto modelo. Con este ensayo se busca validar por completo el desarrollo e implementación realizados.
@@ -1283,7 +1282,7 @@ Máscara de celdas GNSS                              & DF396                    
  	\caption{Error ENU de línea base.}
   	\label{fig:error_fix_DGNSS_Q}
 \end{subfigure}
-\caption{Ensayo RTK con línea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con diez satélites en vista.}
+\caption{Ensayo RTK con línea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con diez satélites en vista y base Serie Q.}
 \label{fig:ensayoDGNSS_fix_Q}
 \end{figure}
 	
@@ -1307,7 +1306,7 @@ Máscara de celdas GNSS                              & DF396                    
 \begin{figure}[t]
 \centering
  	\includegraphics[width=0.7\textwidth]{/validacion/NZB/time_toFIX_NZB.eps}
- 	\caption{Solución de posición relativa en coordenadas ENU mientras intenta resolver ambigüedades. Ensayo RTK con línea de base no nula.}
+ 	\caption{Solución de posición relativa en coordenadas ENU mientras intenta resolver ambigüedades. Ensayo RTK con línea de base no nula y base Serie Q.}
   	\label{fig:time_toFIX_NZB}
 \end{figure}
 	Los cálculos antes mencionados se realizan de manera aproximada ya que al trabajar en el techo de un edifico no es posible realizar la medición exacta con los equipos de los que se tiene disponibilidad. Ademas, por la ubicación de la antena SENyT y por cuestiones de alcance de la red WiFi que realiza la comunicación RTCM, no es posible elegir una ubicación de mayor comodidad para situar la antena del rover.
@@ -1330,7 +1329,7 @@ Máscara de celdas GNSS                              & DF396                    
  	\caption{Solución de posición relativa en coordenadas ENU.}
   	\label{fig:time_fix_NZB}
 \end{subfigure}
-\caption{Ensayo RTK con línea de base no nula operando a doble frecuencia, sistema GPS, antena SENyT en base y antena \textit{u-blox} en rover, con nueve satélites en vista.}
+\caption{Ensayo RTK con línea de base no nula operando a doble frecuencia, sistema GPS, antena SENyT en base y antena \textit{u-blox} en rover, con nueve satélites en vista y base Serie Q.}
 \label{fig:ensayo_NZB}
 \end{figure}
 
@@ -1395,11 +1394,11 @@ Máscara de celdas GNSS                              & DF396                    
 \begin{thebibliography}{00}
 \bibitem{kaplan} Elliot D. Kaplan, Christopher J. Hegarty, ``Understandign GPS: Principles and Applications'', 2nd ed., Artech House.
 \bibitem{proakis} John G. Proakis, Masoud Salehi, ``Digital Communications'', 5th ed., McGraw Hill.
+\bibitem{rinex} IGS, Estándar RINEX 3.05, Dec. 2020.
 \bibitem{handbook} Peter J.G. Teunissen \& Oliver Montenbruck (eds.), ``Handbook of Global Navigation Satellite Systems'', Springer.
 \bibitem{psiakis} Mark L. Psiaki and S. Mohiuddin, ``Modeling, Analysis, and Simulation of GPS Carrier Phase for Spacecraft Relative Navigation'', \textit{Journal of Guidance, Control, and Dynamics}, vol. 30, num. 6, 2007, pp. 1628-1639.
 \bibitem{bart} Garcia, Javier G. and Roncagliolo, Pedro A. and Muravchik, Carlos H., ``A Bayesian Technique for Real and Integer Parameters Estimation in Linear Models and Its Application to GNSS High Precision Positioning'', IEEE Transactions on Signal Processing, vol. 64, no. 4, 2016, pp. 923-933.
 \bibitem{rtcm} Comisión Radio Técnica para Servicios Marítimos, Estándar RTCM 10403.3, Versión 3.
-\bibitem{rinex} IGS, Estándar RINEX 3.05, Dec. 2020.
 \bibitem{ZEDds} u-blox, ``u-blox F9 high precision GNSS module'', ZED-F9P data sheet, Jun. 2020, [rev. R08].
 \bibitem{C099_ds} u-blox, ``Application board ZED-F9P ODIN-W2'', C099-F9P user guide, Jun. 2020, [rev. R12].
 \bibitem{u_center} u-blox, ``GNSS evaluation software for Windows'', u-center user guide, Oct. 2021, [rev. R28].
@@ -1413,6 +1412,3 @@ Máscara de celdas GNSS                              & DF396                    
 \end{document}
 %Revisar todo esto!!!
 %=============================================================================
-%,'FontSize', 12 a todas las figuras de matlab!
-%Revisar que hay algunos \Delta ENU que estan como ENN. pifie de tipeo.
-% borrar todos los eps-to-pdf antes de entregar asi los genera de nuevo y me aseguro de que no haya imagenes mezcladas por el pdf.
