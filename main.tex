@@ -40,22 +40,23 @@
   \thispagestyle{empty}
     \vspace{-1cm}
     \begin{center}
-      \begin{minipage}[t]{0.125\linewidth}
-        \includegraphics[height=1\linewidth]{Images/logos/logo_univ.png}
+      \begin{minipage}[t]{0.15\linewidth}
+        \includegraphics[height=1\linewidth]{Images/logos/logo_univ.eps}
       \end{minipage}      
       \hfill
-      \begin{minipage}[t]{0.73\linewidth}
+      \begin{minipage}[t]{0.68\linewidth}
         \begin{center}%
 
           \vspace{-1.6cm}
           \textsc{\small Universidad Nacional de La Plata}\\
-          \textsc{\small Facultad de Ingeniería}
+          \textsc{\small Facultad de Ingeniería}\\
+          \textsc{\small Departamento de Electrotecnia}
           
         \end{center}
       \end{minipage}      
       \hfill
-      \begin{minipage}[t]{0.125\linewidth}
-        \includegraphics[width=1.2\linewidth]{Images/logos/logo_fiunlp.png}
+      \begin{minipage}[t]{0.15\linewidth}
+        \includegraphics[width=1\linewidth]{Images/logos/logo_fiunlp.png}
       \end{minipage}\\
     \end{center}
     \vspace{1cm}
@@ -99,9 +100,9 @@
       \begin{minipage}[t]{0.9\linewidth}
 		Ing. Javier A. Smidt %
         \dotfill{} %
-        UIDET SENyT, FI-UNLP %
+        \textit{Director de Carrera} %
 		
-        Dr. Ing. Agustín Roncagliolo %
+        Dr. Ing. P. Agustín Roncagliolo %
         \dotfill{} %
         Cátedra \textit{Tesina de Grado} %  
     
@@ -137,27 +138,26 @@
 \addcontentsline{toc}{chapter}{Resumen/Abstract}
 	En este trabajo se estudian los aspectos más importantes del estándar RTCM para el envío de mensajes entre receptores GNSS realizando posicionamiento diferencial en tiempo real. Se decide trabajar con un mensaje de la estación de referencia y un mensaje con observables crudos de pseudorango y fase de portadora. Estos mensajes son tipificados por el estándar e identificados como Tipo 1005 y Tipo 1074, siendo este último un mensaje particular para el sistema GPS. 
 
-	Se realizan ensayos DGPS con línea de base nula utilizando receptores comerciales y obteniendo soluciones con la precisión esperada. Se implementa en un sistema embebido la transmisión de los mensajes ya mencionados mediante una interfaz cableada. Por último, se replican los ensayos con linea de base nula utilizando como estación de referencia el receptor de diseño y desarrollo propio del lugar de trabajo donde se implementó la transmisión de los mensajes. Se mantiene al receptor comercial como el receptor que realiza el procesamiento diferencial y se observa la ganancia que presenta un enfoque diferencial en términos de la precisión obtenida en las soluciones de posición.\\
+	Se realizan ensayos DGPS con línea de base nula utilizando receptores comerciales y obteniendo soluciones con la precisión esperada. Se implementa en un sistema embebido la transmisión de los mensajes ya mencionados mediante una interfaz cableada. Además, se replican los ensayos con línea de base nula utilizando como estación de referencia el receptor de diseño y desarrollo propio del lugar de trabajo donde se implementó la transmisión de los mensajes. Se mantiene al receptor comercial como el receptor que realiza el procesamiento diferencial y se observa la ganancia que presenta un enfoque diferencial en términos de la precisión obtenida en las soluciones de posición. Se valida el desarrollo mediante un ensayo diferencial en tiempo real con los receptores separados y comunicándose de manera inalámbrica.\\
 \textbf{\textit{Index Terms:}} \textit{GNSS}, \textit{posicionamiento relativo}, \textit{estándar RTCM}.
 
-\vspace{1cm}
+\vspace{0.7cm}
 \noindent\rule{3.5cm}{0.4pt}
-\vspace{1cm}
+\vspace{0.7cm}
 
 	The present work consists of the study of the most important aspects that the RTCM standard describes for the communication between GNSS receivers performing differential positioning in real time. It is decided to work with a message for the reference station and one with raw pseudorange and phaserange observables. These messages are typified by the standard and identified as Type 1005 and Type 1074, being the last one mentioned a particular message for the GPS system.
 	
-	DGPS tests are done with zero baseline and usign commercial receivers, solutions with expected accuracy are obtained. The wired transmission of the messages mentioned above is implemented in an embedded system. Finally, tests with zero baseline are replicated, while using the receiver designed and integrated previously in the workplace as reference station. This is the receiver where the RTCM messages transmission was implemented. The commercial receiver performing differential processing is mantained and the gain, in terms of accuracy in the position solution, that a differential approach obtains is evident.\\
-\textbf{\textit{Index Terms:}} \textit{GNSS}, \textit{relative positioning}, \textit{RTCM standard}.\\
-\newpage
+	DGPS tests are done with zero baseline setup and using commercial receivers, solutions with expected accuracy are obtained. The wired transmission of the messages mentioned above is implemented in an embedded system. Further, tests with zero baseline are replicated, using the receiver designed and integrated previously in the workplace as reference station. This is the receiver where the RTCM messages transmission was implemented. The commercial receiver performing differential processing is mantained and the gain, in terms of accuracy in the position solution, that a differential approach obtains is evident. The validation of the work is done by a real time differential setup with a wireless communication between the two receivers that are physically separated.\\
+\textbf{\textit{Index Terms:}} \textit{GNSS}, \textit{relative positioning}, \textit{RTCM standard}.\newpage
 \chapter*{Agradecimientos}
 \addcontentsline{toc}{chapter}{Agradecimientos}
-%Primero quiero dar las gracias a mis directores, Javier Smidt y Ernesto López, por la confianza que me depositaron y el constante acompañamiento, tanto técnico como humano. A todo el SENyT en general por haber hecho de este trabajo un proceso disfrutable y de constante aprendizaje. No puedo dejar de mencionar a Germán Scillone y Agus Catellani que sin ellos mis aportes al código del receptor hoy no compilarían. 
+%Primero quiero dar las gracias a mis directores, Javier Smidt y Ernesto López, por la confianza que me depositaron y el constante acompañamiento, tanto técnico como humano. A todo el SENyT en general por haber hecho de este trabajo un proceso disfrutable y de constante aprendizaje. No puedo dejar de mencionar a Germán Scillone, Agus Catellani y Santi Rodríguez que sin ellos mis aportes al código del receptor hoy no compilarían. 
 %
 %A todos los profesores apasionados que me contagiaron el amor por las telecomunicaciones. En especial a Adrián Carlotto, que fue el primero y una gran fuente de confianza para tomar la decisión de seguir, la que para mí, es la especialidad más apasionante de la ingeniería. También a Javier y Agustín Roncagliolo que me abrieron las puertas para seguir formando mi camino en el mundo GNSS.\\
 %
-%Gracias  a todos los amigos y amigas que me dió la facultad, Electrónicos, Aeronáuticos y Nacho. Siempre con las puertas de sus casas abiertas, realmente hicieron que esta etapa sea inolvidable. No puedo evitar pensar en mis amigos de la infancia y algunos más nuevos, Tobi, Martín, Facu, Cami, Chiari, Luci, Kevin y Juani, por estar en todo momento. A la familia Pérez-Arrua, Milton y Santi por las charlas vislumbradoras. A mi familia en Roca por recibirme siempre que necesite volver. Por último el agradecimiento más grande, a Felipe y a mis padres, por permitirme hacer lo que me apasiona y apoyarme incondicionalmente.\\
+%Gracias a todos los amigos y amigas que me dió la facultad, Electrónicos, Aeronáuticos y Nacho. Siempre con las puertas de sus casas abiertas, realmente hicieron que esta etapa sea inolvidable. No puedo evitar pensar en mis amigos de la infancia y algunos más nuevos, Tobi, Martín, Facu, Cami, Chiari, Luci, Kevin y Juani, por estar en todo momento. A la familia Pérez-Arrua, Milton y Santi por las charlas vislumbradoras. A mi familia en Roca por recibirme siempre que necesité volver. Por último, el agradecimiento más grande a Felipe y a mis padres, por permitirme hacer lo que me apasiona y apoyarme incondicionalmente.\\
 %
-%Quiero cerrar esta sección remarcando mis convicciones, no solo agradeciendo a la UNLP, si no también a todo lo que ello representa, un país que apuesta a la ciencia y a la educación. Gracias a la educación pública, libre y gratuita por haberme brindado una formación de privilegio.
+%Quiero cerrar estas palabras remarcando mis convicciones, no solo agradeciendo a la UNLP, si no también a todo lo que ello representa, un país que apuesta a la ciencia y a la educación. Gracias a la educación pública, libre y gratuita por haberme brindado una formación de privilegio.
 \newpage
 
 \addcontentsline{toc}{chapter}{Índice de contenidos}
@@ -166,43 +166,43 @@
 
 \addcontentsline{toc}{chapter}{Índice de símbolos}
 \chapter*{Índice de símbolos}
-\noindent\textbf{USB:} \textit{Universal Serial Bus}, Bus Serie Universal.\\
-\textbf{GNSS:} \textit{Global Navigation Satellite Systems}, Sistemas Globales de Navegación por Satélite.\\
-\textbf{DGNSS:} \textit{Differential GNSS}, GNSS diferenciales.\\
-\textbf{GPS:} \textit{Global Positioning System}, Sistema Global de Posicionamiento.\\
-\textbf{DGPS:} \textit{Differential GPS}, GPS diferencial.\\
-\textbf{RTK:} \textit{Real Time Kinematics}, Cinemática de Tiempo Real.\\
-\textbf{TOA:} \textit{Time Of Arrival}, Tiempo de Arribo.\\
-\textbf{MEO:} \textit{Medium Earth Orbit}, Orbita Terrestre Media.\\
+\noindent\textbf{ARP:} \textit{Antenna Reference Point}, Punto de Referencia de la Antena.\\
+\textbf{BART:} \textit{Bayesian Amiguity Resolution Technique}.\\
+\textbf{BPSK:} \textit{Binary Phase Shift Keying}, Modulación Binaria por Desplazamiento de Fase.\\
+\textbf{BRSD:} \textit{Between Receivers Simple Differences}, Simples Diferencias Entre Receptores.\\
+\textbf{BSSD:} \textit{Between Satellite Simple Differences}, Simples Diferencias Entre Satélites.\\
 \textbf{CDMA:} \textit{Code Division Multiple Access}, Acceso Múltiple por División de Código.\\
+\textbf{CPU:} \textit{Central Processing Unit}, Unidad Central de Procesamiento.\\
+\textbf{CRC:} \textit{Cyclic Redundancy Check}, Control de Redundancia Cíclica.\\
+\textbf{DD:} \textit{Double Differences}, Dobles Diferencias.\\
+\textbf{DGNSS:} \textit{Differential GNSS}, GNSS diferenciales.\\
+\textbf{DGPS:} \textit{Differential GPS}, GPS diferencial.\\
+\textbf{DLL:} \textit{Delay Lock Loop}, Lazo de Enganche de Retardo.\\
+\textbf{DOP:} \textit{Dilution Of Precision}, Dilución de Precisión.\\
+\textbf{DSP:} \textit{Digital Signal Processing}, Procesamiento Digital de Señales.\\
 \textbf{DSSS:} \textit{Direct Sequence Spread Spectrum}, Espectro Expandido de Secuencia Directa.\\
-\textbf{PRN:} \textit{Pseudorandom Noise}, Ruido Pseudo Aleatorio.\\
-\textbf{UART:} \textit{Universal Asincronus Receiver Transmitter}, Transmisor-Receptor Asíncrono Universal.\\
-\textbf{RTCM:} \textit{Radio Technical Commission for Maritime Services}, Comisión Técnica de Radio para Servicios Marítimos.\\
-\textbf{RINEX:} \textit{Receiver INdependent EXchange}, Intercambio Independiente del Receptor.\\
-\textbf{ARP:} \textit{Antenna Reference Point}, Punto de Referencia de la Antena.\\
 \textbf{ECEF:} \textit{Earth Centered Earth Fixed}, Centrado en la Tierra con la Tierra Fija.\\
 \textbf{ENU:} \textit{East-North-Up}, Este-Norte-Arriba.\\
 \textbf{FDMA:} \textit{Frequency Division Multiple Access}, Acceso Múltiple por División de Frecuencia.\\
-\textbf{BPSK:} \textit{Binary Phase Shift Keying}, Modulación Binaria por Desplazamiento de Fase.\\
-\textbf{DLL:} \textit{Delay Lock Loop}, Lazo de Enganche de Retardo.\\
-\textbf{PLL:} \textit{Phase Lock Loop}, Lazo de Enganche de Fase.\\
-\textbf{DSP:} \textit{Digital Signal Processing}, Procesamiento Digital de Señales.\\
-\textbf{SD:} \textit{Simple Differences}, Simple Diferencias.\\
-\textbf{BRSD:} \textit{Between Receivers Simple Differences}, Simples Diferencias Entre Receptores.\\
-\textbf{BSSD:} \textit{Between Satellite Simple Differences}, Simples Diferencias Entre Satélites.\\
-\textbf{DD:} \textit{Double Differences}, Dobles Diferencias.\\
-\textbf{RF:} \textit{Radio Frequency}, Radiofrecuencia.\\
-\textbf{LAMBDA:} \textit{Least-squares AMBiguity Decorrelation Approach}.\\
-\textbf{BART:} \textit{Bayesian Amiguity Resolution Technique}.\\
-\textbf{CRC:} \textit{Cyclic Redundancy Check}, Control de Redundancia Cíclica.\\
-\textbf{MSM:} \textit{Multiple Signal Messages}, Mensajes de Múltiples Señales.\\
-\textbf{DOP:} \textit{Dilution Of Precision}, Dilución de Precisión.\\
 \textbf{FPGA:} \textit{Field Programmable Gate Array}, Matriz de Puertas Lógicas Programable en Campo.\\
-\textbf{RTOS:} \textit{Real Time Operative System}, Sistema Operativo de Tiempo Real.\\
+\textbf{GNSS:} \textit{Global Navigation Satellite Systems}, Sistemas Globales de Navegación por Satélite.\\
+\textbf{GPS:} \textit{Global Positioning System}, Sistema Global de Posicionamiento.\\
+\textbf{LAMBDA:} \textit{Least-squares AMBiguity Decorrelation Approach}.\\
+\textbf{MEO:} \textit{Medium Earth Orbit}, Orbita Terrestre Media.\\
+\textbf{MSM:} \textit{Multiple Signal Messages}, Mensajes de Múltiples Señales.\\
+\textbf{PLL:} \textit{Phase Lock Loop}, Lazo de Enganche de Fase.\\
 \textbf{PPS:} \textit{Pulse Per Second}, Pulso Por Segundo.\\
-\textbf{CPU:} \textit{Central Processing Unit}, Unidad Central de Procesamiento.\\
+\textbf{PRN:} \textit{Pseudorandom Noise}, Ruido Pseudo Aleatorio.\\
+\textbf{RF:} \textit{Radio Frequency}, Radiofrecuencia.\\
+\textbf{RINEX:} \textit{Receiver INdependent EXchange}, Intercambio Independiente del Receptor.\\
+\textbf{RTCM:} \textit{Radio Technical Commission for Maritime Services}, Comisión Técnica de Radio para Servicios Marítimos.\\
+\textbf{RTK:} \textit{Real Time Kinematics}, Cinemática de Tiempo Real.\\
+\textbf{RTOS:} \textit{Real Time Operative System}, Sistema Operativo de Tiempo Real.\\
+\textbf{SD:} \textit{Simple Differences}, Simple Diferencias.\\
 \textbf{SVID:} \textit{Space Vehicle Identifier}, Identificador de Vehículo Espacial.\\
+\textbf{TOA:} \textit{Time Of Arrival}, Tiempo de Arribo.\\
+\textbf{UART:} \textit{Universal Asincronus Receiver Transmitter}, Transmisor-Receptor Asíncrono Universal.\\
+\textbf{USB:} \textit{Universal Serial Bus}, Bus Serie Universal.\\
 
 \newpage
 
@@ -220,7 +220,7 @@
 %	Resulta de interés aplicar estas técnicas diferenciales a bordo en tiempo real, a fin de incrementar la autonomía y la versatilidad en cuanto a las posibles aplicaciones de ciencia. Para esto, la transmisión de las mediciones entre satélites en tiempo real es necesaria. Adicionalmente, otros campos donde la navegación relativa de alta precisión en tiempo real presenta grandes utilidades incluyen la agricultura de precisión, topografía y la navegación autónoma de vehículos, donde un receptor utilizado como estación base transmite correcciones a múltiples receptores móviles o rovers. Estas correcciones son transmitidas en forma de mensajes basados en el estándar RTCM, cuya estandarización permite el empleo de receptores de diferentes características y fabricantes para estas técnicas diferenciales.
 \section*{Motivación}
 \addcontentsline{toc}{section}{Motivación}
-	El presente trabajo se enmarca dentro de los distintos desarrollos llevados a cabo por la UIDET SENyT en torno al desarrollo de receptores GNSS de aplicación espacial. Además del desarrollo, se realiza investigación en distintas áreas dentro de los sistemas GNSS. En particular, existe una fuerte linea de investigación relacionada al posicionamiento diferencial de alta precisión. Resulta de interés poder contar con receptores de desarrollo propio que puedan operar de manera diferencial en tiempo real ya que esto da lugar a probar algoritmos de procesamiento diferencial de desarrollo propio. Al trabajar únicamente con receptores comerciales todo el procesamiento se debe realizar de manera no sincrónica, es decir, con post procesamiento, debido a la imposibilidad de modificar el software de los receptores.
+	El presente trabajo se enmarca dentro de los distintos desarrollos llevados a cabo por la UIDET SENyT en torno al desarrollo de receptores GNSS de aplicación espacial. Además del desarrollo, se realiza investigación en distintas áreas dentro de los sistemas GNSS. En particular, existe una fuerte línea de investigación relacionada al posicionamiento diferencial de alta precisión. Resulta de interés poder contar con receptores de desarrollo propio que puedan operar de manera diferencial en tiempo real ya que esto da lugar a probar algoritmos de procesamiento diferencial de desarrollo propio. Al trabajar únicamente con receptores comerciales todo el procesamiento se debe realizar de manera no sincrónica, es decir, con post procesamiento, debido a la imposibilidad de modificar el software de los receptores.
 \section*{Objetivos}
 \addcontentsline{toc}{section}{Objetivos}
 	El objetivo general de este trabajo es el estudio e implementación de técnicas de posicionamiento diferencial utilizando receptores GNSS diseñados y fabricados en el lugar de trabajo. Dichos receptores cuentan actualmente con la capacidad de generar las mediciones crudas necesarias para la aplicación de estas técnicas. Para ello, deberán cumplirse los siguientes objetivos particulares:
@@ -230,7 +230,7 @@
 	\item Implementar el enlace de comunicación de los mensajes del protocolo RTCM en un receptor propietario del SENyT y validar el desarrollo mediante un ensayo DGPS en tiempo real.
 \end{itemize}	
 
-	El trabajo se estructura de la siguiente manera: El Capítulo~\ref{ch:GNSS} presenta los conceptos principales de los Sistemas Globales de Navegación por Satélite. En el Capítulo~\ref{ch:DGNSS} se aplican esos mismos conceptos a un enfoque diferencial para dar lugar a las bases que fundamentan el objetivo de este trabajo. Posteriormente se presentan ensayos de posicionamiento relativo entre dos receptores GNSS comerciales, los resultados se pueden encontrar en el Capítulo~\ref{ch:ublox}. El Capítulo~\ref{ch:Qseries} detalla la implementación llevada a cabo en uno de los receptores GNSS propietarios del lugar de trabajo y la validación de esta implementación con la presentación de los resultados se encuentra en el Capítulo~\ref{ch:validacion}. Por último, se termina el trabajo dando las conclusiones generales del mismo junto con propuestas de lineas de trabajo a futuro que surgen a partir de lo aquí desarrollado.
+	El trabajo se estructura de la siguiente manera: El Capítulo~\ref{ch:GNSS} presenta los conceptos principales de los Sistemas Globales de Navegación por Satélite. En el Capítulo~\ref{ch:DGNSS} se aplican esos mismos conceptos a un enfoque diferencial para dar lugar a las bases que fundamentan el objetivo de este trabajo. Posteriormente se presentan ensayos de posicionamiento relativo entre dos receptores GNSS comerciales, los resultados se pueden encontrar en el Capítulo~\ref{ch:ublox}. El Capítulo~\ref{ch:Qseries} detalla la implementación llevada a cabo en uno de los receptores GNSS propietarios del lugar de trabajo y la validación de esta implementación con la presentación de los resultados se encuentra en el Capítulo~\ref{ch:validacion}. Por último, se termina el trabajo dando las conclusiones generales del mismo junto con propuestas de líneas de trabajo a futuro que surgen a partir de lo aquí desarrollado.
 \chapter{Sistemas globales de navegación por satélite}\label{ch:GNSS}
 	Este capítulo introduce los primeros conceptos para el posicionamiento basado en sistemas de navegación por satélite. Incluye una breve descripción del Sistema de Posicionamiento Global (GPS por sus siglas en inglés) junto con sus señales y las mediciones que pueden obtenerse mediante las mismas. Se hace hincapié en las características de estas señales, analizando las fuentes de error que hay presentes en las mediciones que pueden obtenerse. Si bien el foco de este trabajo está puesto en el sistema GPS, ya que los resultados obtenidos son para el mismo, se desarrollan los conceptos de este capítulo de forma general para cualquiera de los sistemas globales de navegación por satélite..
 	
@@ -418,7 +418,7 @@ Cabe destacar que los términos que representan los mismos fenómenos que en la 
 \begin{equation}
 	\rho_r^{s,j} = \hat{\rho}_r^{s,j} - \dfrac{(\mathbf{s}^j - \hat{\mathbf{u}})\Delta \mathbf{u}}{\hat{r}_r^{s,j}} + c\Delta t_u \ .
 \end{equation}
-	El incremental de posición del usuario respecto a su posición estimada ($\Delta \mathbf{u}$) esta escalado por el rango entre la posición estimada del usuario y el satélite, es decir la diferencia de los vectores posición de cada uno. Este termino es dividido por la norma de este vector diferencia $\hat{r}_r^{s,j}$, por lo que resulta en un vector unitario que apunta desde la posición estimada del usuario al satélite j-ésimo. Siendo las componentes de este vector los cosenos directores del vector $(\mathbf{s}^j - \hat{\mathbf{u}})$, no es otra cosa que el vector unitario linea de vista (LOS por sus siglas en ingles). De esta manera se define
+	El incremental de posición del usuario respecto a su posición estimada ($\Delta \mathbf{u}$) esta escalado por el rango entre la posición estimada del usuario y el satélite, es decir la diferencia de los vectores posición de cada uno. Este termino es dividido por la norma de este vector diferencia $\hat{r}_r^{s,j}$, por lo que resulta en un vector unitario que apunta desde la posición estimada del usuario al satélite j-ésimo. Siendo las componentes de este vector los cosenos directores del vector $(\mathbf{s}^j - \hat{\mathbf{u}})$, no es otra cosa que el vector unitario línea de vista (LOS por sus siglas en ingles). De esta manera se define
 \begin{equation}\label{ec:uLOS}
 	\mathbf{a}^j = \dfrac{\mathbf{s}^j-\hat{\mathbf{u}}}{\hat{r}_r^{s,j}} \ .
 \end{equation}	
@@ -501,9 +501,9 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 \end{align}
 	Comparando con las Ecuaciones \eqref{ec:obs_pseudorango} y \eqref{ec:obs_fasedep} se puede observar cómo se cancelan los términos que son compartidos, tales como el retardo instrumental del satélite y el sesgo en el reloj del satélite. Se conserva el término de retardo de instrumental diferencial en el receptor, debido a que solo podría cancelarse en caso de que ambos receptores cuenten con etapas de correladores y \textit{front-end} idénticos.
 	
-	 Por otro lado, los términos correspondientes a los retardos atmosféricos pasan a ser dependientes de la linea de base entre ambos receptores. Esto se debe a la correlación espacial que tienen estos fenómenos, cuanto menor sea la linea de base se puede considerar que estos términos son eliminados debido a que la señal atraviesa fragmentos de la atmósfera con similares características. Si bien son conservados, para lineas bases pequeñas comparadas con la distancia a los satélites pueden ser despreciados frente a errores de multicamino y propios del ruido del receptor.
+	 Por otro lado, los términos correspondientes a los retardos atmosféricos pasan a ser dependientes de la línea de base entre ambos receptores. Esto se debe a la correlación espacial que tienen estos fenómenos, cuanto menor sea la línea de base se puede considerar que estos términos son eliminados debido a que la señal atraviesa fragmentos de la atmósfera con similares características. Si bien son conservados, para líneas bases pequeñas comparadas con la distancia a los satélites pueden ser despreciados frente a errores de multicamino y propios del ruido del receptor.
 	
-	En la medición de fase de portadora en simples diferencias se agregan el término de corrección de \textit{wind-up} de fase y de ambigüedad entera de fase, ambos diferenciales. En general, para aplicaciones en Tierra con linea base no muy grande el que se menciona primero puede ser despreciado, debido a que las antenas están apuntando hacia arriba. En cambio, en aplicaciones donde los receptores se encuentran en vehículos espaciales esto dejaría de ser posible debido a diferencias de altura entre los mismos o por las lineas base más grandes que se presentan.
+	En la medición de fase de portadora en simples diferencias se agregan el término de corrección de \textit{wind-up} de fase y de ambigüedad entera de fase, ambos diferenciales. En general, para aplicaciones en Tierra con línea base no muy grande el que se menciona primero puede ser despreciado, debido a que las antenas están apuntando hacia arriba. En cambio, en aplicaciones donde los receptores se encuentran en vehículos espaciales esto dejaría de ser posible debido a diferencias de altura entre los mismos o por las líneas base más grandes que se presentan.
 	
 \subsubsection{Entre satélites}
 	El pseudorango para el caso BSSD resulta
@@ -540,7 +540,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 \begin{align}\label{ec:DD_fdp}
 	\varphi_{12}^{k1} = \rho_{12}^{k1} + \zeta_{12}^{k1} + T_{12}^{k1}(bl) - I_{12}^{k1}(bl)	+\lambda \left( \omega_{12}^{k1} + N_{12}^{k1}\right) + \epsilon_{12}^{k1} \ .
 \end{align}
-	En estas mediciones se logra cancelar los sesgos de reloj del receptor que no se habían cancelado en las Ecuaciones \eqref{ec:BRSD_pr} y \eqref{ec:BRSD_fdp}. Además el término diferencial de corrección relativista es eliminado ya que son iguales para todas las mediciones de BRSD sin importar qué satélite se tome. Los retardos instrumentales diferenciales entre los receptores se cancelan al utilizar el mismo par de receptores, en caso de estos receptores estén diseñados de manera correcta y se pueda considerar que los retardos se compensan para las distintas frecuencias. Los términos de retardo atmosférico se mantendrán siempre y cuando no haya correlación entre las mediciones, es por esto que es explicita la dependencia de los mismo con la longitud de la linea de base. Ya se puede considerar que para SD estos términos pueden ser despreciados frente a los errores, es decir que con esta combinación tenemos más argumentos para poder hacerlo. Para lineas de base no muy grandes estos términos son tan pequeños que no se tienen en cuenta, esto es valido ya que se combinaron observaciones BRSD para dos satélites distintos por lo que el remanente es prácticamente nulo.
+	En estas mediciones se logra cancelar los sesgos de reloj del receptor que no se habían cancelado en las Ecuaciones \eqref{ec:BRSD_pr} y \eqref{ec:BRSD_fdp}. Además el término diferencial de corrección relativista es eliminado ya que son iguales para todas las mediciones de BRSD sin importar qué satélite se tome. Los retardos instrumentales diferenciales entre los receptores se cancelan al utilizar el mismo par de receptores, en caso de estos receptores estén diseñados de manera correcta y se pueda considerar que los retardos se compensan para las distintas frecuencias. Los términos de retardo atmosférico se mantendrán siempre y cuando no haya correlación entre las mediciones, es por esto que es explicita la dependencia de los mismo con la longitud de la línea de base. Ya se puede considerar que para SD estos términos pueden ser despreciados frente a los errores, es decir que con esta combinación tenemos más argumentos para poder hacerlo. Para líneas de base no muy grandes estos términos son tan pequeños que no se tienen en cuenta, esto es valido ya que se combinaron observaciones BRSD para dos satélites distintos por lo que el remanente es prácticamente nulo.
 
 \subsection{Triples diferencias}
 	Además de la correlación espacial que tienen los fenómenos que todavía no se han cancelado completamente, los mismos cuentan con una correlación temporal que no se ha podido tener en cuenta todavía. Esto se debe a que las mediciones en SD y DD, todas son haciendo diferencias de observaciones en la misma época. Las mediciones en triples diferencias se realizan mediante dos DD pero en distintas épocas, esto permite sacar provecho de la dinámica lenta que tienen las efectos atmosféricos. La notación tomada para identificar estas mediciones es $\partial p_{12}^{k1}$.
@@ -553,17 +553,17 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	\partial \varphi_{12}^{k1} = p_{12}^{k1}(t_i) - p_{12}^{k1}(t_{i-1}) = \partial\rho_{12}^{k1} + \partial\zeta_{12}^{k1} + \partial T_{12}^{k1}(\Delta t,bl) - \partial I_{12}^{k1}(\Delta t,bl) + \partial \epsilon_{12}^{k1} + \partial\omega_{12}^{k1}\ .
 \end{align}
 	Además de los términos que ya no estaban presentes en las DD y lo que se han reducido las contribuciones atmosféricas, según qué tan grande es la diferencia de épocas tomada $\Delta t = t_{i-1}-t_i$ en comparación con la dinámica del fenómeno, podremos despreciar aún más estos términos. Es evidente que si la correlación espacial presente en los términos no fue suficiente como para despreciarlos, con un correcto diseño en este enfoque se consigue despreciarlos definitivamente.
-\subsection{Linea de base nula}
-	Este enfoque para armar las observaciones puede ser utilizado ya sea con simples diferencias tanto como con dobles diferencias. Es un caso particular de las ya mencionadas donde se utiliza la misma antena para ambos receptores, se divide la señal y cada receptor hace sus mediciones como se observa en la Fig.~\ref{fig:ZB}. Esto consigue que la correlación espacial sea completa debido a que la linea de base nula implica que ambos receptores usan la misma antena, por lo que la señal recorre el mismo camino para ambos, es decir, es afectada por los mismos fenómenos. Resulta de gran utilidad para la calibración de los receptores por los resultados que se obtienen. Pero en principio como geometría para posicionamiento diferencial no tiene utilidad ya que ambos receptores tienen la misma ubicación.
+\subsection{Línea de base nula}
+	Este enfoque para armar las observaciones puede ser utilizado ya sea con simples diferencias tanto como con dobles diferencias. Es un caso particular de las ya mencionadas donde se utiliza la misma antena para ambos receptores, se divide la señal y cada receptor hace sus mediciones como se observa en la Fig.~\ref{fig:ZB}. Esto consigue que la correlación espacial sea completa debido a que la línea de base nula implica que ambos receptores usan la misma antena, por lo que la señal recorre el mismo camino para ambos, es decir, es afectada por los mismos fenómenos. Resulta de gran utilidad para la calibración de los receptores por los resultados que se obtienen. Pero en principio como geometría para posicionamiento diferencial no tiene utilidad ya que ambos receptores tienen la misma ubicación.
 	
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{/DGNSS/ZB.eps}
-    \caption{Configuración con linea de base nula.}
+    \caption{Configuración con línea de base nula.}
     \label{fig:ZB}
 \end{figure}
 
-	En el caso de las simples diferencias no tiene sentido considerar entre satélites ya que no aprovecharíamos la linea de base nula, por lo que se trabajara entre receptores. Podemos analizar los términos remanentes en la Ecuación \eqref{ec:BRSD_pr} y \eqref{ec:BRSD_fdp}. En principio se mantiene el término debido al sesgo de reloj y retardo de hardware del receptor. Si bien la antena es la misma, los receptores son independientes por lo que el retardo de reloj no tiene por qué ser igual. Incluso en un caso desfavorable los receptores podrían no estar cerca y que la división de la señal implique un camino mas largo para un receptor que para otro. Se considerará que el retardo instrumental diferencial será nulo con el mismo criterio que se detalló en las secciones anteriores. Siendo cauteloso en que el diseño de los receptores es el correcto y que los cables entre el divisor de potencia y los receptores tienen el mismo largo, podemos obviarlo. Hasta acá no hay cambios con respecto al caso de receptores con antenas separadas, excepto que el rango entre ambos receptores es nulo. El cambio sustancial aparece cuando los términos de retardos atmosféricos ya son cancelados completamente en las SD ya que el camino de la señal es el mismo para ambas mediciones. El sesgo debido al centro de fase de la antena y la corrección del \textit{wind-up} de fase es el mismo para ambos receptores ya que utilizan la misma antena, por esto su contribución diferencial desaparece. Las ecuaciones resultantes son
+	En el caso de las simples diferencias no tiene sentido considerar entre satélites ya que no aprovecharíamos la línea de base nula, por lo que se trabajara entre receptores. Podemos analizar los términos remanentes en la Ecuación \eqref{ec:BRSD_pr} y \eqref{ec:BRSD_fdp}. En principio se mantiene el término debido al sesgo de reloj y retardo de hardware del receptor. Si bien la antena es la misma, los receptores son independientes por lo que el retardo de reloj no tiene por qué ser igual. Incluso en un caso desfavorable los receptores podrían no estar cerca y que la división de la señal implique un camino mas largo para un receptor que para otro. Se considerará que el retardo instrumental diferencial será nulo con el mismo criterio que se detalló en las secciones anteriores. Siendo cauteloso en que el diseño de los receptores es el correcto y que los cables entre el divisor de potencia y los receptores tienen el mismo largo, podemos obviarlo. Hasta acá no hay cambios con respecto al caso de receptores con antenas separadas, excepto que el rango entre ambos receptores es nulo. El cambio sustancial aparece cuando los términos de retardos atmosféricos ya son cancelados completamente en las SD ya que el camino de la señal es el mismo para ambas mediciones. El sesgo debido al centro de fase de la antena y la corrección del \textit{wind-up} de fase es el mismo para ambos receptores ya que utilizan la misma antena, por esto su contribución diferencial desaparece. Las ecuaciones resultantes son
 \begin{align}
 	p_{12,ZB}^k =& cdt_{12} + e_{12}^{k} \ , \\
 	\varphi_{12,ZB}^k =& cdt_{12} + \lambda N_{12}^k + \epsilon_{12}^k \ .
@@ -893,7 +893,7 @@ Máscara de celdas GNSS                              & DF396                    
     \label{fig:ucenter}
 \end{figure}
 
-\section{Esquema de ensayos con linea base nula}\label{sec:esquema_ZBL}
+\section{Esquema de ensayos con línea base nula}\label{sec:esquema_ZBL}
 	En el Capítulo~\ref{ch:DGNSS} se detallaron los beneficios que traen los esquemas de combinación de mediciones con línea de base nula debido a la cancelación de errores y sesgos que presenta. Es por esto que se decide tratar con un escenario de este estilo para poder discutir aspectos respecto al desempeño obtenido. Además, al contar con una capa física en el enlace de comunicación que es cableada, no es posible realizar ensayos con grandes distancias entre los receptores, por lo que pensar en esta situación resulta lo más conveniente.
 	
 	La UIDET SENyT cuenta con una antena emplazada en la terraza del Departamento de Electrotecnia de la Facultad de Ingeniería, a la altura de un cuarto piso. La misma es una antena activa en las bandas $L_1$ y $L_2$ para los sistemas GPS y GLONASS. La señal que proviene de la antena es dividida mediante un diplexor como se observa en la Fig.~\ref{fig:EnsayoZBL}. El mismo cuenta con un desacople de continua para uno de los dos caminos en que se divide la señal, de manera que en caso de que se conecten dos receptores que den alimentación a la antena los mismos no sean cortocircuitados. Luego cada señal va a su respectivo receptor, rover y base. 
@@ -971,7 +971,7 @@ Máscara de celdas GNSS                              & DF396                    
 \centering
 %\subfloat[Gráfico de dispersión de las soluciones de posición relativa (linea de base).]{%
   	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ENU_DGNSSublox_scatter.png}
-  	\caption{Gráfico de dispersión ENU de las soluciones de posición relativa (linea de base).}
+  	\caption{Gráfico de dispersión ENU de las soluciones de posición relativa (línea de base).}
     \label{fig:scatter_ublox_DGNSS}
 \end{subfigure}
 
@@ -979,25 +979,25 @@ Máscara de celdas GNSS                              & DF396                    
 \centering
 %\subfloat[Errores para la linea base en cada coordenada.]{%
  	\includegraphics[width=1\textwidth]{/EnsayosUblox/ENU_DGNSSublox.eps}
- 	\caption{Error ENU de linea base al inicio del ensayo.}
+ 	\caption{Error ENU de línea base al inicio del ensayo.}
   	\label{fig:error_ublox_DGNSS_ini}
 \end{subfigure}
 \begin{subfigure}{0.49\linewidth}
 \centering
 %\subfloat[Errores para la linea base en cada coordenada.]{%
  	\includegraphics[width=1\textwidth]{/EnsayosUblox/ENU_timeplot_ublox_dgnss.eps}
- 	\caption{Error ENU de linea base una vez fijadas las ambigüedades.}
+ 	\caption{Error ENU de línea base una vez fijadas las ambigüedades.}
   	\label{fig:error_ublox_DGNSS_fin}
 \end{subfigure}
-\caption{Ensayo RTK con linea base nula operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
+\caption{Ensayo RTK con línea base nula operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
 \label{fig:ensayoDGNSS_ublox}
 \end{figure}
 	
-	El diagrama de dispersión de la Fig.~\ref{fig:scatter_ublox_DGNSS} muestra cómo la nube de puntos se comprimió, teniendo muchos menos valores anómalos. En este caso se presentan los resultados en coordenadas ENU (por Este, Norte y Vertical) debido a que no se presenta una posición absoluta, si no la diferencia de coordenadas, es decir, la linea base. Pero como la base estacionaria tiene su posición fija (en cualquier ensayo más allá de la línea de base nula), conocer la linea de base con precisión es también conocer la posición del rover con precisión. Se pudieron desafectar los errores sistemáticos obtenidos en el ensayo individual, efectivamente las soluciones están centradas en el origen ya que la linea de base es nula. Además, cabe destacar que si se presta atención a la escala de los ejes, se logró reducir por casi tres ordenes de magnitud la precisión lograda. 
+	El diagrama de dispersión de la Fig.~\ref{fig:scatter_ublox_DGNSS} muestra cómo la nube de puntos se comprimió, teniendo muchos menos valores anómalos. En este caso se presentan los resultados en coordenadas ENU (por Este, Norte y Vertical) debido a que no se presenta una posición absoluta, si no la diferencia de coordenadas, es decir, la línea base. Pero como la base estacionaria tiene su posición fija (en cualquier ensayo más allá de la línea de base nula), conocer la línea de base con precisión es también conocer la posición del rover con precisión. Se pudieron desafectar los errores sistemáticos obtenidos en el ensayo individual, efectivamente las soluciones están centradas en el origen ya que la línea de base es nula. Además, cabe destacar que si se presta atención a la escala de los ejes, se logró reducir por casi tres ordenes de magnitud la precisión lograda. 
 	
 	También se puede hacer un análisis respecto a la forma de la nube obtenida. Si observamos la proyección en el plano horizontal todas las mediciones se encuentran circunscritas dentro de una región circular de radio 2\,mm, que incluso siendo un poco menos restrictivos podríamos decir que la mayor parte esta dentro de la región de radio 1\,mm. Esto habla de una precisión en dos dimensiones, pero las proyecciones se pueden ver en otros planos. Si vemos las sombras en la coordenada vertical las mismas se extienden mucho más, teniendo que definir una circunferencia de hasta 5\,mm de radio para poder abarcar todas las mediciones. Esto es conocido para las soluciones de posición GNSS ya que por la distribución de los satélites de la constelación, se cuenta con poca diversidad de ángulos para los satélites en vista. Esto significa que hay una dilución de precisión (DOP por sus siglas en inglés) vertical más alta que en el resto de las dimensiones~\cite{kaplan}. Debido a este efecto, al considerar la precisión lograda en tres dimensiones los resultados no serán igual de favorables. Por esto es que si referimos a la Fig.~\ref{fig:ucenter} se puede ver la distinción que hace el software \textit{u-center} para presentar la precisión 2D y 3D, teniendo la 2D un valor más chico que la 3D. Tal cual como se explica cualitativamente en esta sección.
 	
-	Tal como se hizo para el ensayo con un único receptor, se puede analizar cómo resulta la evolución temporal de las coordenadas obtenidas para la solución diferencial. Hay que hacer una diferencia entre los distintos estados de la solución que ya se mencionaron en la Sección~\ref{sec:ucenter}. Al comienzo del ensayo los receptores todavía no han logrado entrar en modo RTK por lo que es esperable que la solución obtenida esté apartada en mayor medida del cero (valor que sabemos que tiene la linea base en este caso), tal como se puede observar en la Fig.~\ref{fig:error_ublox_DGNSS_ini}. Mientras el software intenta resolver las ambigüedades la solución converge de a poco al valor nulo en las tres coordenadas, primero logra resolver ambiguedades flotantes hasta conseguir fijarlas en números enteros. Aquí comienza a devolver una solución con el identificador 3D/DGNSS/FIXED, e instantáneamente se observa cómo la precisión (2D y 3D) aumentó considerablemente hasta llegar a valores como los que se observan en la evolución temporal de la Fig.~\ref{fig:error_ublox_DGNSS_fin} (notar el cambio en la escala del eje vertical). Incluso en ese instante se logra ver cómo la precisión 2D y 3D que indica el software de evaluación (\textit{u-center}) decrece considerablemente numéricamente.
+	Tal como se hizo para el ensayo con un único receptor, se puede analizar cómo resulta la evolución temporal de las coordenadas obtenidas para la solución diferencial. Hay que hacer una diferencia entre los distintos estados de la solución que ya se mencionaron en la Sección~\ref{sec:ucenter}. Al comienzo del ensayo los receptores todavía no han logrado entrar en modo RTK por lo que es esperable que la solución obtenida esté apartada en mayor medida del cero (valor que sabemos que tiene la línea base en este caso), tal como se puede observar en la Fig.~\ref{fig:error_ublox_DGNSS_ini}. Mientras el software intenta resolver las ambigüedades la solución converge de a poco al valor nulo en las tres coordenadas, primero logra resolver ambiguedades flotantes hasta conseguir fijarlas en números enteros. Aquí comienza a devolver una solución con el identificador 3D/DGNSS/FIXED, e instantáneamente se observa cómo la precisión (2D y 3D) aumentó considerablemente hasta llegar a valores como los que se observan en la evolución temporal de la Fig.~\ref{fig:error_ublox_DGNSS_fin} (notar el cambio en la escala del eje vertical). Incluso en ese instante se logra ver cómo la precisión 2D y 3D que indica el software de evaluación (\textit{u-center}) decrece considerablemente numéricamente.
 	
 \section{Conclusiones}
 	Se presentan los resultados para ensayos de receptores GNSS comerciales operando individualmente o en conjunto en un enfoque diferencial. Se corroboran los valores numéricos planteados en el desarrollo conceptual y teórico de este trabajo, en particular para la precisión y cancelación de términos. Cabe destacar la limitación que existe en los enfoques de posicionamiento absoluto, ya que al tener las soluciones afectadas por errores sistemáticos debido a las condiciones de medición, no será posible cancelar estos errores ni realizando un filtrado de las soluciones. Teniendo en cuenta estos efectos en el modelo y cambiando el enfoque a uno de posicionamiento relativo, los resultados que obtienen estos receptores comerciales son realmente destacables. Sobre todo teniendo en cuenta la complejidad que presenta la implementación en un sistema embebido de un esquema de procesamiento diferencial. Además, se planteó una situación muy favorable en cuanto a la cancelación de errores y sesgos en la formación de dobles diferencias.
@@ -1007,7 +1007,7 @@ Máscara de celdas GNSS                              & DF396                    
 \chapter{Implementación del protocolo RTCM}\label{ch:Qseries}
 	Este capítulo comienza con una descripción de la arquitectura y del funcionamiento de un receptor GNSS propietario de la UIDET SENyT, diseñado y fabricado por completo en el lugar de trabajo. Se desarrollan los aspectos relevantes a la hora de generar un estándar de comunicación RTCM, desde el lado de la estación de referencia. Por ultimo, se presenta la creación de una pila de comunicación completa para el estándar ya mencionado, con su respectiva capa de enlace, capa de protocolo y capa de transporte. Ademas de mencionar decisiones en la implementación de la capa física del enlace.
 \section{Receptor Q Series propietario de SENyT}
-	La linea de receptores Serie Q consiste en receptores GNSS con dos entradas independientes de antena, con posibilidad de operar en doble banda ($L_1$ y $L_2$) en ambas antenas. Pueden operar con los sistemas GPS y GLONASS, ademas de que los mismos estan diseñados con un factor de forma CubeSat estandarizado~\cite{Qseries_1}~\cite{Qseries_2} (ver Fig.~\ref{fig:Q}).
+	La línea de receptores Serie Q consiste en receptores GNSS con dos entradas independientes de antena, con posibilidad de operar en doble banda ($L_1$ y $L_2$) en ambas antenas. Pueden operar con los sistemas GPS y GLONASS, ademas de que los mismos estan diseñados con un factor de forma CubeSat estandarizado~\cite{Qseries_1}~\cite{Qseries_2} (ver Fig.~\ref{fig:Q}).
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{/Qseries/receptorQ.png}
@@ -1183,7 +1183,7 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Es natural continuar a partir de aquí con una validación de la pila de comunicación creada, para poner en evidencia si la implementación es correcta y hasta donde se pueden replicar los resultados obtenidos en el Capítulo~\ref{ch:ublox} con receptores comerciales.
 \chapter{Validación en tiempo real}\label{ch:validacion}
-	Este capítulo presenta la prueba funcional del enlace de comunicación implementado en el capítulo anterior. Se deja en evidencia los resultados obtenidos al hacer uso de lo especificado por el estándar RTCM en un enfoque de posicionamiento GNSS relativo. En particular, replicando ensayos diferenciales que ya se discutieron en el Capítulo~\ref{ch:ublox}, pero ahora con un receptor base de desarrollo propio del lugar de trabajo. Se discute el desempeño obtenido en cuanto a uso de CPU en el receptor serie Q y en cuanto a la precisión de la solución de posición obtenida en el rover que recibe las correcciones.
+	Este capítulo presenta la prueba funcional del enlace de comunicación implementado en el capítulo anterior. Se deja en evidencia los resultados obtenidos al hacer uso de lo especificado por el estándar RTCM en un enfoque de posicionamiento GNSS relativo. En particular, replicando ensayos diferenciales que ya se discutieron en el Capítulo~\ref{ch:ublox}, pero ahora con un receptor base de desarrollo propio del lugar de trabajo. Además, se agrega un esquema de ensayo donde la línea de base no es nula. Se discute el desempeño obtenido en cuanto a uso de CPU en el receptor serie Q y en cuanto a la precisión de la solución de posición obtenida en el rover que recibe las correcciones.
 \section{Receptor Serie Q utilizado como estación de referencia estacionaria}
 	En esta etapa del trabajo se procede a poner en funcionamiento el receptor serie Q con el que se va a trabajar (introducido en el Capítulo~\ref{ch:Qseries}). En el capítulo anterior se puso a prueba la pila de comunicaciones creada, por lo que fue necesario cargar el software del receptor en el mismo, pero sin la necesidad de que reciba señales de los satélites GPS. Ahora es necesario llegar a este punto por lo que se debe conectar la antena en una de los conectores de antena del receptor (ver Fig.~\ref{fig:Q}) y corroborar que el mismo esté adquiriendo señales de los distintos satélites en vista. 
 \begin{figure}
@@ -1231,7 +1231,7 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	En caso de no haber conseguido el sincronismo PPS, no se ejecuta ninguna rutina del protocolo RTCM por lo que el tiempo consumido por los hilos asociados al mismo es menor todavía. No es nulo ya que el manejador de eventos de la pila RTCM debe revisar si hay sincronismo para decidir si se ejecutan las rutinas o no.
 \section{Ensayo DGNSS sin mediciones de fase}
-	Durante una etapa del trabajo no era posible la utilización de las mediciones de fase debido a que las mismas no eran empaquetadas correctamente por la capa de protocolo RTCM. Se sacó provecho de esta situación para realizar ensayos de posicionamiento relativo utilizando solo mediciones de pseudorango. La base enviaba los mismos mensajes pero con mediciones de fase que no podrían ser utilizadas por el rover, de manera que el software decodificador las descartaría. El ensayo realizado es con una linea de base nula tal como se mostró en el Capítulo~\ref{ch:ublox}, con el receptor serie Q como base y el receptor del fabricante \textit{u-blox} como rover. El enlace de comunicación RTCM es cableado por la interfaz UART, el receptor está operando con el sistema GPS a doble frecuencia ($L_1/L_2$) y se tomaron mediciones por aproximadamente 15 minutos. Esto corresponde a 916 épocas cada 1 segundo (ver Fig.~\ref{fig:ensayoDGNSS_psrng_Q} para mayor detalle de las condiciones de ensayo).
+	Durante una etapa del trabajo no era posible la utilización de las mediciones de fase debido a que las mismas no eran empaquetadas correctamente por la capa de protocolo RTCM. Se sacó provecho de esta situación para realizar ensayos de posicionamiento relativo utilizando solo mediciones de pseudorango. La base enviaba los mismos mensajes pero con mediciones de fase que no podrían ser utilizadas por el rover, de manera que el software decodificador las descartaría. El ensayo realizado es con una línea de base nula tal como se mostró en el Capítulo~\ref{ch:ublox}, con el receptor serie Q como base y el receptor del fabricante \textit{u-blox} como rover. El enlace de comunicación RTCM es cableado por la interfaz UART, el receptor está operando con el sistema GPS a doble frecuencia ($L_1/L_2$) y se tomaron mediciones por aproximadamente 15 minutos. Esto corresponde a 916 épocas cada 1 segundo (ver Fig.~\ref{fig:ensayoDGNSS_psrng_Q} para mayor detalle de las condiciones de ensayo).
 	
 	Se espera que el rover no pueda entrar en modo RTK y no logre estimar ni siquiera ambigüedades flotantes. Si las mediciones de fase de portadora no son correctas no existe forma de que las utilice para la estimación de las ambigüedades ya que ni siquiera va a haber consistencia entre las mismas mediciones de fase. Al realizar el ensayo se observa que el receptor logra entrar en modo \textit{3D/DGNSS}, es decir, está recibiendo mensajes RTCM y logra hacer un posicionamiento relativo, pero sin hacer uso de las mediciones de fase. 
 \begin{figure}
@@ -1239,7 +1239,7 @@ Máscara de celdas GNSS                              & DF396                    
 \centering
 %\subfloat[Gráfico de dispersión de las soluciones de posición.]{%
   	\includegraphics[width=0.7\textwidth]{/validacion/psrng_scatter_ENU.png}
-  	\caption{Gráfico de dispersión ENU de las soluciones de posición relativa (linea base).}
+  	\caption{Gráfico de dispersión ENU de las soluciones de posición relativa (línea base).}
     \label{fig:scatter_psrng_DGNSS_Q}
 \end{subfigure}
 
@@ -1248,11 +1248,11 @@ Máscara de celdas GNSS                              & DF396                    
 \centering
 %\subfloat[Errores para cada coordenada.]{%
  	\includegraphics[width=0.7\textwidth]{/validacion/psrng_time_ENU.eps}
- 	\caption{Error ENU de linea base.}
+ 	\caption{Error ENU de línea base.}
   	\label{fig:error_psrng_DGNSS_Q}
 
 \end{subfigure}
-\caption{Ensayo de posicionamiento relativo con linea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con ocho satélites en vista.}
+\caption{Ensayo de posicionamiento relativo con línea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con ocho satélites en vista.}
 \label{fig:ensayoDGNSS_psrng_Q}
 \end{figure}
 
@@ -1261,11 +1261,11 @@ Máscara de celdas GNSS                              & DF396                    
 	Si bien al utilizar mediciones en DD, se obtienen diferencias en los resultados como se comparó aquí, la precisión lograda no tiene cambios significativos. Esto es debido a que se siguen utilizando mediciones de pseudorango para obtener la solución de posición, entonces la dispersión de las soluciones sigue estando dominada por el ruido en la formación del pseudorango. Los resultados se condicen con lo esperado debido al tipo de solución lograda por el rover, en el modo \textit{3D/DGNSS} no se consigue aprovechar la precisión de las mediciones de fase.
 	
 	Lo discutido con el gráfico de dispersión puede ser visto con mayor claridad en términos de los errores de línea base obtenidos con cada coordenada (Fig.~\ref{fig:error_psrng_DGNSS_Q}). Cada coordenada presenta un valor medio muy cercano al cero, y una varianza prácticamente igual al ensayo con el que se está comparando (receptor operando individualmente). La coordenada vertical presenta una media un poco desplazada del cero y una mayor varianza, pero esto se puede atribuir a los efectos que presenta la coordenada vertical debido a la geometría (mayor DOP discutido en el Capítulo~\ref{ch:ublox}).
-\section{Ensayo RTK con resolución de ambigüedades}
+\section{Ensayo RTK con línea de base nula y resolución de ambigüedades}\label{sec:RTK_fix_Q}
 \begin{figure}[t]
 \centering
  	\includegraphics[width=0.7\textwidth]{/validacion/transition_float_fix_Q_DGNSS.eps}
- 	\caption{Error ENU de linea base mientras intenta resolver ambigüedades. Ensayo RTK con línea de base nula.}
+ 	\caption{Error ENU de línea base mientras intenta resolver ambigüedades. Ensayo RTK con línea de base nula.}
   	\label{fig:trans_float_fix_DGNSS_Q}
 \end{figure}
 	Una vez resuelto el inconveniente con el empaquetado de las mediciones de fase del receptor serie Q, se procede a ensayar un esquema de posicionamiento relativo RTK con receptores de distinto modelo. Con este ensayo se busca validar por completo el desarrollo e implementación realizados.
@@ -1280,7 +1280,7 @@ Máscara de celdas GNSS                              & DF396                    
 \begin{subfigure}{1\linewidth}
 \centering
  	\includegraphics[width=0.7\textwidth]{/validacion/FIX_time_ENU.eps}
- 	\caption{Error ENU de linea base.}
+ 	\caption{Error ENU de línea base.}
   	\label{fig:error_fix_DGNSS_Q}
 \end{subfigure}
 \caption{Ensayo RTK con línea de base nula operando a doble frecuencia, sistema GPS, antena SENyT, con diez satélites en vista.}
@@ -1298,10 +1298,54 @@ Máscara de celdas GNSS                              & DF396                    
 	Como estos resultados son los mismos al repetir el ensayo, se puede atribuir este comportamiento al receptor serie Q que es utilizado como estación base. En trabajos anteriores se ha observado un comportamiento no esperado en la generación de las mediciones de fase de portadora en la frecuencia $L_1$. En particular, se observaba que las ambigüedades de las mediciones no eran constantes, sino que presentaban una deriva. De esta manera se puede explicar que cada vez que la deriva de las ambigüedades hace que la medición de fase crezca de manera tal que incrementa el valor entero de ambigüedades en uno, se observa una solución de posición anómala o un pico en el error de las distintas coordenadas.
 	 
 	El desempeño obtenido no llega a los mismos valores que en el caso en que se trabajo con dos receptores \textit{u-blox} comerciales. Esto se explica debido a las diferencias que evidentemente existen en la generación de las mediciones de fase entre ambas bases, ya que estas son las que introducen la precisión más fina. Pero sigue existiendo ganancia considerable en el desempeño obtenido respecto a un esquema de posicionamiento absoluto.
-\section{Conclusiones}
-	Se consigue validar el enlace de comunicación RTCM implementado en el receptor serie Q mediante ensayos con un rover comercial. Los resultados presentados para el tiempo de cómputo requerido por las rutinas que se agregan al receptor, son aceptables incluso en escenarios de procesamiento desafiante para el sistema embebido. Además, se muestra una comparación del desempeño en términos de precisión de la solución de posición para un enfoque diferencial basado en pseudorango y otro basado en mediciones de fase. Los resultados obtenidos para el posicionamiento relativo muestran las ventajas del mismo incluso al no aprovechar toda su potencialidad y conseguir resolver las ambigüedades enteras en las mediciones de fase. Se obtiene una precisión dos ordenes de magnitud menor que en los enfoques absolutos.
+\section{Ensayo RTK con línea de base no nula}
+	A modo de realizar una prueba de desempeño en una configuración más desafiante, se decide realizar un ensayo donde la línea de base ya no sea nula. Como ya se mencionó en este trabajo, el receptor Serie Q solo cuenta con una interfaz cableada UART para la comunicación RTCM. Por esto mismo, se hizo especial foco a esquemas diferenciales con línea base nula. Pero para poder dar otro tipo de validación al desarrollo llevado a cabo aquí, se hace uso de una interfaz UART a WiFi desarrollada en el lugar de trabajo para la transmisión de los mensajes RTCM a mayores distancias que las planteadas hasta ahora.
+
+	La interfaz utilizada es implementada en dos sistemas embebidos con un módulo WiFi integrado. Uno de los dos actúa como servidor y el otro como cliente, de esta manera se envían de manera inalambrica los paquetes de datos que ingresan como UART cableada desde el receptor Serie Q qye actúa como base. Y una vez recibidos se vuelven a convertir a una interfaz UART cableada para ingresar al rover \textit{u-blox}. De esta manera es posible alejar el rover de la estación base, donde esta última no puede ser desplazada ya que trabaja con una antena bien caracterizada en cuanto a su posición.
 	
-	Si bien un escenario de receptores operando en modo DGNSS con una linea de base nula no tiene real utilidad práctica, la validación de la implementación se puede realizar de este modo. Y en caso de modificar la capa física del enlace de comunicación por una con mayor alcance, como podría ser utilizando señales de radio, simplemente variarán los resultados de desempeño debido al cambio en el escenario de ensayo. Pero el protocolo se encuentra completamente implementado y funcional. La modificación de la interfaz por donde se envían los mensajes RTCM es un problema aislado del que se presenta en este trabajo, es decir, sería invisible para el receptor que los datos provenientes de su interfaz UART sean enviados mediante un enlace distinto al cableado.
+	Al agregar una línea de base distinta de cero es necesario trabajar con una antena más. Para eso se utiliza una antena GNSS activa, multibanda, provista por el fabricante \textit{u-blox} junto con la placa de evaluación utilizada y tratada en el Capítulo~\ref{ch:ublox}. La antena del rover se coloca aproximadamente a una distancia estimada de 14.5\,m en el plano horizontal de la antena SENyT, esto se logra estimar en un piso inferior del Departamento de Electrotecnia donde se puede realizar la medición de distancia conociendo las proyecciones de los puntos en donde se ubica cada antena. La diferencia de alturas que presenta es aproximadamente de 3.5\,m ya que la misma es cercana a un piso estándar de un edificio. De esta manera se obtiene una longitud de la línea de base de 14.9\,m, el calculo se puede realizar ya que conocemos los catetos del triangulo rectángulo formado entre las dos antenas. 
+\begin{figure}[t]
+\centering
+ 	\includegraphics[width=0.7\textwidth]{/validacion/NZB/time_toFIX_NZB.eps}
+ 	\caption{Solución de posición relativa en coordenadas ENU mientras intenta resolver ambigüedades. Ensayo RTK con línea de base no nula.}
+  	\label{fig:time_toFIX_NZB}
+\end{figure}
+	Los cálculos antes mencionados se realizan de manera aproximada ya que al trabajar en el techo de un edifico no es posible realizar la medición exacta con los equipos de los que se tiene disponibilidad. Ademas, por la ubicación de la antena SENyT y por cuestiones de alcance de la red WiFi que realiza la comunicación RTCM, no es posible elegir una ubicación de mayor comodidad para situar la antena del rover.
+	
+	Una vez explicadas las condiciones de realización del ensayo, se pueden presentar los resultados para comparar con los ensayos ya realizados en condiciones ideales de línea de base nula. Se toman datos por aproximadamente 10 minutos, con mediciones cada 1 segundo, para ser específicos se cuenta con 604 épocas. Los receptores operan a doble frecuencia, con la antena SENyT en la base y la antena \textit{u-blox} en el rover. En este ensayo tiene particular interés analizar el tiempo que le lleva al receptor conseguir entrar en un modo de resolución de ambigüedades, esto mismo puede ser observado en la Fig.~\ref{fig:time_toFIX_NZB}. Se comienza a guardar datos desde que se establece el enlace RTCM, es decir, el rover entra en modo 3D/DGNSS. El receptor comienza a intentar resolver ambigüedades a partir de ese momento, las condiciones no son las óptimas ya que no existe una cancelación total de todos los términos debido a la línea de base no nula. Esto explica por qué se observan desviaciones en las primeras épocas respecto a la posición de estabilización una vez que se resolvieron las ambigüedades. La variación en las coordenadas horizontales es de aproximadamente 1 metro, en cambio en la coordenada vertical se llega a tener una desviación de hasta 3 metros. Se siguen observando los inconvenientes que trae la resolución de la posición en la coordenada vertical. 
+	
+	A partir de la época número 29 (indicada en línea punteada en la Fig.~\ref{fig:time_toFIX_NZB}) el rover logra resolver ambigüedades enteras y fijarlas, entrando en modo 3D/DGNSS/FIXED. Aquí es donde se observa la estabilización de las coordenadas ENU de la solución de posición en el valor que corresponde para la línea de base dada. Una vez que el receptor está operando en este modo de manera estable se puede realizar un gráfico de dispersión de las soluciones ENU de la posición relativa (ver Fig.~\ref{fig:scatter_NZB}).
+
+\begin{figure}
+\begin{subfigure}{1\linewidth}
+\centering
+  	\includegraphics[width=0.7\textwidth]{/validacion/NZB/scatter_NZB.png}
+  	\caption{Gráfico de dispersión ENU de las soluciones de posición relativa (línea base).}
+    \label{fig:scatter_NZB}
+\end{subfigure}
+
+\begin{subfigure}{1\linewidth}
+\centering
+ 	\includegraphics[width=0.7\textwidth]{/validacion/NZB/time_fix_NZB.eps}
+ 	\caption{Solución de posición relativa en coordenadas ENU.}
+  	\label{fig:time_fix_NZB}
+\end{subfigure}
+\caption{Ensayo RTK con línea de base no nula operando a doble frecuencia, sistema GPS, antena SENyT en base y antena \textit{u-blox} en rover, con nueve satélites en vista.}
+\label{fig:ensayo_NZB}
+\end{figure}
+
+	Las soluciones de posición obtenidas pueden ser circunscritas en una circunferencia de radio entre 5\,cm para todas las coordenadas. Es un resultado similar al que se obtuvo para el ensayo de línea base nula de la Sección~\ref{sec:RTK_fix_Q} al considerar la nube exterior de soluciones. Aquí no se observan soluciones como las consideradas anómalas en la sección ya mencionada, y lo mismo será corroborado al discutir el comportamiento temporal de cada coordenada de la solución (ver Fig.~\ref{fig:time_fix_NZB}). Es esperable que la precisión empeore por el hecho de no tener una línea de base nula, esto se debe a la misma razón por la que el tiempo para entrar en modo RTK es mayor en este ensayo.
+
+	Al graficar la evolución temporal (época a época) de cada coordenada de la posición relativa (Fig.~\ref{fig:time_fix_NZB}) se observa que no existen los picos que se observaban en la Fig.~\ref{fig:error_fix_DGNSS_Q} de la sección anterior. Los ensayos en los que se reproducían los resultados con los picos o valores anómalos ya mencionados, siempre fueron con esquemas de línea base nula. Aquí en gran medida se logra reducir este efecto en algunas coordenadas. En particular, tienen mayor peso en la coordenada vertical, pero incluso se consigue ver cómo la desviación estándar en las tres coordenadas es cercana a 1.5\,cm. La contribución de las mediciones anómalas es mucho menos significativa en este esquema de línea de base no nula, que obtenía desviaciones mayores en las tres coordenadas.
+	
+	También se puede analizar qué tan cercana esta la línea de base estimada al ubicar las antenas con la que obtiene el receptor. Teniendo en cuenta el valor medio de cada coordenada de la Fig.~\ref{fig:time_fix_NZB} se obtiene que la línea de base tiene una distancia de 15.47\,m. El valor obtenido es muy similar a lo que se estimó anteriormente (14.9\,m) y teniendo en cuenta el método rudimentario con la que se obtuvo este último valor, es completamente aceptable la diferencia entre ambos.
+\section{Conclusiones}
+	Se consigue validar el enlace de comunicación RTCM implementado en el receptor serie Q mediante ensayos con un rover comercial. Los resultados presentados para el tiempo de cómputo requerido por las rutinas que se agregan al receptor, son aceptables incluso en escenarios de procesamiento desafiante para el sistema embebido. Además, se muestra una comparación del desempeño en términos de precisión de la solución de posición para un enfoque diferencial basado en pseudorango y otro basado en mediciones de fase. Los resultados obtenidos para el posicionamiento relativo muestran las ventajas del mismo incluso al no aprovechar toda su potencialidad y conseguir resolver las ambigüedades enteras en las mediciones de fase. Se obtiene una precisión dos ordenes de magnitud menor que en los enfoques absolutos. El protocolo se encuentra completamente implementado y funcional.
+	
+	Si bien un escenario de receptores operando en modo DGNSS con una línea de base nula no tiene real utilidad práctica, la validación de la implementación se puede realizar de este modo. Pero para completar de validar el desarrollo y poder dar cuenta del desempeño que obtiene el mismo en un esquema con valor práctico, se ensaya con los receptores separados aproximadamente 15\,m. Se obtienen mejoras en los resultados comparado al caso de línea base nula debido a que la contribución que degradaba la señal en los ensayos anteriores deja de tener tanto peso en este escenario. Esto se obtiene a costa de esperar un mayor tiempo para conseguir que el receptor llegue a una operación RTK con resolución de ambigüedades, debido a las condiciones más desafiantes que presenta el escenario aquí planteado.
+	
+	Por último, se deja en evidencia que una vez implementado el protocolo de comunicación RTCM en el receptor Serie Q, la decisión de diseño para la capa física es un problema aislado. El modo de operación es equivalente para una interfaz cableada como para la inalámbrica.
+	
 \chapter*{Conclusiones generales}\label{ch:conclusion}
 \addcontentsline{toc}{chapter}{Conclusiones generales}
 	El presente trabajo se desarrolla bajo la premisa de obtener un receptor Serie Q que pueda operar como estación de referencia estacionaria en un esquema DGNSS. Dando lugar a realizar ensayos y obtener resultados en tiempo real, cosa que antes solo se lograba hacer mediante post procesamiento. Esto es debido a que no existía un enlace para que el receptor realice esta comunicación. 
@@ -1312,12 +1356,13 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Posterior a la etapa de estudio y replicado de ensayos se procede a la familiarización con un receptor de desarrollo propietario en el lugar de trabajo para la posterior implementación del enlace de comunicación RTCM en el mismo. El receptor aquí mencionado es utilizado como estación de referencia estacionaria y un receptor comercial como receptor móvil, se obtienen mejoras en términos de precisión en la solución de posición obtenida. 
 	
-	No se consigue replicar los mismos resultados conocidos en la literatura y obtenidos para un par de receptores comerciales operando en conjunto, pero se consigue explicar el desempeño obtenido se debe a características del receptor propietario utilizado. Cabe destacar que al ser de diseño y desarrollo propio del lugar de trabajo, el mismo se encuentra en constante desarrollo y mejora. Es por esto que es esperable encontrar que no tiene el mismo desempeño que un receptor comercial con prestaciones altas como el que se utilizó en este trabajo. De igual manera, se obtienen resultados con una precisión dos ordenes de magnitud menor que al realizar posicionamiento absoluto. Por todo esto es que se puede concluir que se consigue cumplir el objetivo general de este trabajo, tanto como los particulares. 
+	No se consigue replicar los mismos resultados conocidos en la literatura y obtenidos para un par de receptores comerciales operando en conjunto, para el caso de un escenario con línea de base nula. Se explica este desempeño obtenido debido a características del receptor propietario utilizado. En un caso de utilidad práctica como lo es cuando los receptores utilizan antenas distintas y separadas físicamente, se logra mejorar el desempeño. Concluyendo que el efecto de la generación de mediciones del receptor propietario utilizado deja de tener tener el mismo peso que en el ensayo con línea de base nula.
 	
-
+	Cabe destacar que al trabajar con un receptor de diseño y desarrollo propio del lugar de trabajo, el mismo se encuentra en constante desarrollo y mejora. Es por esto que es esperable encontrar que no tiene el mismo desempeño que un receptor comercial con altas prestaciones como el que se utilizó en este trabajo. De igual manera, en este enfoque diferencial se obtienen resultados con una precisión dos ordenes de magnitud menor que al realizar posicionamiento absoluto. Por todo esto es que se puede concluir que se consigue cumplir el objetivo general de este trabajo, tanto como los particulares. 
+	
 \section*{Trabajo a futuro}
 \addcontentsline{toc}{section}{Trabajo a futuro}
-	La línea de trabajo a futuro inmediata a partir de aquí, es la modificación de la capa física del enlace establecido. De manera que se puedan realizar ensayos con el rover en movimiento e incluso a distancias de linea de base que dejen en evidencia cómo deja de presentar ganancias un esquema de posicionamiento relativo. Además, la implementación de nuevos mensajes para poder realizar distintos tipos de posicionamiento relativo, tiene un gran atractivo. Se podría pensar en enfoques más precisos o donde existen compromisos en cuanto a la velocidad de transmisión de los mensajes RTCM.
+	La línea de trabajo a futuro inmediata a partir de aquí, es la modificación de la capa física del enlace establecido. De manera que se puedan realizar ensayos a distancias de línea de base mucho mayores que dejen en evidencia cómo deja de presentar ganancias un esquema de posicionamiento relativo. Además, la implementación de nuevos mensajes para poder realizar distintos tipos de posicionamiento relativo, tiene un gran atractivo. Se podría pensar en enfoques más precisos o donde existen compromisos en cuanto a la velocidad de transmisión de los mensajes RTCM.
 	
 	Por otro lado, se precisa implementar los algoritmos de procesamiento diferencial en un receptor del mismo tipo. De esta manera se podrían plantear nuevos ensayos con dos receptores Serie Q realizando posicionamiento relativo en tiempo real. 
 	
@@ -1366,7 +1411,6 @@ Máscara de celdas GNSS                              & DF396                    
 \end{thebibliography}
 
 \end{document}
-
 %Revisar todo esto!!!
 %=============================================================================
 %,'FontSize', 12 a todas las figuras de matlab!
