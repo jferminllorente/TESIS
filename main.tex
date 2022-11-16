@@ -922,9 +922,7 @@ Máscara de celdas GNSS                              & DF396                    
 
 \section{Desempeño y calidad de la solución}
 	El fabricante provee el protocolo UBX para loguear datos de los receptores. Es necesario establecer un cliente que pueda conectarse mediante un puerto serie al receptor y guardar los datos que fueron configurados para ser enviados. Haciendo las conversiones necesarias entre formatos se obtienen los datos de solución de posición para cada época y así poder analizar los resultados.
-\subsection{Ensayo con rover operando individualmente}\label{sec:rover_alone}
 \begin{figure}
-
 \begin{subfigure}{1\linewidth}
 \centering
 %\subfloat[Gráfico de dispersión de las soluciones de posición.]{%
@@ -939,11 +937,11 @@ Máscara de celdas GNSS                              & DF396                    
  	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ErroresXYZ_gnssUblox.eps}
  	\caption{Error de posición ECEF respecto a posición real.}
   	\label{fig:error_ublox_GNSS}
-
 \end{subfigure}
 \caption{Ensayo de un receptor individual operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
 \label{fig:ensayoGNSS_ublox}
 \end{figure}
+\subsection{Ensayo con rover operando individualmente}\label{sec:rover_alone}
 	En primer lugar se puede ver un gráfico de dispersión de las soluciones obtenidas en coordenadas ECEF para un receptor \textit{u-blox} operando por su cuenta, sin pensar en un enfoque RTK. La Fig.~\ref{fig:scatter_ublox_GNSS} muestra este resultado con el receptor operando solo con el sistema GPS, a doble frecuencia ($L_1$ y $L_2$) y utilizando la antena activa ya mencionada anteriormente, que a partir de aquí será referenciada como `antena SENyT'. Se tomaron mediciones por diez minutos aproximadamente, para ser específicos por 625 épocas (cada un segundo).
 %\begin{figure}
 %    \centering
@@ -964,7 +962,7 @@ Máscara de celdas GNSS                              & DF396                    
 	 Se puede agregar un gráfico de la desviación de cada coordenada respecto a la posición real de la antena (ver Fig.~\ref{fig:error_ublox_GNSS}). Se indica el valor medio que presentan estas desviaciones y el mismo es realmente notables en las tres coordenadas. Aquí se observa con mas detalle cómo las mediciones oscilan respecto a su valor medio pudiendo llegar a un metro de diferencia una de otra, confirmando lo que se discutió con la Fig.~\ref{fig:scatter_ublox_GNSS}. Pero al analizar la varianza de las soluciones obtenidas en base a la desviación estándar indicada en la figura, se ve que es similar para las tres coordenadas, obteniendo un valor de $3\sigma$ cercano al metro. 
 
 \subsection{Ensayo RTK}\label{sec:RTK_ublox}
-	Aquí es donde podremos observar la ganancia presentada por un esquema DGNSS, que logra entrar en modo RTK, comparando con los resultados obtenidos en el ensayo presentado anteriormente. Se trabaja con la base y el rover en un esquema como el presentado en la Sección~\ref{sec:esquema_ZBL}, los receptores operando a doble frecuencia, con el sistema GPS y utilizando la antena SENyT. Se toman muestras aproximadamente por trece minutos, en particular, 832 épocas con mediciones cada un segundo. 
+	Aquí es donde podremos observar la ganancia presentada por un esquema DGNSS, que logra entrar en modo RTK, comparando con los resultados obtenidos en el ensayo presentado anteriormente. Se trabaja con la base y el rover en un esquema como el presentado en la Sección~\ref{sec:esquema_ZBL}, los receptores operando a doble frecuencia, con el sistema GPS y utilizando la antena SENyT. Se toman muestras aproximadamente por trece minutos, en particular, 799 épocas con mediciones cada un segundo. 
 	
 \begin{figure}
 \begin{subfigure}{1\linewidth}
@@ -975,28 +973,30 @@ Máscara de celdas GNSS                              & DF396                    
     \label{fig:scatter_ublox_DGNSS}
 \end{subfigure}
 
-\begin{subfigure}{0.49\linewidth}
+
+\begin{subfigure}{1\linewidth}
 \centering
 %\subfloat[Errores para la linea base en cada coordenada.]{%
- 	\includegraphics[width=1\textwidth]{/EnsayosUblox/ENU_DGNSSublox.eps}
- 	\caption{Error ENU de línea base al inicio del ensayo.}
-  	\label{fig:error_ublox_DGNSS_ini}
-\end{subfigure}
-\begin{subfigure}{0.49\linewidth}
-\centering
-%\subfloat[Errores para la linea base en cada coordenada.]{%
- 	\includegraphics[width=1\textwidth]{/EnsayosUblox/ENU_timeplot_ublox_dgnss.eps}
+ 	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ENU_timeplot_ublox_dgnss.eps}
  	\caption{Error ENU de línea base una vez fijadas las ambigüedades.}
   	\label{fig:error_ublox_DGNSS_fin}
 \end{subfigure}
-\caption{Ensayo RTK con línea base nula operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista.}
+\caption{Ensayo RTK con línea base nula operando a doble frecuencia, sistema GPS, antena SENyT, con siete satélites en vista y base comercial.}
 \label{fig:ensayoDGNSS_ublox}
 \end{figure}
 	
 	El diagrama de dispersión de la Fig.~\ref{fig:scatter_ublox_DGNSS} muestra cómo la nube de puntos se comprimió, teniendo muchos menos valores anómalos. En este caso se presentan los resultados en coordenadas ENU (por Este, Norte y Vertical) debido a que no se presenta una posición absoluta, si no la diferencia de coordenadas, es decir, la línea base. Pero como la base estacionaria tiene su posición fija (en cualquier ensayo más allá de la línea de base nula), conocer la línea de base con precisión es también conocer la posición del rover con precisión. Se pudieron desafectar los errores sistemáticos obtenidos en el ensayo individual, efectivamente las soluciones están centradas en el origen ya que la línea de base es nula. Además, cabe destacar que si se presta atención a la escala de los ejes, se logró reducir por casi tres ordenes de magnitud la precisión lograda. 
-	
+
+\begin{figure}[h]
+\centering
+%\subfloat[Errores para la linea base en cada coordenada.]{%
+ 	\includegraphics[width=0.7\textwidth]{/EnsayosUblox/ENU_DGNSSublox.eps}
+ 	\caption{Error ENU de línea base al inicio del ensayo. Ensayo RTK con línea base nula y base comercial.}
+  	\label{fig:error_ublox_DGNSS_ini}
+\end{figure}
+
 	También se puede hacer un análisis respecto a la forma de la nube obtenida. Si observamos la proyección en el plano horizontal todas las mediciones se encuentran circunscritas dentro de una región circular de radio 2\,mm, que incluso siendo un poco menos restrictivos podríamos decir que la mayor parte esta dentro de la región de radio 1\,mm. Esto habla de una precisión en dos dimensiones, pero las proyecciones se pueden ver en otros planos. Si vemos las sombras en la coordenada vertical las mismas se extienden mucho más, teniendo que definir una circunferencia de hasta 5\,mm de radio para poder abarcar todas las mediciones. Esto es conocido para las soluciones de posición GNSS ya que por la distribución de los satélites de la constelación, se cuenta con poca diversidad de ángulos para los satélites en vista. Esto significa que hay una dilución de precisión (DOP por sus siglas en inglés) vertical más alta que en el resto de las dimensiones~\cite{kaplan}. Debido a este efecto, al considerar la precisión lograda en tres dimensiones los resultados no serán igual de favorables. Por esto es que si referimos a la Fig.~\ref{fig:ucenter} se puede ver la distinción que hace el software \textit{u-center} para presentar la precisión 2D y 3D, teniendo la 2D un valor más chico que la 3D. Tal cual como se explica cualitativamente en esta sección.
-	
+
 	Tal como se hizo para el ensayo con un único receptor, se puede analizar cómo resulta la evolución temporal de las coordenadas obtenidas para la solución diferencial. Hay que hacer una diferencia entre los distintos estados de la solución que ya se mencionaron en la Sección~\ref{sec:ucenter}. Al comienzo del ensayo los receptores todavía no han logrado entrar en modo RTK por lo que es esperable que la solución obtenida esté apartada en mayor medida del cero (valor que sabemos que tiene la línea base en este caso), tal como se puede observar en la Fig.~\ref{fig:error_ublox_DGNSS_ini}. Mientras el software intenta resolver las ambigüedades la solución converge de a poco al valor nulo en las tres coordenadas, primero logra resolver ambiguedades flotantes hasta conseguir fijarlas en números enteros. Aquí comienza a devolver una solución con el identificador 3D/DGNSS/FIXED, e instantáneamente se observa cómo la precisión (2D y 3D) aumentó considerablemente hasta llegar a valores como los que se observan en la evolución temporal de la Fig.~\ref{fig:error_ublox_DGNSS_fin} (notar el cambio en la escala del eje vertical). Incluso en ese instante se logra ver cómo la precisión 2D y 3D que indica el software de evaluación (\textit{u-center}) decrece considerablemente numéricamente.
 	
 \section{Conclusiones}
