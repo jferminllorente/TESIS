@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,oneside,onecolumn,final,openright]{book}%Configuración de la clase... Cambiar draft-->final cuando esté terminado.
+\documentclass[a4paper,12pt,twoside,onecolumn,final,openright,titlepage]{book}%Configuración de la clase... Cambiar draft-->final cuando esté terminado.
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=0.2\textwidth]{geometry}%Márgenes
 \usepackage[spanish]{babel}
@@ -13,7 +13,6 @@
 \usepackage{enumitem}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{multirow}
-
 
 \usepackage{graphicx,float}
 \usepackage[justification=centering]{caption}
@@ -40,14 +39,14 @@
   \thispagestyle{empty}
     \vspace{-1cm}
     \begin{center}
-      \begin{minipage}[t]{0.15\linewidth}
+      \begin{minipage}[t]{0.2\linewidth}
         \includegraphics[height=1\linewidth]{Images/logos/logo_univ.eps}
       \end{minipage}      
       \hfill
-      \begin{minipage}[t]{0.68\linewidth}
+      \begin{minipage}[t]{0.58\linewidth}
         \begin{center}%
 
-          \vspace{-1.6cm}
+          \vspace{-2cm}
           \textsc{\small Universidad Nacional de La Plata}\\
           \textsc{\small Facultad de Ingeniería}\\
           \textsc{\small Departamento de Electrotecnia}
@@ -55,8 +54,8 @@
         \end{center}
       \end{minipage}      
       \hfill
-      \begin{minipage}[t]{0.15\linewidth}
-        \includegraphics[width=1\linewidth]{Images/logos/logo_fiunlp.png}
+      \begin{minipage}[t]{0.2\linewidth}
+        \includegraphics[width=1.1\linewidth]{Images/logos/logo_fiunlp.png}
       \end{minipage}\\
     \end{center}
     \vspace{1cm}
@@ -69,7 +68,7 @@
         \begin{center}
           \textsc{Tesina de grado presentada a la Facultad de Ingeniería de
             la Universidad Nacional de La Plata
-            por}\\\vspace{0.5cm}{\large
+            por}\\\vspace{0.5cm}{\Large
             Juan Fermín Llorente}\\\vspace{0.5cm}\textsc{en cumplimiento parcial
             de los requerimientos\\ para la obtención del título
             de\\Ingeniero en Telecomunicaciones.}
@@ -98,18 +97,14 @@
 
       \textsc{Tribunal}\\
       \begin{minipage}[t]{0.9\linewidth}
+		Dr. Ing. P. Agustín Roncagliolo %
+        \dotfill{} %
+        Cátedra \textit{Tesina de Grado} %
+        	
 		Ing. Javier A. Smidt %
         \dotfill{} %
         \textit{Director de Carrera} %
-		
-        Dr. Ing. P. Agustín Roncagliolo %
-        \dotfill{} %
-        Cátedra \textit{Tesina de Grado} %  
-    
-        Alguno ma
-        \dotfill{}
-        de donde
-        \end{minipage}
+      \end{minipage}
 
     \begin{minipage}[t]{0.9\linewidth}
         \vspace{.5cm}
@@ -124,18 +119,22 @@
     \begin{minipage}[t]{0.9\linewidth}
     \centering
         La Plata\\
-        7 de Diciembre??? O.o, 2022
+        5 de Diciembre, 2022
     \end{minipage}
     \end{center}
 }
 
 \begin{document}
+\pagestyle{empty}
 \maketitle
 
-% \frontmatter
-
+\frontmatter
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}	% Se le saca el num de cap al header.
+\cleardoublepage
+\pagestyle{headings}
 \chapter*{Resumen/Abstract}
 \addcontentsline{toc}{chapter}{Resumen/Abstract}
+%\pagenumbering{arabic}
 	En este trabajo se estudian los aspectos más importantes del estándar RTCM para el envío de mensajes entre receptores GNSS realizando posicionamiento diferencial en tiempo real. Se decide trabajar con un mensaje de la estación de referencia y un mensaje con observables crudos de pseudorango y fase de portadora. Estos mensajes son tipificados por el estándar e identificados como Tipo 1005 y Tipo 1074, siendo este último un mensaje particular para el sistema GPS. 
 
 	Se realizan ensayos DGPS con línea de base nula utilizando receptores comerciales y obteniendo soluciones con la precisión esperada. Se implementa en un sistema embebido la transmisión de los mensajes ya mencionados mediante una interfaz cableada. Además, se replican los ensayos con línea de base nula utilizando como estación de referencia el receptor de diseño y desarrollo propio del lugar de trabajo donde se implementó la transmisión de los mensajes. Se mantiene al receptor comercial como el receptor que realiza el procesamiento diferencial y se observa la ganancia que presenta un enfoque diferencial en términos de la precisión obtenida en las soluciones de posición. Se valida el desarrollo mediante un ensayo diferencial en tiempo real con los receptores separados y comunicándose de manera inalámbrica.\\
@@ -148,24 +147,28 @@
 	The present work consists of the study of the most important aspects that the RTCM standard describes for the communication between GNSS receivers performing differential positioning in real time. It is decided to work with a message for the reference station and one with raw pseudorange and phaserange observables. These messages are typified by the standard and identified as Type 1005 and Type 1074, being the last one mentioned a particular message for the GPS system.
 	
 	DGPS tests are done with zero baseline setup and using commercial receivers, solutions with expected accuracy are obtained. The wired transmission of the messages mentioned above is implemented in an embedded system. Further, tests with zero baseline are replicated, using the receiver designed and integrated previously in the workplace as reference station. This is the receiver where the RTCM messages transmission was implemented. The commercial receiver performing differential processing is mantained and the gain, in terms of accuracy in the position solution, that a differential approach obtains is evident. The validation of the work is done by a real time differential setup with a wireless communication between the two receivers that are physically separated.\\
-\textbf{\textit{Index Terms:}} \textit{GNSS}, \textit{relative positioning}, \textit{RTCM standard}.\newpage
+\textbf{\textit{Index Terms:}} \textit{GNSS}, \textit{relative positioning}, \textit{RTCM standard}.
 \chapter*{Agradecimientos}
 \addcontentsline{toc}{chapter}{Agradecimientos}
-%Primero quiero dar las gracias a mis directores, Javier Smidt y Ernesto López, por la confianza que me depositaron y el constante acompañamiento, tanto técnico como humano. A todo el SENyT en general por haber hecho de este trabajo un proceso disfrutable y de constante aprendizaje. No puedo dejar de mencionar a Germán Scillone, Agus Catellani y Santi Rodríguez que sin ellos mis aportes al código del receptor hoy no compilarían. 
-%
-%A todos los profesores apasionados que me contagiaron el amor por las telecomunicaciones. En especial a Adrián Carlotto, que fue el primero y una gran fuente de confianza para tomar la decisión de seguir, la que para mí, es la especialidad más apasionante de la ingeniería. También a Javier y Agustín Roncagliolo que me abrieron las puertas para seguir formando mi camino en el mundo GNSS.\\
-%
-%Gracias a todos los amigos y amigas que me dió la facultad, Electrónicos, Aeronáuticos y Nacho. Siempre con las puertas de sus casas abiertas, realmente hicieron que esta etapa sea inolvidable. No puedo evitar pensar en mis amigos de la infancia y algunos más nuevos, Tobi, Martín, Facu, Cami, Chiari, Luci, Kevin y Juani, por estar en todo momento. A la familia Pérez-Arrua, Milton y Santi por las charlas vislumbradoras. A mi familia en Roca por recibirme siempre que necesité volver. Por último, el agradecimiento más grande a Felipe y a mis padres, por permitirme hacer lo que me apasiona y apoyarme incondicionalmente.\\
-%
-%Quiero cerrar estas palabras remarcando mis convicciones, no solo agradeciendo a la UNLP, si no también a todo lo que ello representa, un país que apuesta a la ciencia y a la educación. Gracias a la educación pública, libre y gratuita por haberme brindado una formación de privilegio.
-\newpage
+Primero quiero dar las gracias a mis directores, Javier Smidt y Ernesto López, por la confianza que me depositaron y el constante acompañamiento, tanto técnico como humano. A todo el SENyT en general por haber hecho de este trabajo un proceso disfrutable y de constante aprendizaje. No puedo dejar de mencionar a Germán Scillone, Agus Catellani y Santi Rodríguez, que sin ellos mis aportes al código del receptor hoy no compilarían.
 
+A todos los profesores apasionados que me contagiaron el amor por las telecomunicaciones. En especial a Adrián Carlotto, que fue el primero de ellos y una gran fuente de confianza para tomar la decisión de seguir, la que para mí, es la especialidad más apasionante de la ingeniería. También a Javier y Agustín Roncagliolo que me abrieron las puertas para seguir formando mi camino en el mundo GNSS.\\
+
+Gracias a todos los amigos y amigas que me dió la facultad, electrónicos, aeronáuticos e hidráulicos, hicieron que esta etapa sea inolvidable. No puedo evitar pensar en mis amigos de la infancia y algunos más nuevos, Tobi, Martín, Facu, Cami, Chiari, Kevin, Juani, Luci y Nacho, por estar en todo momento. A la familia Pérez-Arrua; Milton y Santi por todas las charlas. A mi familia en Roca por recibirme siempre que necesité volver. Por último, el agradecimiento más grande a Felipe y a mis padres, por apoyarme incondicionalmente y permitirme hacer lo que me apasiona.\\
+
+Quiero cerrar estas palabras remarcando mis convicciones, no solo agradeciendo a la UNLP, si no también a todo lo que ello representa, un país que apuesta a la ciencia y a la educación. Gracias a la educación pública, libre y gratuita por haberme brindado una formación de privilegio.
+
+\cleardoublepage
+\phantomsection
 \addcontentsline{toc}{chapter}{Índice de contenidos}
 \tableofcontents
-\newpage
 
+
+\cleardoublepage
+\phantomsection
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}	% Se le saca el num de cap al header.
+\chapter*{Índice de símbolos}\chaptermark{Índice de símbolos}
 \addcontentsline{toc}{chapter}{Índice de símbolos}
-\chapter*{Índice de símbolos}
 \noindent\textbf{ARP:} \textit{Antenna Reference Point}, Punto de Referencia de la Antena.\\
 \textbf{BART:} \textit{Bayesian Amiguity Resolution Technique}.\\
 \textbf{BPSK:} \textit{Binary Phase Shift Keying}, Modulación Binaria por Desplazamiento de Fase.\\
@@ -204,15 +207,17 @@
 \textbf{UART:} \textit{Universal Asincronus Receiver Transmitter}, Transmisor-Receptor Asíncrono Universal.\\
 \textbf{USB:} \textit{Universal Serial Bus}, Bus Serie Universal.\\
 
-\newpage
-
-\addcontentsline{toc}{chapter}{Índice de figuras}
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Índice de Figuras y Tablas}
 \listoffigures
 
 
-% \mainmatter
-\chapter*{Introducción}
+\cleardoublepage
+\phantomsection
 \addcontentsline{toc}{chapter}{Introducción}
+\chaptermark{Introducción}
+\chapter*{Introducción}
 %Los Sistemas Satelitales de Navegación Global (GNSS) presentan en la actualidad un uso extendido y creciente, demostrando ser de gran importancia en aplicaciones de navegación aérea, satelital, terrestre y marítima, para agrimensura y mapeo, servicios basados en localización, entre otros usos civiles, científicos y militares. En particular, en el campo de aplicaciones aeroespaciales, la utilización de receptores GNSS resulta idónea debido al costo y nivel de precisión en tiempo real que los mismos proporcionan. Misiones de observación terrestre realizadas por satélites en órbita baja, utilizando diversos tipos de instrumentos, permiten generar datos útiles para campos como la agricultura, meteorología, monitoreo de desastres naturales, entre otros. En dicho tipo de misiones, los receptores GNSS proporcionan una solución de navegación a bordo en tiempo real, la cual permite tanto el control de la órbita como la localización necesaria para la generación de datos de ciencia.
 %
 %Con el paso del tiempo, existe una creciente tendencia a la segmentación de las misiones espaciales, con el objetivo de distribuir los instrumentos en múltiples satélites de menor tamaño y costo, incrementando a su vez la robustez y la adaptabilidad de las misiones. En estos casos, resulta de vital importancia la implementación de sistemas de navegación relativa, necesario para el control del vuelo en formación de los satélites. Ejemplos recientes de este tipo de arquitecturas segmentadas y de satélites en vuelo en formación son las misiones TerraSAR-X/TanDEM-X de radar de apertura sintética, GRACE y GRACE-FO de gravimetría, PRISMA, y los nanosatélites CanX-4 y 5 de demostración tecnológica, entre otros. El nivel de precisión requerido por estos sistemas de navegación es, en general, superior al obtenido mediante la navegación absoluta de cada uno de los satélites de la formación. Esto hace necesario el uso de técnicas diferenciales empleando las mediciones crudas de fase de portadora, las cuales poseen un nivel de ruido del orden de los milímetros, pero con el inconveniente de ser ambiguas en un número entero de ciclos de portadora.
@@ -230,8 +235,11 @@
 	\item Implementar el enlace de comunicación de los mensajes del protocolo RTCM en un receptor propietario del SENyT y validar el desarrollo mediante un ensayo DGPS en tiempo real.
 \end{itemize}	
 
-	El trabajo se estructura de la siguiente manera: El Capítulo~\ref{ch:GNSS} presenta los conceptos principales de los Sistemas Globales de Navegación por Satélite. En el Capítulo~\ref{ch:DGNSS} se aplican esos mismos conceptos a un enfoque diferencial para dar lugar a las bases que fundamentan el objetivo de este trabajo. Posteriormente se presentan ensayos de posicionamiento relativo entre dos receptores GNSS comerciales, los resultados se pueden encontrar en el Capítulo~\ref{ch:ublox}. El Capítulo~\ref{ch:Qseries} detalla la implementación llevada a cabo en uno de los receptores GNSS propietarios del lugar de trabajo y la validación de esta implementación con la presentación de los resultados se encuentra en el Capítulo~\ref{ch:validacion}. Por último, se termina el trabajo dando las conclusiones generales del mismo junto con propuestas de líneas de trabajo a futuro que surgen a partir de lo aquí desarrollado.
-\chapter{Sistemas globales de navegación por satélite}\label{ch:GNSS}
+	El trabajo se estructura de la siguiente manera: \\El Capítulo~\ref{ch:GNSS} presenta los conceptos principales de los Sistemas Globales de Navegación por Satélite. En el Capítulo~\ref{ch:DGNSS} se aplican esos mismos conceptos a un enfoque diferencial para dar lugar a las bases que fundamentan el objetivo principal de este trabajo. Posteriormente se presentan ensayos de posicionamiento relativo entre dos receptores GNSS comerciales, los resultados se pueden encontrar en el Capítulo~\ref{ch:ublox}. El Capítulo~\ref{ch:Qseries} detalla la implementación llevada a cabo en uno de los receptores GNSS propietarios del lugar de trabajo y la validación de esta implementación con la presentación de los resultados se encuentra en el Capítulo~\ref{ch:validacion}. Por último, se termina el trabajo dando las conclusiones generales del mismo junto con propuestas de líneas de trabajo a futuro que surgen a partir de lo aquí desarrollado.
+	
+\mainmatter
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\chaptername\ \thechapter.\ #1}}{}}	%Asi es el comando original. "Chapter num. Nombre de capitulo"
+\chapter{Sistemas globales de navegación por satélite}\label{ch:GNSS}\chaptermark{GNSS}
 	Este capítulo introduce los primeros conceptos para el posicionamiento basado en sistemas de navegación por satélite. Incluye una breve descripción del Sistema de Posicionamiento Global (GPS por sus siglas en inglés) junto con sus señales y las mediciones que pueden obtenerse mediante las mismas. Se hace hincapié en las características de estas señales, analizando las fuentes de error que hay presentes en las mediciones que pueden obtenerse. Si bien el foco de este trabajo está puesto en el sistema GPS, ya que los resultados obtenidos son para el mismo, se desarrollan los conceptos de este capítulo de forma general para cualquiera de los sistemas globales de navegación por satélite..
 	
 \section{Introducción}
@@ -586,6 +594,7 @@ La matriz $\mathbf{H}^{\scaleto{N}{4pt}}$ solo depende de la geometría entre lo
 	\varphi_{12,ZB}^{k1} = \lambda N_{12}^{k1} + \epsilon_{12}^{k1} \ .
 \end{equation}
 	No se especifica cómo resulta la DD para pseudorango ya que al considerar que el retardo instrumental se cancela solo tendremos errores aleatorios. En estos errores solo queda remanente el ruido ya que la contribución multicamino es cancelada en BRSD pues el angulo de incidencia de la señal es el mismo para ambos receptores, es decir, tienen los mismo rebotes, por lo tanto multicamino.
+\sectionmark{Resolución de ambigüedades}
 \section{Resolución de ambigüedades en mediciones de fase de portadora}\label{sec:amb_res}
 %Checkear que hay mucho "de esta manera"...
 	Poder resolver las ambigüedades de fase como números enteros es una cuestión clave para enfoques de posicionamiento de alta precisión. Una vez resueltas estas ambigüedades es posible utilizar las mediciones de fase como rangos con gran precisión. Este mecanismo se basa en la inferencia conjunta de parámetros enteros y reales, ya que además de estimar las ambigüedades enteras existen contribuciones reales debido al rango y distintos retardos en la señal aparte del ruido. Como se desarrollo en la Sección~\ref{sec:multiples_mediciones}, se pueden cancelar términos de las ecuaciones de observación realizando mediciones combinadas en diferencias. De esta manera se mostró que es posible aislar el término correspondiente al número entero de longitudes de onda de ambigüedad en la medición, hasta dejarlo solo en presencia de ruido en el caso de las dobles diferencias. Es valido considerar que se mantienen enteras ya que la diferencia de dos números enteros lo sigue siendo. De esta manera es posible sacar provecho de la restricción y acotar el conjunto de soluciones posibles a la estimación a un conjunto de enteros. Es parte del diseño del algoritmo elegir de manera adecuada el conjunto de potenciales soluciones, de modo que el valor correcto se encuentre dentro del mismo pero que no sea lo suficientemente extenso como para que la búsqueda dentro del conjunto lleve mucho procesamiento.
@@ -1268,7 +1277,7 @@ Máscara de celdas GNSS                              & DF396                    
 	Si bien al utilizar mediciones en DD, se obtienen diferencias en los resultados como se comparó aquí, la precisión lograda no tiene cambios significativos. Esto es debido a que se siguen utilizando mediciones de pseudorango para obtener la solución de posición, entonces la dispersión de las soluciones sigue estando dominada por el ruido en la formación del pseudorango. Los resultados se condicen con lo esperado debido al tipo de solución lograda por el rover, en el modo \textit{3D/DGNSS} no se consigue aprovechar la precisión de las mediciones de fase.
 	
 	Lo discutido con el gráfico de dispersión puede ser visto con mayor claridad en términos de los errores de línea base obtenidos con cada coordenada (Fig.~\ref{fig:error_psrng_DGNSS_Q}). Cada coordenada presenta un valor medio muy cercano al cero, y una varianza prácticamente igual al ensayo con el que se está comparando (receptor operando individualmente). La coordenada vertical presenta una media un poco desplazada del cero y una mayor varianza, pero esto se puede atribuir a los efectos que presenta la coordenada vertical debido a la geometría (mayor DOP discutido en el Capítulo~\ref{ch:ublox}).
-\section{Ensayo RTK con línea de base nula y resolución de ambigüedades}\label{sec:RTK_fix_Q}
+\section{Ensayo RTK con línea de base nula y resolución de ambigüedades}\label{sec:RTK_fix_Q}\sectionmark{Ensayo RTK con línea de base nula}
 \begin{figure}[t]
 \centering
  	\includegraphics[width=0.7\textwidth]{/validacion/transition_float_fix_Q_DGNSS.eps}
@@ -1353,8 +1362,11 @@ Máscara de celdas GNSS                              & DF396                    
 	
 	Por último, se deja en evidencia que una vez implementado el protocolo de comunicación RTCM en el receptor Serie Q, la decisión de diseño para la capa física es un problema aislado. El modo de operación es equivalente para una interfaz cableada como para la inalámbrica.
 	
-\chapter*{Conclusiones generales}\label{ch:conclusion}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}	% Se le saca el num de cap al header.
+\cleardoublepage
+\chapter*{Conclusiones generales}\label{ch:conclusion}\chaptermark{Conclusiones generales}
 \addcontentsline{toc}{chapter}{Conclusiones generales}
+
 	El presente trabajo se desarrolla bajo la premisa de obtener un receptor Serie Q que pueda operar como estación de referencia estacionaria en un esquema DGNSS. Dando lugar a realizar ensayos y obtener resultados en tiempo real, cosa que antes solo se lograba hacer mediante post procesamiento. Esto es debido a que no existía un enlace para que el receptor realice esta comunicación. 
 	
 	Se estudiaron los fundamentos y hasta incluso detalles finos del posicionamiento basado en sistemas GNSS, temática que era desconocida hasta el momento de comenzar con el trabajo. A esto se le suma la familiarización y profundización con las técnicas de posicionamiento relativo, poniendo foco en los mecanismos empleados para conseguir los resultados que son conocidos tanto en la literatura como en la práctica. Efectivamente es posible obtener precisiones en el orden de los centímetros, pero a costa de tener que operar con dos (o más) receptores en simultaneo. El estudio de técnicas de posicionamiento diferencial se realiza paralelamente con el estudio del estándar RTCM para comprender las sutilezas existentes en enfoques diferenciales.
